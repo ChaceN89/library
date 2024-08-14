@@ -5,9 +5,9 @@ from rest_framework.routers import DefaultRouter
 from api.views.admin.admin_crud import AdminUserViewSet
 
 # user views
-from api.views.user.create_account import UserCreateView
 from api.views.user.user_crud import UserCRUDViewSet
 from api.views.user.login import LoginView
+from api.views.user.create_account import UserCreateView
 
 # book views - when created 
 
