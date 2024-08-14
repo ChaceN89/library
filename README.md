@@ -69,3 +69,10 @@ pip install drf-yasg
 
 http://127.0.0.1:8000/swagger/
 http://127.0.0.1:8000/redoc/
+
+
+
+signing in to swagger UI 
+
+Bearer token_string as the authorization value
+
