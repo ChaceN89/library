@@ -53,6 +53,15 @@ chacen
 Lonewolf11!!
 
 
+to run backend 
+
+if you have made changes to he models or running for the fist time
+python manage.py migrate
+
+
+then to run the proejct 
+python manage.py runserver
+
 
 
 GUi for the API
