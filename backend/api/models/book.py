@@ -13,6 +13,7 @@ Modified: 2024-08-14
 """
 
 from django.db import models
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     """
@@ -28,12 +29,11 @@ class Book(models.Model):
         views (int): Number of times the book has been viewed (default is 0).
     """
     title = models.CharField(max_length=255)
-    updated_at = models.DateTimeField(auto_now=True)
+    content_url = models.URLField(max_length=200)
+    cover_art_url = models.URLField(max_length=200, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    cover_art_url = models.URLField(max_length=1024, blank=True, null=True)
-    content_url = models.URLField(max_length=1024, blank=True, null=True)
-    downloads = models.IntegerField(default=0)
-    views = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)  # Example default value
 
     def __str__(self):
         """
