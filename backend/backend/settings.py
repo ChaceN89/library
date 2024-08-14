@@ -1,3 +1,15 @@
+"""
+Django settings for the backend project.
+
+This file contains all the settings for configuring the Django application, including
+database settings, installed apps, middleware, authentication, and static/media files.
+
+Author: Chace Nielson
+Created: 2024-08-14
+Modified: 2024-08-14
+@since 1.0
+"""
+
 from pathlib import Path
 from decouple import config
 
@@ -16,7 +28,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 # Application definition
-
 INSTALLED_APPS = [
     # Django default apps
     'django.contrib.admin',
@@ -62,7 +73,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Added for custom templates if any
+        'DIRS': [BASE_DIR / 'templates'],  # Directory for custom templates if any
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,11 +88,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
-# Database
+# Database configuration
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# Using SQLite as the database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -122,14 +130,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory where collectstatic will collect static files for deployment
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory for collected static files
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  # Directory where uploaded media files will be stored
+MEDIA_ROOT = BASE_DIR / 'media'  # Directory for uploaded media files
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REST Framework configuration
@@ -138,7 +145,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  # Ensures that by default, all views require authentication
+        'rest_framework.permissions.IsAuthenticated',  # Default permission class
     ),
 }
 
