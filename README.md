@@ -77,3 +77,62 @@ signing in to swagger UI
 
 Bearer token_string as the authorization value
 
+
+
+Granting AWS S3 Full Access to an IAM User or Role
+To allow your Django application to upload files to an S3 bucket, you need to attach the AmazonS3FullAccess policy to the IAM user or role that your application uses. Follow these steps to attach the policy:
+
+Log in to AWS Management Console:
+
+Go to the AWS Management Console.
+Sign in with your credentials.
+Navigate to IAM (Identity and Access Management):
+
+In the AWS Management Console, search for "IAM" in the services search bar and click on it.
+Go to the Policies Section:
+
+In the IAM Dashboard, click on "Policies" from the left-hand sidebar.
+Search for the AmazonS3FullAccess Policy:
+
+In the search bar at the top, type "S3" to filter policies related to S3.
+Locate the AmazonS3FullAccess policy in the list.
+View the Policy Details:
+
+Click on the AmazonS3FullAccess policy name to view its details.
+Attach the Policy to an IAM User or Role:
+
+Click the "Attach" button under the "Entities attached" tab (if available).
+Use the search bar or scroll through the list to find the IAM user or role associated with your Django application.
+Select the IAM user or role by clicking the checkbox next to its name.
+Finalize the Attachment:
+
+Click "Next: Review" to review the policy attachment.
+Once reviewed, click "Attach policy" to grant the IAM user or role full access to S3.
+Verify the Attachment:
+
+After attaching the policy, verify that the AmazonS3FullAccess policy is now listed under the attached policies for the selected IAM user or role.
+By following these steps, the IAM user or role will have the necessary permissions to interact with S3 buckets, allowing your Django application to upload, manage, and retrieve files from AWS S3.
+
+
+
+
+
+front end code for text file 
+
+  const [textContent, setTextContent] = useState('');
+
+  useEffect(() => {
+    // Fetch the content of the text file from S3
+    fetch('https://library-app-data.s3.ca-west-1.amazonaws.com/content_Hamlet.txt')
+      .then(response => response.text())
+      .then(data => {
+        setTextContent(data);
+      })
+      .catch(error => {
+        console.error('Error fetching the text file:', error);
+        setTextContent('Failed to load content.');
+      });
+  }, []);
+
+
+  for img just use the url 

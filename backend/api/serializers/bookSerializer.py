@@ -11,22 +11,24 @@ Created: 2024-08-14
 Modified: 2024-08-14
 @since 1.0
 """
-
 from rest_framework import serializers
 from api.models.book import Book
 
 class BookSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Book model.
-    """
+    content = serializers.FileField(write_only=True, required=True)
+    cover_art = serializers.ImageField(write_only=True, required=False)
+
     class Meta:
         model = Book
-        fields = '__all__'  # Include all fields of the Book model
-        read_only_fields = ('created_at', 'updated_at', 'owner')  # Make fields read-only
+        fields = ['title', 'content', 'cover_art', 'content_url', 'cover_art_url', 'owner']
+        read_only_fields = ['content_url', 'cover_art_url', 'owner']
 
-    def validate(self, data):
-        """
-        Additional validation for the Book model.
-        """
-        # Add any custom validation if needed
-        return data
+    def create(self, validated_data):
+        # Pop content and cover_art from the validated data as they are handled separately
+        validated_data.pop('content', None)
+        validated_data.pop('cover_art', None)
+
+        # Create and return the Book instance
+        book = Book.objects.create(**validated_data)
+        return book
+
