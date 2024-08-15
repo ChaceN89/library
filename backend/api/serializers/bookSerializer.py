@@ -20,8 +20,8 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['title', 'content', 'cover_art', 'content_url', 'cover_art_url', 'owner']
-        read_only_fields = ['content_url', 'cover_art_url', 'owner']
+        fields = ['id', 'title', 'content', 'cover_art', 'content_url', 'cover_art_url', 'owner', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'content_url', 'cover_art_url', 'owner', 'created_at', 'updated_at']
 
     def create(self, validated_data):
         # Pop content and cover_art from the validated data as they are handled separately
@@ -32,3 +32,18 @@ class BookSerializer(serializers.ModelSerializer):
         book = Book.objects.create(**validated_data)
         return book
 
+    def update(self, instance, validated_data):
+        # Update the title if provided
+        title = validated_data.get('title', instance.title)
+        instance.title = title
+
+        # Handle content file if provided
+        if 'content' in validated_data:
+            instance.content = validated_data.pop('content')
+
+        # Handle cover art if provided
+        if 'cover_art' in validated_data:
+            instance.cover_art = validated_data.pop('cover_art')
+
+        instance.save()
+        return instance

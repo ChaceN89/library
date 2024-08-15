@@ -19,7 +19,7 @@ from rest_framework.response import Response
 from api.serializers.bookSerializer import BookSerializer
 from api.models.book import Book
 from rest_framework.parsers import MultiPartParser, FormParser
-from api.aws.upload import upload_file_to_s3
+from api.aws.upload import upload_file_to_s3, edit_upload
 
 class BookCRUDViewSet(viewsets.ModelViewSet):
     """
@@ -74,11 +74,33 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         """
-        Prevent updating books that do not belong to the authenticated user.
+        Handle file updates and overwrite content or cover art in S3 if provided.
         """
-        if serializer.instance.owner != self.request.user:
-            raise PermissionDenied("You do not have permission to edit this book.")
-        serializer.save()
+        content_file = self.request.FILES.get('content')
+        cover_art_file = self.request.FILES.get('cover_art')
+        title = self.request.data.get('title', serializer.instance.title)  # Default to existing title if not provided
+
+        # Retrieve the existing instance to get the URLs
+        instance = serializer.instance
+
+        content_url = instance.content_url
+        cover_art_url = instance.cover_art_url
+
+        # Overwrite content file in S3 if a new file is provided
+        if content_file:
+            content_url = edit_upload(content_file, instance.content_url, 'content', instance.owner.id)
+
+        # Overwrite cover art file in S3 if a new file is provided
+        if cover_art_file:
+            cover_art_url = edit_upload(cover_art_file, instance.cover_art_url, 'cover_art', instance.owner.id)
+
+        # Save the title update (if provided) and other fields
+        serializer.save(
+            title=title,
+            content_url=content_url,
+            cover_art_url=cover_art_url
+        )
+
 
     def perform_destroy(self, instance):
         """
