@@ -49,8 +49,7 @@ migrate: This command applies the migrations to the database, creating the neces
 create a super user 
 python manage.py createsuperuser
 
-chacen
-Lonewolf11!!
+
 
 
 to run backend 
@@ -62,6 +61,8 @@ python manage.py migrate
 then to run the proejct 
 python manage.py runserver
 
+create super user 
+python manage.py createsuperuser
 
 
 GUi for the API

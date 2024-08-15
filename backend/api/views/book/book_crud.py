@@ -34,7 +34,10 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
         Returns:
             queryset: Books that belong to the current authenticated user.
         """
-        return Book.objects.filter(owner=self.request.user)
+        if self.request.user.is_authenticated:
+            return Book.objects.filter(owner=self.request.user)
+        return Book.objects.none()  # Return an empty queryset for anonymous users
+
 
     def perform_create(self, serializer):
         """
