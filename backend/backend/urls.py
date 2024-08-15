@@ -27,7 +27,7 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,  # The documentation is public
-    permission_classes=(permissions.AllowAny,),  # Allows any user to access the documentation
+    permission_classes=(permissions.AllowAny,),  # Allows any user to access the documentation - Makes Swagger accessible without authentication
 )
 
 urlpatterns = [
