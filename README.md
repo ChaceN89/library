@@ -53,6 +53,15 @@ chacen
 Lonewolf11!!
 
 
+to run backend 
+
+if you have made changes to he models or running for the fist time
+python manage.py migrate
+
+
+then to run the proejct 
+python manage.py runserver
+
 
 
 GUi for the API
@@ -60,3 +69,10 @@ pip install drf-yasg
 
 http://127.0.0.1:8000/swagger/
 http://127.0.0.1:8000/redoc/
+
+
+
+signing in to swagger UI 
+
+Bearer token_string as the authorization value
+
