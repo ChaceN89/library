@@ -16,13 +16,19 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 # Import viewsets and views
+from api.views.testing.testing_viewset import TestingViewSet
 from api.views.admin.admin_crud import AdminUserViewSet
+
 from api.views.user.user_crud import UserCRUDViewSet
 from api.views.user.login import LoginView
 from api.views.user.create_account import UserCreateView
-from api.views.testing.testing_viewset import TestingViewSet
+
 from api.views.book.book_crud import BookCRUDViewSet
 from api.views.book.book_public import PublicBookViewSet
+
+from api.views.comment.comment_crud import CommentCRUDViewSet
+from api.views.comment.comment_public import CommentPublicViewSet
+
 
 # Router setup for different CRUD operations
 router = DefaultRouter()
@@ -30,6 +36,10 @@ router.register(r'admin/users', AdminUserViewSet, basename='admin-user')  # Admi
 router.register(r'testing', TestingViewSet, basename='testing')  # Testing routes
 router.register(r'users', UserCRUDViewSet, basename='user')  # Private CRUD for users
 router.register(r'books', BookCRUDViewSet, basename='book')  # Private CRUD for books
+router.register(r'comment', CommentCRUDViewSet, basename='comment')  # Private CRUD for comments
+router.register(r'public-comments', CommentPublicViewSet, basename='public-comments')
+
+
 
 urlpatterns = [
     # Public Routes
