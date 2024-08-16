@@ -10,7 +10,49 @@ Author: Chace Nielson
 Created: 2024-08-14
 Modified: 2024-08-14
 @since 1.0
+
+Function Overview:
+------------------
+- POST /books/       : Create a new book.
+    - **Function:** `perform_create(self, serializer)`
+    - **Purpose:** Handles the creation of a new book, including file uploads to S3.
+
+- GET /books/        : Retrieve a list of the authenticated user's books.
+    - **Function:** `get_queryset(self)`
+    - **Purpose:** Defines the queryset to retrieve all books belonging to the authenticated user.
+    - **DRF Keyword:** Yes.
+
+- GET /books/{id}/   : Retrieve details of a specific book.
+    - **Function:** `retrieve(self, request, *args, **kwargs)`
+    - **Purpose:** Retrieves a specific book by its ID, ensuring it belongs to the authenticated user.
+    - **DRF Keyword:** Yes.
+
+- PUT /books/{id}/   : Update a specific book.
+    - **Function:** `perform_update(self, serializer)`
+    - **Purpose:** Handles updating an entire book, including overwriting content or cover art files in S3 if provided.
+    - **DRF Keyword:** Partially (`update()` is the standard method; `perform_update()` is a helper function).
+
+- PATCH /books/{id}/ : Partially update a specific book.
+    - **Function:** `perform_update(self, serializer)`
+    - **Purpose:** Handles updates like the PUT method, but typically only updates the provided fields.
+    - **DRF Keyword:** Partially (`update()` is the standard method; `perform_update()` is a helper function).
+
+- DELETE /books/{id}/: Delete a specific book.
+    - **Function:** `perform_destroy(self, instance)`
+    - **Purpose:** Deletes a specific book from the database and removes the associated files from S3.
+    - **DRF Keyword:** Partially (`destroy()` is the standard method; `perform_destroy()` is a helper function).
+
+Notes:
+------
+- **Django REST framework (DRF) Keywords:**
+  - Some of the functions in this ViewSet, such as `get_queryset`, `retrieve`, and `perform_create`, are key methods that DRF uses to handle specific HTTP methods.
+  - Other methods, such as `perform_create`, `perform_update`, and `perform_destroy`, are helper functions that can be overridden for custom logic.
+
+- **Custom Logic:**
+  - Custom logic is implemented in `perform_create`, `perform_update`, and `perform_destroy` to handle specific tasks such as uploading files to S3 or deleting them when a book is deleted.
+
 """
+
 import uuid
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -20,6 +62,7 @@ from api.serializers.bookSerializer import BookSerializer
 from api.models.book import Book
 from rest_framework.parsers import MultiPartParser, FormParser
 from api.aws.upload import upload_file_to_s3, edit_upload
+from api.aws.delete import delete_file_from_s3
 
 class BookCRUDViewSet(viewsets.ModelViewSet):
     """
@@ -71,7 +114,6 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
             cover_art_url=cover_art_url
         )
 
-
     def perform_update(self, serializer):
         """
         Handle file updates and overwrite content or cover art in S3 if provided.
@@ -104,10 +146,19 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         """
+        Handle the deletion of books and their associated files in S3.
         Prevent deleting books that do not belong to the authenticated user.
         """
         if instance.owner != self.request.user:
             raise PermissionDenied("You do not have permission to delete this book.")
+        
+        # Delete content and cover art files from S3
+        if instance.content_url:
+            delete_file_from_s3(instance.content_url)
+        if instance.cover_art_url:
+            delete_file_from_s3(instance.cover_art_url)
+
+        # Delete the book instance from the database
         instance.delete()
 
     def retrieve(self, request, *args, **kwargs):
