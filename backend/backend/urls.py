@@ -2,7 +2,7 @@
 URL configuration for the backend project.
 
 This file contains the URL patterns for the project, including the admin interface,
-API endpoints, and Swagger documentation.
+API endpoints, Swagger documentation and Google OAuth login.
 
 Author: Chace Nielson
 Created: 2024-08-14
@@ -39,4 +39,8 @@ urlpatterns = [
     
     # Swagger documentation route
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
+    # Route for Google OAuth and allauth login
+    path('accounts/', include('allauth.urls')),  # Route for Google OAuth and allauth login
+
 ]
