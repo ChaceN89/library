@@ -2,26 +2,72 @@ import Image from "next/image";
 
 export default function Home() {
 
+
   return(
     <div>
       <h1 className="text-4xl font-bold">Hello World</h1>
-      <div>Contains the main page that will show the books and options incliding navabar
-        
-      </div>
+      <div>Welcome Page/Home Page - has nav bar always in the top</div>
+      <div className="flex flex-wrap">
+
         <Image
             className="dark:invert"
             src="/PageFlowLogo.png"
             alt="Vercel logomark"
             width={200}
             height={200}
-          />
+        />
         <Image
             className=""
             src="/PageFlowLogo.png"
             alt="Vercel logomark"
             width={200}
             height={200}
-          />
+        />
+        <Image
+          className=""
+          src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/foxMascot.png"
+          alt="Library Fox Mascot"
+          width={200}
+          height={200}
+        />
+        <Image
+          className="dark:invert"
+          src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/foxMascot2.png"
+          alt="Library Fox Mascot"
+          width={200}
+          height={200}
+        />
+        <Image
+          className=""
+          src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/foxMascot2.png"
+          alt="Library Fox Mascot"
+          width={200}
+          height={200}
+        />
+        <Image
+          className=""
+          src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/pageFlowFoxLogo.png"
+          alt="Library Fox Mascot"
+          width={200}
+          height={200}
+        />
+        <Image
+          className=""
+          src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/pageFlowLogo.png"
+          alt="Library Fox Mascot"
+          width={200}
+          height={200}
+        />
+        <Image
+          className=""
+          src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/bookShelf.jpg"
+          alt="Library Fox Mascot"
+          width={400}
+          height={200}
+        />
+
+                
+      </div>
     </div>
   )
 
