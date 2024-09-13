@@ -1,9 +1,9 @@
 import React from 'react'
 
-function page() {
+function BooksPage() {
   return (
-    <div>Books List</div>
+    <div>Books List get all books based on </div>
   )
 }
 
-export default page
+export default BooksPage

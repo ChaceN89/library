@@ -2,10 +2,10 @@
 
 import React from 'react'
 
-function page() {
+function SettingsPage() {
   return (
     <div>Settings</div>
   )
 }
 
-export default page
+export default SettingsPage

@@ -1,10 +1,10 @@
 // account/page.jsx
 import React from 'react'
 
-function page() {
+function AccountPage() {
   return (
     <div>Account</div>
   )
 }
 
-export default page
+export default AccountPage

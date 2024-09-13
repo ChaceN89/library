@@ -11,3 +11,8 @@ app/
 │   └── page.js                 # Account page ("/account")
 └── text/
     └── [id]/page.js            # Dynamic route for text documents ("/text/:id")
+
+
+
+
+    https://nextjs.org/docs/app/building-your-application/routing
