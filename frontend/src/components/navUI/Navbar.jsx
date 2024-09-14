@@ -12,6 +12,11 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
+          <Link href="/library/upload" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
+            Upload
+          </Link>
+        </li>
+        <li>
           <Link href="/library/books" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
             Books
           </Link>
