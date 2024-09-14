@@ -44,10 +44,10 @@ const ColorBoxes = () => {
             key={index}
             className={`p-4 ${color.className} text-center transition duration-300 ease-in-out transform`}
           >
-            <p className={color.className.includes('bg-secondary') ? 'text-black' : 'text-white'}>
+            <p className={color.className.includes('bg-secondary') ? 'text-white' : 'text-black'}>
               {color.name}
             </p>
-            <p className={`text-sm ${color.className.includes('bg-secondary') ? 'text-black' : 'text-white'}`}>
+            <p className={`text-sm ${color.className.includes('bg-secondary') ? 'text-white' : 'text-black'}`}>
               {color.className.split(' ')[0]}
             </p>
           </div>

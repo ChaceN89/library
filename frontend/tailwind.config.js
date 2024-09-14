@@ -1,23 +1,22 @@
+// related to the gloabls.css stylesheets
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],  theme: {
+  ],  
+  darkMode: 'class', // Enable dark mode via 'class'
+  theme: {
     extend: {
       colors: {
-        // background: "var(--background)",
-        // foreground: "var(--foreground)",
-
-        primary: '#B7C6C6',  // Lighter primary color
-        'primary-dark': '#8A9A9A',  // Darker version of primary (closer to grayish black)
-      
-        secondary: '#000000',  // Black as secondary color
-        'secondary-dark': '#1A1A1A',  // Darker version (slightly lighter than pure black)
-      
-        accent: '#F8843D',  // Lighter accent color (orange)
-        'accent-dark': '#CC5500',  // Darker version of accent (deep orange)
+        primary: "var(--primary)",
+        "primary-dark": "var(--primary-dark)",
+        secondary: "var(--secondary)",
+        "secondary-dark": "var(--secondary-dark)",
+        accent: "var(--accent)",
+        "accent-dark": "var(--accent-dark)",
       },
       fontFamily: {
         'open-sans': ['Open Sans', 'sans-serif'],
