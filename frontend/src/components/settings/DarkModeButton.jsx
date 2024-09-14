@@ -1,7 +1,7 @@
 "use client"; // Enable client-side JavaScript
 
 import React, { useState, useEffect } from "react";
-import "../../styles/dark-mode.css";
+import "./dark-mode.css";
 
 function DarkModeButton() {
   const [darkMode, setDarkMode] = useState(false);
