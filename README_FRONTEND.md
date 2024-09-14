@@ -29,3 +29,7 @@ global-error	Global Error UI
 route	Server-side API endpoint
 template	Specialized re-rendered Layout UI
 default	Fallback UI for Parallel Routes
+
+
+A method of fixing FOUC (Flash of Unstyled Content) - I have a fix i nthe layout.js file but this might be a better fix in the future
+https://kulembetov.medium.com/preventing-flash-of-unstyled-content-fouc-in-next-js-applications-61b9a878f0f7#:~:text=What%20Causes%20FOUC%3F,asynchronously%20to%20improve%20load%20time.
