@@ -4,6 +4,7 @@ import "../styles/globals.css";  // Fix the import path for globals.css
 import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";
 import Footer from "@/components/general/Footer";
+import Head from "next/head";
 
 const geistSans = localFont({
   src: "/fonts/GeistVF.woff",  // Correct path relative to the public folder
@@ -20,6 +21,9 @@ const geistMono = localFont({
 export const metadata = {
   title: "PageFlow Library",
   description: "A simple library app to manage txt files",
+  icons: {
+    icon: '/fox.ico',
+  },
 };
 
 export default function RootLayout({ children }) {
