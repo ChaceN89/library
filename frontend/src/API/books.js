@@ -6,13 +6,13 @@ export const fetchBooks = async (page = 1, searchQuery = '', filters = {}, pageS
     const queryParams = new URLSearchParams();
 
     if (page) queryParams.append('page', page);
-    if (searchQuery) queryParams.append('search', encodeURIComponent(searchQuery));
+    if (searchQuery) queryParams.append('search', searchQuery); // No need for encodeURIComponent
     if (pageSize) queryParams.append('page_size', pageSize);
 
     // Add filter parameters
     if (filters.sort_by) queryParams.append('sort_by', filters.sort_by);
-    if (filters.genre) queryParams.append('genre', encodeURIComponent(filters.genre));
-    if (filters.language) queryParams.append('language', encodeURIComponent(filters.language));
+    if (filters.genre) queryParams.append('genre', filters.genre); // No need for encodeURIComponent
+    if (filters.language) queryParams.append('language', filters.language); // No need for encodeURIComponent
     if (filters.description) queryParams.append('description', filters.description ? 'true' : 'false');
 
     const url = `${API_BASE_URL}/public/books?${queryParams.toString()}`;
