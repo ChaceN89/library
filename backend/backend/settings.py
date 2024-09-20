@@ -147,6 +147,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',  # Default permission class
     ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.ScopedRateThrottle',
+    ),
     'DEFAULT_THROTTLE_RATES': {
         'increments': '1/hour', #  1 view per hour for each user
     }
