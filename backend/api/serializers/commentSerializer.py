@@ -11,17 +11,17 @@ Created: 2024-08-14
 Modified: 2024-08-14
 @since 1.0
 """
-
 from rest_framework import serializers
 from api.models.comment import Comment
 
 class CommentSerializer(serializers.ModelSerializer):
     replies = serializers.SerializerMethodField()  # To handle nested comments
+    user_username = serializers.CharField(source='user.username', read_only=True)  # Add the username field
 
     class Meta:
         model = Comment
-        fields = ['id', 'created_at', 'updated_at', 'is_edited', 'content', 'book', 'user', 'parent_comment', 'replies']
-        read_only_fields = ['id', 'created_at', 'updated_at', 'is_edited', 'user']
+        fields = ['id', 'created_at', 'updated_at', 'is_edited', 'content', 'book', 'user', 'user_username', 'parent_comment', 'replies']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'is_edited', 'user', 'user_username']
 
     def get_replies(self, obj):
         """

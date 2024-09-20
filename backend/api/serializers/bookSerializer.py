@@ -17,11 +17,14 @@ from api.models.book import Book
 class BookSerializer(serializers.ModelSerializer):
     content = serializers.FileField(write_only=True, required=True)
     cover_art = serializers.ImageField(write_only=True, required=False)
+    
+    # Add the owner's username
+    owner_username = serializers.CharField(source='owner.username', read_only=True)
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'content', 'cover_art', 'content_url', 'cover_art_url', 'owner', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'content_url', 'cover_art_url', 'owner', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'content', 'cover_art', 'content_url', 'cover_art_url', 'owner', 'owner_username', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'content_url', 'cover_art_url', 'owner', 'owner_username', 'created_at', 'updated_at']
 
     def create(self, validated_data):
         # Pop content and cover_art from the validated data as they are handled separately
@@ -33,9 +36,8 @@ class BookSerializer(serializers.ModelSerializer):
         return book
 
     def update(self, instance, validated_data):
-        # Update the title if provided
-        title = validated_data.get('title', instance.title)
-        instance.title = title
+        # Handle title if provided
+        instance.title = validated_data.get('title', instance.title)
 
         # Handle content file if provided
         if 'content' in validated_data:
