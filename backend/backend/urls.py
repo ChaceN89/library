@@ -39,6 +39,9 @@ urlpatterns = [
     
     # Swagger documentation route
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    # go to http://127.0.0.1:8000/swagger.yaml to download documentation 
+
 
     # Route for Google OAuth and allauth login
     path('accounts/', include('allauth.urls')),  # Route for Google OAuth and allauth login
