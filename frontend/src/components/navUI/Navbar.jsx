@@ -22,23 +22,23 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/auth/login" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
+          <Link href="/user/login" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
             Login
           </Link>
         </li>
         <li>
-          <Link href="/auth/register" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
+          <Link href="/user/register" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
             Register
           </Link>
         </li>
         <li>
-          <Link href="/dashboard/account" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-            Account
+          <Link href="/settings/account" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
+            Account Settings
           </Link>
         </li>
         <li>
-          <Link href="/dashboard/settings" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-            Settings
+          <Link href="/settings/app" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
+            App Settings
           </Link>
         </li>
       </ul>
