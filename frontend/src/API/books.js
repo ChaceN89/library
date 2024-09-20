@@ -44,3 +44,44 @@ export const fetchBookById = async (id) => {
     return null;
   }
 };
+
+
+export const incrementViews = async (bookId) => {
+  try {
+    const url = `${API_BASE_URL}/public/books/${bookId}/increment_views/`;
+    const response = await fetch(url, {
+      method: 'POST',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to increment views');
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error('Error incrementing views:', error);
+    return null;
+  }
+};
+
+export const incrementDownloads = async (bookId) => {
+  try {
+    const url = `${API_BASE_URL}/public/books/${bookId}/increment_downloads/`;
+    const response = await fetch(url, {
+      method: 'POST',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to increment downloads');
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error('Error incrementing downloads:', error);
+    return null;
+  }
+};

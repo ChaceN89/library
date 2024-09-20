@@ -36,6 +36,8 @@ function BookCard({ book }) {
         <p className="text-gray-500 text-sm mt-2">
           Last updated at: {new Date(book.updated_at).toLocaleDateString()}
         </p>
+        <p className="text-gray-500 text-sm mt-2">Views: {book.views}</p>
+        <p className="text-gray-500 text-sm mt-2">Downloads: {book.downloads}</p>
       </div>
     </li>
   );

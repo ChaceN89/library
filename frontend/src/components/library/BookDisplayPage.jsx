@@ -1,7 +1,7 @@
 
 // src/components/library/BookDisplayPage.jsx
 import React, { useEffect, useState } from 'react';
-import { fetchBookById } from '@/API/books';
+import { fetchBookById, incrementDownloads, incrementViews } from '@/API/books';
 import Image from 'next/image';
 import BookComments from './BookComments';
 
@@ -15,6 +15,7 @@ function BookDisplayPage({ id }) {
       const data = await fetchBookById(id);
       if (data) {
         setBook(data);
+        await incrementViews(id); // Increment views when the book is finished loading
       }
       setLoading(false);
     };
@@ -48,11 +49,28 @@ function BookDisplayPage({ id }) {
 
       {/* Book Title */}
       <h1 className="text-2xl font-bold mt-4">{book.title}</h1>
+      {/* Book Description */}
+      <p className="text-gray-600 mt-2">{book.description}</p>
+      {/* Book Author */}
+      <p className="text-gray-600 mt-2">Author: {book.author}</p>
+      {/* Book Genre */}
+      <p className="text-gray-600 mt-2">Genre: {book.genre}</p>
+      {/* Book Language */}
+      <p className="text-gray-600 mt-2">Language: {book.language}</p>
+      {/* Book publish date */}
+      <p className="text-gray-600 mt-2">
+        Published: {book.published_date ? new Date(book.published_date).toLocaleDateString() : "Not available"}
+      </p>
 
-      {/* Book Content URL */}
-      {book.content_url && (
+     {/* Book Content URL */}
+     {book.content_url && (
         <p className="text-blue-600 mt-2">
-          <a href={book.content_url} target="_blank" rel="noopener noreferrer">
+          <a 
+            href={book.content_url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onClick={() => incrementDownloads(id)}  // Increment downloads when the content is viewed
+          >
             View Content
           </a>
         </p>

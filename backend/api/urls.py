@@ -49,6 +49,10 @@ urlpatterns = [
     # Custom Public Book Routes
     path('api/public/books/', PublicBookViewSet.as_view({'get': 'list'}), name='public_books_list'),  # Get all books
     path('api/public/books/<int:pk>/', PublicBookViewSet.as_view({'get': 'retrieve'}), name='public_books_detail'),  # Get book by ID
+    
+    # Add routes for incrementing views and downloads
+    path('api/public/books/<int:pk>/increment_views/', PublicBookViewSet.as_view({'post': 'increment_views'}), name='public_books_increment_views'),
+    path('api/public/books/<int:pk>/increment_downloads/', PublicBookViewSet.as_view({'post': 'increment_downloads'}), name='public_books_increment_downloads'),
 
     # Private Routes (handled by the router) - all routes prefixed with 'api/'
     path('api/', include(router.urls)),

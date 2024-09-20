@@ -23,8 +23,12 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'content', 'cover_art', 'content_url', 'cover_art_url', 'owner', 'owner_username', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'content_url', 'cover_art_url', 'owner', 'owner_username', 'created_at', 'updated_at']
+        fields = [
+            'id', 'title', 'description', 'author', 'genre', 'published_date', 
+            'language', 'content', 'cover_art', 'content_url', 'cover_art_url', 
+            'owner', 'owner_username', 'created_at', 'updated_at', 'downloads', 'views'
+        ]
+        read_only_fields = ['id', 'content_url', 'cover_art_url', 'owner', 'owner_username', 'created_at', 'updated_at', 'downloads', 'views']
 
     def create(self, validated_data):
         # Pop content and cover_art from the validated data as they are handled separately
