@@ -20,7 +20,7 @@ from django.core.paginator import Paginator
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.decorators import action
-
+from django.db.models import Q
 from rest_framework.throttling import ScopedRateThrottle
 
 class IncrementThrottle(ScopedRateThrottle):
@@ -36,31 +36,69 @@ class PublicBookViewSet(viewsets.ViewSet):
             openapi.Parameter('page_size', openapi.IN_QUERY, description="Number of results per page", type=openapi.TYPE_INTEGER),
         ]
     )
+
     def list(self, request):
-        """
-        Retrieve all books with search and pagination functionality.
-        """
         search_query = request.query_params.get('search', None)
+        sort_by = request.query_params.get('sort_by', 'most_recent')
+        genre = request.query_params.get('genre', None)
+        language = request.query_params.get('language', None)
+        description_search = request.query_params.get('description', False)
+
         queryset = Book.objects.all()
 
+        # Filter by title, author, and optionally description
         if search_query:
-            queryset = queryset.filter(title__icontains=search_query)
+            if description_search == 'true':
+                queryset = queryset.filter(
+                    Q(title__icontains=search_query) | 
+                    Q(author__icontains=search_query) |
+                    Q(description__icontains=search_query)
+                )
+            else:
+                queryset = queryset.filter(
+                    Q(title__icontains=search_query) | 
+                    Q(author__icontains=search_query)
+                )
 
-        # Pagination functionality
+        # Filter by genre and language
+        if genre:
+            queryset = queryset.filter(genre__icontains=genre)
+        if language:
+            queryset = queryset.filter(language__icontains=language)
+
+        # Sorting
+        if sort_by == 'most_viewed':
+            queryset = queryset.order_by('-views')
+        elif sort_by == 'least_viewed':
+            queryset = queryset.order_by('views')
+        elif sort_by == 'most_downloaded':
+            queryset = queryset.order_by('-downloads')
+        elif sort_by == 'least_downloaded':
+            queryset = queryset.order_by('downloads')
+        elif sort_by == 'title_asc':  # Sort by title A-Z
+            queryset = queryset.order_by('title')
+        elif sort_by == 'title_desc':  # Sort by title Z-A
+            queryset = queryset.order_by('-title')
+        elif sort_by == 'least_recent':
+            queryset = queryset.order_by('created_at')
+        else:  # Default to most recent
+            queryset = queryset.order_by('-created_at')
+
+        # Pagination
         page_number = request.query_params.get('page', 1)
         page_size = request.query_params.get('page_size', 10)
         paginator = Paginator(queryset, page_size)
         page = paginator.get_page(page_number)
 
         serializer = BookSerializer(page, many=True)
-        
+
         return Response({
             'results': serializer.data,
             'count': paginator.count,
             'num_pages': paginator.num_pages,
             'current_page': page_number
         })
-
+    
     def retrieve(self, request, pk=None):
         """
         Retrieve a specific book by ID.

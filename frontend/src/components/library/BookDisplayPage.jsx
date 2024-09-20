@@ -49,18 +49,25 @@ function BookDisplayPage({ id }) {
 
       {/* Book Title */}
       <h1 className="text-2xl font-bold mt-4">{book.title}</h1>
-      {/* Book Description */}
-      <p className="text-gray-600 mt-2">{book.description}</p>
-      {/* Book Author */}
-      <p className="text-gray-600 mt-2">Author: {book.author}</p>
-      {/* Book Genre */}
-      <p className="text-gray-600 mt-2">Genre: {book.genre}</p>
-      {/* Book Language */}
-      <p className="text-gray-600 mt-2">Language: {book.language}</p>
-      {/* Book publish date */}
-      <p className="text-gray-600 mt-2">
-        Published: {book.published_date ? new Date(book.published_date).toLocaleDateString() : "Not available"}
-      </p>
+      <div className='flex flex-wrap gap-2'>
+
+        {/* Book Description */}
+        <p className="text-gray-600 mt-2">{book.description} |</p>
+        {/* Book Author */}
+        <p className="text-gray-600 mt-2">Author: {book.author} |</p>
+        {/* Book Genre */}
+        <p className="text-gray-600 mt-2">Genre: {book.genre} |</p>
+        {/* Book Language */}
+        <p className="text-gray-600 mt-2">Language: {book.language} |</p>
+        {/* Book publish date */}
+        <p className="text-gray-600 mt-2">
+          Published: {book.published_date ? new Date(book.published_date).toLocaleDateString() : "Not available"} | 
+        </p>
+        {/* downloads */}
+        <p className="text-gray-600 mt-2">Downloads: {book.downloads} |</p>
+        {/* views */}
+        <p className="text-gray-600 mt-2">Views: {book.views}</p>
+      </div>
 
      {/* Book Content URL */}
      {book.content_url && (

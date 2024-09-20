@@ -1,20 +1,28 @@
 "use client"
+// src/components/library/BookList.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchBooks } from '@/API/books';
 import BookCard from './BookCard';
+import SearchBar from './SearchBar';  // Import the SearchBar component
 
 function BookList() {
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({
+    sort_by: 'most_recent',  // Default sort by most recent
+    genre: '',
+    language: '',
+    description: false
+  });
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Fetch books on load and whenever page or searchQuery changes
+  // Fetch books on load and whenever page, searchQuery, or filters change
   useEffect(() => {
     const loadBooks = async () => {
       setLoading(true);
-      const data = await fetchBooks(page, searchQuery);
+      const data = await fetchBooks(page, searchQuery, filters);  // Fetch with searchQuery and filters
       if (data) {
         setBooks(data.results);
         setTotalPages(data.num_pages);
@@ -22,12 +30,21 @@ function BookList() {
       setLoading(false);
     };
     loadBooks();
-  }, [page, searchQuery]);
+  }, [page, searchQuery, filters]);  // Trigger fetch on page, searchQuery, or filters change
 
   // Handle search input
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setPage(1); // Reset to the first page when a new search is made
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
   };
 
   // Pagination control
@@ -42,13 +59,15 @@ function BookList() {
   return (
     <div>
       {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search for books"
-        value={searchQuery}
-        onChange={handleSearch}
-        className="border p-2 rounded mb-4 w-full"
+      <br />
+      <SearchBar 
+        searchQuery={searchQuery} 
+        handleSearch={handleSearch} 
+        handleFilterChange={handleFilterChange} 
+        filters={filters} 
       />
+
+      <hr className=' m-2 border-4 border-black border-dashed'/>
 
       {loading ? (
         <p>Loading...</p>

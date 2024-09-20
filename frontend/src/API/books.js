@@ -1,13 +1,19 @@
 // src/API/books.js
 import { API_BASE_URL, DEFAULT_PAGE_SIZE } from '../globals';
 
-export const fetchBooks = async (page = 1, searchQuery = '', pageSize = DEFAULT_PAGE_SIZE) => {
+export const fetchBooks = async (page = 1, searchQuery = '', filters = {}, pageSize = DEFAULT_PAGE_SIZE) => {
   try {
     const queryParams = new URLSearchParams();
 
     if (page) queryParams.append('page', page);
     if (searchQuery) queryParams.append('search', encodeURIComponent(searchQuery));
     if (pageSize) queryParams.append('page_size', pageSize);
+
+    // Add filter parameters
+    if (filters.sort_by) queryParams.append('sort_by', filters.sort_by);
+    if (filters.genre) queryParams.append('genre', encodeURIComponent(filters.genre));
+    if (filters.language) queryParams.append('language', encodeURIComponent(filters.language));
+    if (filters.description) queryParams.append('description', filters.description ? 'true' : 'false');
 
     const url = `${API_BASE_URL}/public/books?${queryParams.toString()}`;
 
