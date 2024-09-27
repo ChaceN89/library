@@ -136,3 +136,13 @@ front end code for text file
 
 
   for img just use the url 
+
+
+
+
+
+
+
+Update   requriements .txt 
+
+  pip freeze > requirements.txt
