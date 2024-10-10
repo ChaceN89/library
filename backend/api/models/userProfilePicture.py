@@ -11,7 +11,8 @@ It ensures that when a profile picture is deleted, the associated image in the S
 Author: Chace Nielson
 Created: 2024-10-10
 Updated: 2024-10-10
-"""from django.db import models
+"""
+from django.db import models
 from django.contrib.auth.models import User
 from api.aws.delete import delete_file_from_s3  # Ensure you have this method to delete from S3
 

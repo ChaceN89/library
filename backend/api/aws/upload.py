@@ -41,11 +41,23 @@ def upload_file_to_s3(file, owner_id, prefix, file_type, unique_string):
 
     :param file: The file to be uploaded.
     :param owner_id: The ID of the owner (user) to be included in the file key.
-    :param prefix: The prefix to be added to the file name (e.g., 'content_' or 'cover_art_').
+    :param prefix: The prefix to be added to the file name (e.g., 'content', 'cover_art', 'profile_image').
     :param file_type: The MIME type of the file (e.g., 'text/plain', 'image/png').
+    :param unique_string: A unique string to ensure filename uniqueness.
     :return: The URL of the uploaded file.
     """
-    file_key = f'{owner_id}_{prefix}_{unique_string}_{file.name.replace(" ", "")}'
+    # Define the folder structure
+    if prefix == 'content':
+        folder = 'books/'  # Content files go to the 'books/' folder
+    elif prefix == 'cover_art':
+        folder = 'bookArt/'  # Cover art goes to the 'bookArt/' folder
+    elif prefix == 'profile_image':
+        folder = 'profilePictures/'  # Profile pictures go to the 'profilePictures/' folder
+    else:
+        folder = 'misc/'  # Default folder in case of unspecified prefix
+    
+    # Create the file key with the folder structure
+    file_key = f'{folder}{owner_id}_{prefix}_{unique_string}_{file.name.replace(" ", "")}'
     content_type = mimetypes.guess_type(file.name)[0] or file_type
 
     s3_client = boto3.client('s3', region_name=settings.AWS_S3_REGION_NAME, 
@@ -63,6 +75,7 @@ def upload_file_to_s3(file, owner_id, prefix, file_type, unique_string):
     )
     file_url = f"https://{settings.AWS_S3_BUCKET_NAME}.s3.{settings.AWS_S3_REGION_NAME}.amazonaws.com/{file_key}"
     return file_url
+
 
 
 
