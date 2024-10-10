@@ -209,9 +209,11 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
-# CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
+# CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 
+# allow headers and credentials
+CORS_ALLOW_CREDENTIALS = True
 
 # Dummy variable
 DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
