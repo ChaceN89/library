@@ -10,7 +10,7 @@ It includes:
 
 Author: Chace Nielson
 Created: 2024-08-14
-Modified: 2024-08-14
+Modified: 2024-10-10
 @since 1.0
 """
 
@@ -28,11 +28,14 @@ class PublicUserSerializer(serializers.ModelSerializer):
         first_name (str): First name of the user.
         last_name (str): Last name of the user.
         email (str): Email address of the user.
-        password (str): Password for the user (write-only).
+        profile_image_url (str): URL of the user's profile image (read-only).
     """
+    # Add profile_image_url to the serializer (read-only)
+    profile_image_url = serializers.CharField(source='profile_picture.profile_image_url', read_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']  # Include password for account creation
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'profile_image_url']  # Include password for account creation
         extra_kwargs = {'password': {'write_only': True}}  # Ensure password is write-only
 
     def create(self, validated_data):

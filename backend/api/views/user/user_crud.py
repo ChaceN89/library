@@ -8,7 +8,7 @@ Users can only access and modify their own data. Superuser accounts are protecte
 
 Author: Chace Nielson
 Created: 2024-08-14
-Modified: 2024-08-14
+Modified: 2024-10-10
 @since 1.0
 """
 
@@ -18,6 +18,9 @@ from django.core.exceptions import PermissionDenied
 from rest_framework.exceptions import MethodNotAllowed
 from api.serializers.userSerializer import UserSerializer
 from django.contrib.auth.models import User
+from api.models.book import Book  # Import the Book model
+from api.aws.delete import delete_file_from_s3  # Import the delete function for S3
+
 
 class UserCRUDViewSet(viewsets.ModelViewSet):
     """
@@ -90,7 +93,24 @@ class UserCRUDViewSet(viewsets.ModelViewSet):
         
         Raises:
             PermissionDenied: Raised if the user to be deleted is a superuser.
+
+        Custom logic to delete associated books and their files in S3
+        when a user is deleted.        
         """
-        if instance.is_superuser:
-            raise PermissionDenied("You cannot delete a superuser account.")
+        # Fetch all books owned by the user
+        books = Book.objects.filter(owner=instance)
+
+        # Loop through each book and delete associated files from S3
+        for book in books:
+            # Delete content file from S3
+            if book.content_url:
+                delete_file_from_s3(book.content_url)
+            # Delete cover art file from S3 (if available)
+            if book.cover_art_url:
+                delete_file_from_s3(book.cover_art_url)
+            
+            # Delete the book itself from the database
+            book.delete()
+
+        # Now, delete the user instance (this also cascades to other related objects)
         instance.delete()
