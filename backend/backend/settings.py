@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 
@@ -206,6 +207,14 @@ SOCIALACCOUNT_PROVIDERS = {
         'CLIENT_ID': config('GOOGLE_CLIENT_ID', default=''),
         'SECRET': config('GOOGLE_CLIENT_SECRET', default=''),
     }
+}
+
+# Django Allauth settings for authentication using jwt and the refresh token time
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Default is 5 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Default is 1 day
+    'ROTATE_REFRESH_TOKENS': True,                 # Optionally rotate refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old tokens after rotation
 }
 
 # CORS settings
