@@ -83,12 +83,22 @@ function BookDisplayPage({ id }) {
         </p>
       )}
 
+
       {/* Timestamps */}
       <p className="text-gray-500 mt-2">Created at: {new Date(book.created_at).toLocaleDateString()}</p>
       <p className="text-gray-500 mt-2">Last updated: {new Date(book.updated_at).toLocaleDateString()}</p>
 
       {/* Book Owner Info */}
-      <p className="text-gray-600 mt-2">Owner: {book.owner_username}</p>
+      <div className="flex gap-4">
+      <img 
+        src={book.owner_profile_pic} 
+        alt={`Profile picture of ${book.owner_username}`} 
+        width={40} 
+        height={50} 
+        // className="rounded-full"
+      />
+        <p className="text-gray-600 mt-2">Owner: {book.owner_username}</p>
+      </div>
         
         {/* Book Comments */}
       <BookComments bookId={id} />

@@ -16,6 +16,8 @@ Modified: 2024-10-10
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.conf import settings  # Import settings to access the DEFAULT_PROFILE_PIC_URL
+
 
 # Public User Serializer (used for public operations like account creation)
 class PublicUserSerializer(serializers.ModelSerializer):
@@ -65,31 +67,19 @@ class UserSerializer(serializers.ModelSerializer):
         last_name (str): Last name of the user.
         email (str): Email address of the user.
         password (str): Password for the user (write-only).
-        is_active (bool): Indicates whether the user account is active.
-        is_superuser (bool): Indicates whether the user has superuser privileges.
-        is_staff (bool): Indicates whether the user has staff privileges.
-        ... (other fields) ...
+        profile_image_url (str): URL of the user's profile image (or default if none is set).
     """
+    profile_image_url = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = '__all__'  # All fields for authenticated users
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_staff', 'is_active', 'date_joined', 'profile_image_url']  # Add profile_image_url
 
-    def update(self, instance, validated_data):
+    def get_profile_image_url(self, obj):
         """
-        Update and return an existing user instance.
-
-        Handles password updates separately to ensure password hashing.
-
-        Args:
-            instance (User): The user instance to be updated.
-            validated_data (dict): Data validated by the serializer.
-
-        Returns:
-            User: The updated user instance.
+        Method to retrieve the profile image URL or the default URL if not available.
         """
-        password = validated_data.pop('password', None)
-        user = super().update(instance, validated_data)
-        if password:
-            user.set_password(password)  # Set the new password and hash it
-            user.save()
-        return user
+        if hasattr(obj, 'profile_picture') and obj.profile_picture.profile_image_url:
+            return obj.profile_picture.profile_image_url
+        # Default profile image URL
+        return settings.DEFAULT_PROFILE_PIC_URL

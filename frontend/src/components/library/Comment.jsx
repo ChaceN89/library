@@ -4,7 +4,15 @@ import React from 'react';
 function Comment({ comment }) {
   return (
     <li className="border rounded-lg p-3 shadow">
-      <p className="text-gray-800">{comment.content}</p>
+      <div className="flex items-center gap-3">
+        {/* Display profile picture */}
+        <img 
+          src={comment.user_profile_pic} 
+          alt="User Profile"
+          className="w-8 h-8 rounded-full" // Adjust size as needed
+        />
+        <p className="text-gray-800">{comment.content}</p>
+      </div>
       <p className="text-sm text-gray-500">
         Posted by {comment.user_username} on {new Date(comment.created_at).toLocaleDateString()}
       </p>

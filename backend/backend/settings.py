@@ -226,3 +226,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Dummy variable
 DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
+
+
+DEFAULT_PROFILE_PIC_URL = 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'
