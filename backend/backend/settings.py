@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 ]
 
 # Site ID for Django Allauth
-SITE_ID = 1
+SITE_ID = int(config('SITE_ID'))
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,6 +118,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',                     # Default authentication backend
     'allauth.account.auth_backends.AuthenticationBackend',           # Allauth authentication backend
 ]
+
+# Login redirect URL
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Password validation
@@ -229,3 +233,27 @@ DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
 
 
 DEFAULT_PROFILE_PIC_URL = 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'
+
+
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'allauth': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}

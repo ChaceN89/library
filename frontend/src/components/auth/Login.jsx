@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
 
 import { getLoginCredentials, getUserData } from '@/API/auth';  // Assuming correct path
 
@@ -26,36 +27,43 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="flex flex-col gap-4 w-48">
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-        className="border p-1 rounded-sm border-black"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="border p-1 rounded-sm border-black"
-      />
-      <button className=" border-2 rounded-lg hover:bg-slate-400" type="submit">Login</button>
+    <div className="flex flex-col items-left gap-4">
 
+      {/* Google Sign-In button */}
+      <GoogleSignIn />
 
-<SessionStorageDisplay  />
-    </form>
+      {/* Regular login form */}
+      <form onSubmit={handleLogin} className="flex flex-col gap-4 w-48">
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          className="border p-1 rounded-sm border-black"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="border p-1 rounded-sm border-black"
+        />
+        <button className="border-2 rounded-lg hover:bg-slate-400" type="submit">
+          Login
+        </button>
+
+        {/* For debugging or testing session storage */}
+        <SessionStorageDisplay />
+      </form>
+    </div>
   );
 };
 
 export default Login;
 
-
-
-// just for testing but I want to refresh when the user logs in
+// Display session storage data for testing purposes
 const SessionStorageDisplay = () => {
   const [sessionData, setSessionData] = useState(null);
 
@@ -80,5 +88,3 @@ const SessionStorageDisplay = () => {
     </div>
   );
 };
-
-
