@@ -1,12 +1,13 @@
 import React from 'react'
 import Image from "next/image";
+import Register from '@/components/auth/Register';
 
 
 function RegisterPage() {
   return (
     <div>
 
-      <div>Register</div>
+      <Register />
       <Image
         className=""
         src="https://library-app-data.s3.ca-west-1.amazonaws.com/frontendAssets/foxMascot2.png"

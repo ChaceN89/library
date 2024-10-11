@@ -63,7 +63,25 @@ export const getUserData = async () => {
 
 // Function to handle account creation with a profile image
 export const createAccount = async (formData) => {
-//  in progress
+  try {
+    const response = await fetch(`${API_BASE_URL}/register/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: formData, // Sends formData directly as multipart/form-data
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create account');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error during account creation:', error);
+    return null;
+  }
 };
 
 
