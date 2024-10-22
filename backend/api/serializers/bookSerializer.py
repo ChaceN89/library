@@ -13,6 +13,7 @@ Modified: 2024-10-10
 """
 from rest_framework import serializers
 from api.models.book import Book
+from django.core.exceptions import ObjectDoesNotExist  # To handle missing related objects
 from django.conf import settings  # Import settings for default profile pic
 
 class BookSerializer(serializers.ModelSerializer):
@@ -38,9 +39,13 @@ class BookSerializer(serializers.ModelSerializer):
         Get the profile picture URL for the owner of the book. 
         If no profile picture exists, return the default profile picture URL.
         """
-        if obj.owner.profile_picture and obj.owner.profile_picture.profile_image_url:
-            return obj.owner.profile_picture.profile_image_url
-        return settings.DEFAULT_PROFILE_PIC_URL
+        try:
+            # Check if the owner has a profile picture
+            if obj.owner.profile_picture and obj.owner.profile_picture.profile_image_url:
+                return obj.owner.profile_picture.profile_image_url
+        except ObjectDoesNotExist:
+            # If the profile picture or related object does not exist, return a default image
+            return settings.DEFAULT_PROFILE_PIC_URL
 
     def create(self, validated_data):
         # Pop content and cover_art from the validated data as they are handled separately

@@ -16,13 +16,13 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from api.views.oAuth.google_oauth_view import google_callback
-
+from django.conf import settings  # Import settings to access the DEFAULT_PROFILE_PIC_URL
 
 # Schema view for Swagger documentation
 schema_view = get_schema_view(
     openapi.Info(
-        title="Library API",
-        default_version='v1',
+        title="Page Flow Library API",
+        default_version=settings.APP_VERSION,
         description="API documentation for the Library app",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@library.local"),

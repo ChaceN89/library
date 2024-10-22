@@ -23,14 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
-
+# the ALLOWED_HOSTS variable is a list of strings representing the host/domain names that this Django site can serve
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
-
 # Application definition
-
 INSTALLED_APPS = [
     # Django default apps
     'django.contrib.admin',
@@ -234,10 +230,13 @@ DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
 
 DEFAULT_PROFILE_PIC_URL = 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'
 
+APP_VERSION = config('APP_VERSION', default="1.0.0")
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=False, cast=bool)
+LOGGING = config('DEBUG', default=False, cast=bool)
 
-
-
+# Set the logging level based on the DEBUG setting
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -249,11 +248,11 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'DEBUG' if LOGGING else 'INFO',  # Use DEBUG level only if DEBUG is True
         },
         'allauth': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'DEBUG' if LOGGING else 'INFO',  # Adjust for allauth as well
         },
     },
 }
