@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
 
-import { getLoginCredentials, getUserData } from '@/API/auth';  // Assuming correct path
+import { getLoginCredentials } from '@/API/auth';  // Assuming correct path
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -14,10 +14,6 @@ const Login = () => {
     try {
       // Call the login function from auth.js
       await getLoginCredentials(username, password);
-
-      // Fetch the user information after login
-      const userData = await getUserData();
-      console.log('User Data:', userData);
       
       alert('Logged in successfully');
       // Optionally, redirect or refresh the page
