@@ -15,7 +15,6 @@ from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
-from api.views.oAuth.google_oauth_view import google_callback
 from django.conf import settings  # Import settings to access the DEFAULT_PROFILE_PIC_URL
 
 # Schema view for Swagger documentation
@@ -48,14 +47,4 @@ urlpatterns = [
     # Route for Google OAuth and allauth login
     path('accounts/', include('allauth.urls')),  # Route for Google OAuth and allauth login
 
-    # Google OAuth callback route
-    # path('accounts/google/login/callback/', google_callback, name='google_callback'),
-
 ]
-
-
-# issues 
-# developer console edirects
-# settings redirects
-# urls.py redirects
-# frontend redirrect - i think this is ok

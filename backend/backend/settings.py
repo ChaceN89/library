@@ -118,6 +118,8 @@ AUTHENTICATION_BACKENDS = [
 # Login redirect URL
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
 # Password validation
@@ -194,6 +196,9 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_DEFAULT_ACL = 'public-read'
 
 
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+
 # Google authentication settings for Django Allauth
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -204,6 +209,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
+        'FETCH_USERINFO': True,
+        'OAUTH_PKCE_ENABLED': True, 
         'CLIENT_ID': config('GOOGLE_CLIENT_ID', default=''),
         'SECRET': config('GOOGLE_CLIENT_SECRET', default=''),
     }
@@ -211,7 +218,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Django Allauth settings for authentication using jwt and the refresh token time
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Default is 5 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),  # Default is 5 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Default is 1 day
     'ROTATE_REFRESH_TOKENS': True,                 # Optionally rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old tokens after rotation
