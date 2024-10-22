@@ -29,6 +29,7 @@ from api.views.book.book_public import PublicBookViewSet
 from api.views.comment.comment_crud import CommentCRUDViewSet
 from api.views.comment.comment_public import CommentPublicViewSet
 
+from api.views.favorites.fav_crud import FavoriteBookViewSet
 
 # Router setup for different CRUD operations
 router = DefaultRouter()
@@ -38,7 +39,7 @@ router.register(r'users', UserCRUDViewSet, basename='user')  # Private CRUD for 
 router.register(r'books', BookCRUDViewSet, basename='book')  # Private CRUD for books
 router.register(r'comment', CommentCRUDViewSet, basename='comment')  # Private CRUD for comments
 router.register(r'public-comments', CommentPublicViewSet, basename='public-comments')
-
+router.register(r'favorites', FavoriteBookViewSet, basename='favorite')  # Private CRUD for favorite books
 
 
 urlpatterns = [
