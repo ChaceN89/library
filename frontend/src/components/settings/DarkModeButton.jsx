@@ -8,7 +8,7 @@ export default function DarkModeButton() {
 
   // Initialize dark mode state from session storage or system preference
   useEffect(() => {
-    const storedTheme = sessionStorage.getItem("theme");
+    const storedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const isDarkMode = storedTheme === "dark" || (!storedTheme && prefersDark);
     setDarkMode(isDarkMode);
@@ -18,7 +18,7 @@ export default function DarkModeButton() {
   const toggleDarkMode = () => {
     const newMode = !darkMode ? "dark" : "light";
     document.documentElement.classList.toggle("dark", newMode === "dark");
-    sessionStorage.setItem("theme", newMode);
+    localStorage.setItem("theme", newMode);
     setDarkMode(!darkMode); // Update state
   };
 

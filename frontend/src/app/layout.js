@@ -28,7 +28,7 @@ export const metadata = {
 
 const darkModeScript = `
   (function() {
-    const storedTheme = sessionStorage.getItem('theme');
+    const storedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
       document.documentElement.classList.add('dark');

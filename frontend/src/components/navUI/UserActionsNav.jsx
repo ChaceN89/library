@@ -11,7 +11,7 @@ const UserActionsNav = () => {
   const [profilePic, setProfilePic] = useState(null);
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const user = JSON.parse(storedUser);
       setUsername(user.username);

@@ -51,7 +51,7 @@ const Login = () => {
         </button>
 
         {/* For debugging or testing session storage */}
-        <SessionStorageDisplay />
+        <LocalStorageDisplay />
       </form>
     </div>
   );
@@ -60,14 +60,14 @@ const Login = () => {
 export default Login;
 
 // Display session storage data for testing purposes
-const SessionStorageDisplay = () => {
+const LocalStorageDisplay = () => {
   const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
     // Retrieve session storage data and set it to state
-    const accessToken = sessionStorage.getItem('access_token');
-    const refreshToken = sessionStorage.getItem('refresh_token');
-    const user = sessionStorage.getItem('user');
+    const accessToken = localStorage.getItem('access_token');
+    const refreshToken = localStorage.getItem('refresh_token');
+    const user = localStorage.getItem('user');
     
     // Store the retrieved values in an object and set the state
     setSessionData({
@@ -79,7 +79,7 @@ const SessionStorageDisplay = () => {
 
   return (
     <div>
-      <h3>Session Storage Data:</h3>
+      <h3>Local Storage Data:</h3>
       <pre>{JSON.stringify(sessionData, null, 2)}</pre> {/* Display data as formatted JSON */}
     </div>
   );

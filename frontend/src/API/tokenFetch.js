@@ -14,7 +14,7 @@ export const isTokenExpired = (token, bufferTime = 60000) => {  // Buffer of 1 m
 
 // Check if the refresh token is expired
 export const checkRefreshToken = () => {
-  const refreshToken = sessionStorage.getItem('refresh_token');
+  const refreshToken = localStorage.getItem('refresh_token');
   
   if (!refreshToken) return true;  // If no token, assume expired
 
@@ -28,7 +28,7 @@ export const checkRefreshToken = () => {
 
 // Refresh the access token using the refresh token
 export const refreshAccessToken = async () => {
-  const refreshToken = sessionStorage.getItem('refresh_token');
+  const refreshToken = localStorage.getItem('refresh_token');
   
   if (refreshToken) {
     try {
@@ -42,10 +42,10 @@ export const refreshAccessToken = async () => {
 
       if (response.ok) {
         const data = await response.json();
-        sessionStorage.setItem('access_token', data.access); // Update access token
+        localStorage.setItem('access_token', data.access); // Update access token
         return data.access;
       } else {
-        sessionStorage.clear(); // Clear session storage on failure
+        localStorage.clear(); // Clear session storage on failure
         throw new Error('Failed to refresh token');
       }
     } catch (error) {
