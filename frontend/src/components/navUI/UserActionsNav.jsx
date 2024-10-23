@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import NavDropdown from './NavDropdown';
 import NavButton from './NavButton';
+import UserProfileNav from './UserProfileNav';  // Import the new component
 import { logout } from '@/API/auth';
 
 const UserActionsNav = () => {
@@ -35,12 +36,8 @@ const UserActionsNav = () => {
     <div className="flex items-center gap-3">
       {username ? (
         <>
-          <img 
-            src={profilePic || 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'} 
-            alt="Profile"
-            className="w-10 h-10 rounded-full"
-          />
-          <p>Welcome, {username}!</p>
+          {/* Use the new UserProfileNav component */}
+          <UserProfileNav username={username} profilePic={profilePic} />
           <NavDropdown items={dropdownItems} />
         </>
       ) : (
