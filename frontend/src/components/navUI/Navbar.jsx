@@ -1,54 +1,15 @@
-// src/components/Navbar.jsx
+// src/components/navUI/NavBar.jsx
 import React from 'react';
-import Link from 'next/link';
-import UserNav from './UserNav';
+import FixedNavItems from './FixedNavItems';
+import UserActionsNav from './UserActionsNav';
 
-const Navbar = () => {
-  return (
-    <nav className='w-full bg-red-900 '>
-      <div className="flex justify-between container mx-auto">
+const NavBar = () => (
+  <nav className="w-full bg-red-900 p-4 sticky top-0 z-50 shadow-lg">  {/* Added sticky, top, and z-index */}
+    <div className="flex justify-between container mx-auto">
+      <FixedNavItems />
+      <UserActionsNav />
+    </div>
+  </nav>
+);
 
-        <ul className='flex space-x-4 '>
-          <li>
-            <Link href="/" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/library/upload" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              Upload
-            </Link>
-          </li>
-          <li>
-            <Link href="/library/books" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              Books
-            </Link>
-          </li>
-          <li>
-            <Link href="/user/login" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link href="/user/register" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              Register
-            </Link>
-          </li>
-          <li>
-            <Link href="/settings/account" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              Account Settings
-            </Link>
-          </li>
-          <li>
-            <Link href="/settings/app" className='block border border-black rounded-lg p-2 m-1 hover:bg-black'>
-              App Settings
-            </Link>
-          </li>
-        </ul>
-        <UserNav />
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;
+export default NavBar;

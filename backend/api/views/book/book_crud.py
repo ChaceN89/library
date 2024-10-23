@@ -54,6 +54,8 @@ Notes:
 """
 
 import uuid
+import mimetypes
+from rest_framework import serializers
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -95,12 +97,21 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
         content_url = None
         cover_art_url = None
 
+        # Generate a unique string to ensure filename uniqueness
+        unique_string = str(uuid.uuid4())  
 
-        unique_string = str(uuid.uuid4())  # Generate a unique string to ensure filename uniqueness
-
-        # Upload content file to S3
+        # Upload content file to S3 by getting MIME type based on file extension for content file
         if content_file:
-            content_url = upload_file_to_s3(content_file, self.request.user.id, 'content', 'text/plain', unique_string) 
+            # Use mimetypes to guess the content type
+            content_mime_type, _ = mimetypes.guess_type(content_file.name)
+
+            # Check if the file type is allowed
+            allowed_types = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/json', 'text/html', 'text/plain', 'application/rtf']
+            if content_mime_type not in allowed_types:
+                raise serializers.ValidationError("Unsupported file type. Allowed types are PDF, DocX, JSON, HTML, TXT, and RTF.")
+
+            # Upload content file to S3
+            content_url = upload_file_to_s3(content_file, self.request.user.id, 'content', content_mime_type, unique_string)
 
         # Upload cover art file to S3 (if provided)
         if cover_art_file:

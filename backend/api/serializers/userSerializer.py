@@ -37,7 +37,8 @@ class PublicUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'profile_image_url']  # Include password for account creation
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'profile_image_url', 'is_staff', 'is_active']  # Include is_staff and is_active
+
         extra_kwargs = {'password': {'write_only': True}}  # Ensure password is write-only
 
     def create(self, validated_data):

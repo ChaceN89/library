@@ -29,6 +29,7 @@ from api.views.book.book_public import PublicBookViewSet
 from api.views.comment.comment_crud import CommentCRUDViewSet
 from api.views.comment.comment_public import CommentPublicViewSet
 
+from api.views.favorites.fav_crud import FavoriteBookViewSet
 
 # Router setup for different CRUD operations
 router = DefaultRouter()
@@ -38,7 +39,6 @@ router.register(r'users', UserCRUDViewSet, basename='user')  # Private CRUD for 
 router.register(r'books', BookCRUDViewSet, basename='book')  # Private CRUD for books
 router.register(r'comment', CommentCRUDViewSet, basename='comment')  # Private CRUD for comments
 router.register(r'public-comments', CommentPublicViewSet, basename='public-comments')
-
 
 
 urlpatterns = [
@@ -53,6 +53,11 @@ urlpatterns = [
     # Add routes for incrementing views and downloads
     path('api/public/books/<int:pk>/increment_views/', PublicBookViewSet.as_view({'post': 'increment_views'}), name='public_books_increment_views'),
     path('api/public/books/<int:pk>/increment_downloads/', PublicBookViewSet.as_view({'post': 'increment_downloads'}), name='public_books_increment_downloads'),
+
+    # Add and remove favorites
+    path('api/books/<int:pk>/add_favorite/', FavoriteBookViewSet.as_view({'post': 'add_favorite'}), name='add_favorite'),
+    path('api/books/<int:pk>/remove_favorite/', FavoriteBookViewSet.as_view({'delete': 'remove_favorite'}), name='remove_favorite'),
+    path('api/books/get_favorites/', FavoriteBookViewSet.as_view({'get': 'get_favorites'}), name='get_favorites'),
 
     # Private Routes (handled by the router) - all routes prefixed with 'api/'
     path('api/', include(router.urls)),

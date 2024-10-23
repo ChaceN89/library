@@ -23,14 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
-
+# the ALLOWED_HOSTS variable is a list of strings representing the host/domain names that this Django site can serve
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
-
 # Application definition
-
 INSTALLED_APPS = [
     # Django default apps
     'django.contrib.admin',
@@ -57,7 +53,7 @@ INSTALLED_APPS = [
 ]
 
 # Site ID for Django Allauth
-SITE_ID = 1
+SITE_ID = int(config('SITE_ID'))
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,6 +114,12 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',                     # Default authentication backend
     'allauth.account.auth_backends.AuthenticationBackend',           # Allauth authentication backend
 ]
+
+# Login redirect URL
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
 # Password validation
@@ -194,6 +196,9 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_DEFAULT_ACL = 'public-read'
 
 
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+
 # Google authentication settings for Django Allauth
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -204,6 +209,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
+        'FETCH_USERINFO': True,
+        'OAUTH_PKCE_ENABLED': True, 
         'CLIENT_ID': config('GOOGLE_CLIENT_ID', default=''),
         'SECRET': config('GOOGLE_CLIENT_SECRET', default=''),
     }
@@ -211,7 +218,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Django Allauth settings for authentication using jwt and the refresh token time
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Default is 5 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),  # Default is 5 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Default is 1 day
     'ROTATE_REFRESH_TOKENS': True,                 # Optionally rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old tokens after rotation
@@ -229,3 +236,30 @@ DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
 
 
 DEFAULT_PROFILE_PIC_URL = 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'
+
+APP_VERSION = config('APP_VERSION', default="1.0.0")
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=False, cast=bool)
+LOGGING = config('DEBUG', default=False, cast=bool)
+
+# Set the logging level based on the DEBUG setting
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if LOGGING else 'INFO',  # Use DEBUG level only if DEBUG is True
+        },
+        'allauth': {
+            'handlers': ['console'],
+            'level': 'DEBUG' if LOGGING else 'INFO',  # Adjust for allauth as well
+        },
+    },
+}

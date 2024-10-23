@@ -14,15 +14,23 @@ Modified: 2024-08-14
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User
+from api.serializers.userSerializer import PublicUserSerializer
 
 class LoginView(TokenObtainPairView):
     """
-    API view to obtain JWT tokens for user authentication.
-
-    Provides a POST endpoint for users to obtain a JWT token pair (access and refresh tokens).
-    The endpoint is accessible to anyone, allowing public access to authentication.
-
-    Attributes:
-        permission_classes (list): A list of permission classes. This view is accessible to all users.
+    API view to obtain JWT tokens for user authentication and return user data.
     """
     permission_classes = [AllowAny]  # Public access to obtain tokens
+
+    def post(self, request, *args, **kwargs):
+        # Call the original view to get the token data
+        response = super().post(request, *args, **kwargs)
+
+        # Get user data
+        user = User.objects.get(username=request.data['username'])
+        user_data = PublicUserSerializer(user).data
+
+        # Add user data to the response
+        response.data['user'] = user_data
+        return response

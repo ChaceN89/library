@@ -1,33 +1,25 @@
-// src/components/settings/DarkModeButton.js
-
 "use client";
 
-/**
- * DarkModeButton
- * @desc Button to toggle between dark mode and light mode.
- * The button updates the localStorage and toggles the theme dynamically.
- * 
- * @created 2024-09-XX
- */
-
 import React, { useState, useEffect } from "react";
-import { toggleTheme, initializeTheme } from "./DarkModeUtils";
-import "./dark-mode.css";
-
+import "./dark-mode.css"; // Import your CSS file for the toggle styles
 
 export default function DarkModeButton() {
   const [darkMode, setDarkMode] = useState(false);
 
-  // Initialize the dark mode state based on user's system preference or localStorage
+  // Initialize dark mode state from session storage or system preference
   useEffect(() => {
-    const isDarkMode = initializeTheme();
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDarkMode = storedTheme === "dark" || (!storedTheme && prefersDark);
     setDarkMode(isDarkMode);
   }, []);
 
-  // Toggle dark mode and store the preference in localStorage
+  // Toggle dark mode and store preference in session storage
   const toggleDarkMode = () => {
-    toggleTheme(darkMode);
-    setDarkMode(!darkMode); // Toggle the state
+    const newMode = !darkMode ? "dark" : "light";
+    document.documentElement.classList.toggle("dark", newMode === "dark");
+    localStorage.setItem("theme", newMode);
+    setDarkMode(!darkMode); // Update state
   };
 
   return (
@@ -39,7 +31,7 @@ export default function DarkModeButton() {
           checked={darkMode}
           onChange={toggleDarkMode} // Toggle on change
         />
-        <span className="slider"></span>
+        <span className="slider"></span> {/* Use the slider class for the switch */}
       </label>
     </div>
   );

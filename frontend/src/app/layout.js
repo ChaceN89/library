@@ -4,8 +4,7 @@ import "../styles/globals.css";  // Fix the import path for globals.css
 import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";
 import Footer from "@/components/general/Footer";
-import DarkModeInitialize from "@/components/settings/DarkModeInitialize";
-
+import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
 
 const geistSans = localFont({
   src: "/fonts/GeistVF.woff",  // Correct path relative to the public folder
@@ -27,36 +26,34 @@ export const metadata = {
   },
 };
 
+const darkModeScript = `
+  (function() {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+`;
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Inline script to apply the dark class before JavaScript loads */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              const storedTheme = localStorage.getItem('theme');
-              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
-                document.documentElement.classList.add('dark');
-              } else {
-                document.documentElement.classList.remove('dark');
-              }
-            })();
-          `
-        }} />
+        {/* Dark mode initialization script */}
+        <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}  
-      >
-        <TailwindBreakPoints />
-        <DarkModeInitialize/ >
-
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
+        <SearchProvider>
+          <TailwindBreakPoints />
           <Navbar />
-          <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">  {/* flex-grow to fill space */}
+          <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
             {children}
           </main>
-          <Footer className="mt-auto" />  {/* Ensure footer stays at the bottom */}
+          <Footer className="mt-auto" />
+        </SearchProvider>
       </body>
     </html>
   );

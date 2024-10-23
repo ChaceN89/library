@@ -1,0 +1,61 @@
+/**
+ * @file LogoLink.css
+ * @module LogoLinkStyles
+ * @desc Defines the styles for the LogoLink component, including the underline hover effect.
+ * 
+ * @style LogoLinkStyles
+ * 
+ * @example
+ * // Example usage of LogoLink styles
+ * <Link to="/" className='logo-link flex gap-0 items-center text-primary'>
+ *   <div className="max-w-12 max-h-12 min-md:max-w-16 md:max-h-16 w-full h-full flex-shrink-0">
+ *     <ImageComponent 
+ *       className="w-full h-full object-contain" 
+ *       src={process.env.PUBLIC_URL + '/logos/Glass_Gecko_Games_Logo_with_Cut.png'} 
+ *       alt="Logo" 
+ *       style={{ visibility: 'hidden' }}
+ *       lowResSrc={process.env.PUBLIC_URL + '/logos/Glass_Gecko_Games_Logo_with_Cut_small.png'} 
+ *     />
+ *   </div>
+ *   <h1 className="text-4xl text-nowrap titleFont underline-effect">
+ *     GLASS GECKO GAMES
+ *   </h1>
+ * </Link>
+ * 
+ * @requires tailwindcss
+ * 
+ * @see {@link https://tailwindcss.com/docs/installation|Tailwind CSS Documentation}
+ * 
+ * @returns {CSS} The styles for the LogoLink component.
+ * 
+ * @styleAuthor Chace Nielson
+ * @created 2024-07-10
+ * @updated 2024-07-19
+ */
+
+/**
+ * Underline Effect Styles
+ * 
+ * This section contains the styles for the underline effect on the text within the LogoLink component.
+ * The underline appears on hover, transitioning smoothly from left to right.
+ */
+
+ .logo-link .underline-effect {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.logo-link .underline-effect::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0px; /* Adjust to position the underline closer or farther from the text */
+  width: 0;
+  height: 4px; /* Adjust to change the thickness of the underline */
+  @apply bg-primary; /* Customize the underline color using Tailwind's bg-accent class */
+  transition: width 0.3s ease;
+}
+
+.logo-link:hover .underline-effect::after {
+  width: 100%;
+}

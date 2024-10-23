@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-
-import { getLoginCredentials, getUserData } from '@/API/auth';  // Assuming correct path
+import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
+import { getLoginCredentials } from '@/API/auth';  // Assuming correct path
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -13,10 +13,6 @@ const Login = () => {
     try {
       // Call the login function from auth.js
       await getLoginCredentials(username, password);
-
-      // Fetch the user information after login
-      const userData = await getUserData();
-      console.log('User Data:', userData);
       
       alert('Logged in successfully');
       // Optionally, redirect or refresh the page
@@ -26,59 +22,58 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="flex flex-col gap-4 w-48">
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-        className="border p-1 rounded-sm border-black"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="border p-1 rounded-sm border-black"
-      />
-      <button className=" border-2 rounded-lg hover:bg-slate-400" type="submit">Login</button>
+    <div className="flex flex-col items-left gap-4">
+      {/* Google Sign-In button */}
+      <GoogleSignIn />
 
+      {/* Regular login form */}
+      <form onSubmit={handleLogin} className="flex flex-col gap-4 w-48">
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          className="border p-1 rounded-sm border-black"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="border p-1 rounded-sm border-black"
+        />
+        <button className="border-2 rounded-lg hover:bg-slate-400" type="submit">
+          Login
+        </button>
 
-<SessionStorageDisplay  />
-    </form>
+        {/* For debugging or testing local storage */}
+        <LocalStorageDisplay />
+      </form>
+    </div>
   );
 };
 
 export default Login;
 
-
-
-// just for testing but I want to refresh when the user logs in
-const SessionStorageDisplay = () => {
-  const [sessionData, setSessionData] = useState(null);
+// Display session storage data for testing purposes
+const LocalStorageDisplay = () => {
+  const [displayData, setDisplayData] = useState(null);
 
   useEffect(() => {
-    // Retrieve session storage data and set it to state
-    const accessToken = sessionStorage.getItem('access_token');
-    const refreshToken = sessionStorage.getItem('refresh_token');
-    const user = sessionStorage.getItem('user');
-    
-    // Store the retrieved values in an object and set the state
-    setSessionData({
-      accessToken,
-      refreshToken,
-      user: user ? JSON.parse(user) : null, // Parse user if it exists
-    });
+    // Retrieve the authData object from localStorage and parse it
+    const authData = JSON.parse(localStorage.getItem('authData'));
+
+    setDisplayData(authData);  // Set the entire authData object in state
   }, []);
 
   return (
-    <div>
-      <h3>Session Storage Data:</h3>
-      <pre>{JSON.stringify(sessionData, null, 2)}</pre> {/* Display data as formatted JSON */}
+    <div className=' w-screen '>
+      <h3>Local Storage Data:</h3>
+      <pre className='w-9/12' style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+        {JSON.stringify(displayData, null, 2)}
+      </pre> {/* Display data as formatted JSON */}
     </div>
   );
 };
-
-

@@ -14,8 +14,16 @@ export const getLoginCredentials = async (username, password) => {
 
     if (response.ok) {
       const data = await response.json();
-      sessionStorage.setItem('access_token', data.access); // Store access token
-      sessionStorage.setItem('refresh_token', data.refresh); // Store refresh token
+
+      // Store all authentication data in a single object in localStorage
+      const authData = {
+        accessToken: data.access,
+        refreshToken: data.refresh,
+        user: data.user
+      };
+      localStorage.setItem('authData', JSON.stringify(authData));  // Store the object
+
+      window.location.reload(); // Reload the page to update the user state - can be replaced with a redirect later
 
       return data;
     } else {
@@ -27,51 +35,43 @@ export const getLoginCredentials = async (username, password) => {
   }
 };
 
-// Function to fetch user data using access token
-export const getUserData = async () => {
-  const accessToken = sessionStorage.getItem('access_token');
-
-  if (!accessToken || isTokenExpired(accessToken)) {  // Check if token is expired before making the request
-    const newAccessToken = await refreshAccessToken();  // Refresh the token if expired
-    if (!newAccessToken) {
-      throw new Error('Failed to refresh token or user is not authenticated.');
-    }
-  }
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/users/`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`, // Use (potentially new) access token
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      const userData = await response.json();
-      sessionStorage.setItem('user', JSON.stringify(userData[0])); // Store user data
-      return userData[0]; // Return user data
-    } else {
-      throw new Error('Failed to fetch user data');
-    }
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    throw error;
-  }
-};
-
-
 // Function to handle account creation with a profile image
 export const createAccount = async (formData) => {
-//  in progress
+  try {
+    const response = await fetch(`${API_BASE_URL}/register/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: formData, // Sends formData directly as multipart/form-data
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create account');
+    }
+
+    const data = await response.json();
+
+    // Store all authentication data in a single object in localStorage
+    const authData = {
+      accessToken: data.access,
+      refreshToken: data.refresh,
+      user: data.user
+    };
+    localStorage.setItem('authData', JSON.stringify(authData));  // Store the object
+
+    window.location.reload(); // Reload the page to update the user state - can be replaced with a redirect later
+
+    return data;
+  } catch (error) {
+    console.error('Error during account creation:', error);
+    return null;
+  }
 };
 
-
+// Logout function to clear authData
 export const logout = async () => {
-  // Clear session storage for access token, refresh token, and user data
-  sessionStorage.removeItem('access_token');
-  sessionStorage.removeItem('refresh_token');
-  sessionStorage.removeItem('user');
+  localStorage.removeItem('authData');  // Clear all authentication data
 
   // Optionally, you could redirect the user after logout
   // For example, if using Next.js, you could use Router to navigate
@@ -81,7 +81,18 @@ export const logout = async () => {
   return 'User has been logged out successfully';
 };
 
-
+// Function to check if the access token is valid
 export const checkToken = async () => {
+  const storedAuthData = JSON.parse(localStorage.getItem('authData'));
 
-}
+  if (!storedAuthData || isTokenExpired(storedAuthData.accessToken)) {
+    const newAccessToken = await refreshAccessToken();  // Refresh the token if expired
+    if (newAccessToken) {
+      // Update localStorage with the new access token
+      storedAuthData.accessToken = newAccessToken;
+      localStorage.setItem('authData', JSON.stringify(storedAuthData));
+    } else {
+      throw new Error('Failed to refresh token or user is not authenticated.');
+    }
+  }
+};
