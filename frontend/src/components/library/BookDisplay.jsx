@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchBookById, incrementDownloads, incrementViews } from '@/API/books';
 import Image from 'next/image';
-import BookComments from './BookComments';
+import BookComments from './comments/BookComments';
 
-function BookDisplayPage({ id }) {
+function BookDisplay({ id }) {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -106,4 +106,4 @@ function BookDisplayPage({ id }) {
   );
 }
 
-export default BookDisplayPage;
+export default BookDisplay;

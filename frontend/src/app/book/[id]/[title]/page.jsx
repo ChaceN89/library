@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
-import BookDisplayPage from '@/components/library/BookDisplayPage';
+import BookDisplayPage from '@/components/library/BookDisplay';
 import { fetchBookById } from '@/API/books';
 
 function BookPage() {
@@ -20,7 +20,7 @@ function BookPage() {
 
         // Redirect to correct URL if title in URL doesn't match the fetched book title
         if (bookData.title.toLowerCase() !== title.toLowerCase()) {
-          router.replace(`/library/book/${bookData.title.toLowerCase()}/${id}`);
+          router.replace(`/book/${id}/${bookData.title.toLowerCase()}`);
         }
       }
     };

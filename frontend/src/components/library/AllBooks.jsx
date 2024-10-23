@@ -1,20 +1,14 @@
-"use client"
-// src/components/library/BookList.jsx
+"use client";
 import React, { useEffect, useState } from 'react';
 import { fetchBooks } from '@/API/books';
 import BookCard from './BookCard';
-import SearchBar from './SearchBar';  // Import the SearchBar component
+import SearchBar from './search/SearchBar';  // Import the SearchBar component
+import { useSearch } from '@/context/SearchContext';  // Import useSearch from context
 
-function BookList() {
+function AllBooks() {
+  const { searchQuery, handleSearch, filters, handleFilterChange } = useSearch();  // Get search context
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({
-    sort_by: 'most_recent',  // Default sort by most recent
-    genre: '',
-    language: '',
-    description: false
-  });
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -22,7 +16,7 @@ function BookList() {
   useEffect(() => {
     const loadBooks = async () => {
       setLoading(true);
-      const data = await fetchBooks(page, searchQuery, filters);  // Fetch with searchQuery and filters
+      const data = await fetchBooks(page, searchQuery, filters);  // Fetch with searchQuery and filters from context
       if (data) {
         setBooks(data.results);
         setTotalPages(data.num_pages);
@@ -31,21 +25,6 @@ function BookList() {
     };
     loadBooks();
   }, [page, searchQuery, filters]);  // Trigger fetch on page, searchQuery, or filters change
-
-  // Handle search input
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-    setPage(1); // Reset to the first page when a new search is made
-  };
-
-  // Handle filter changes
-  const handleFilterChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
 
   // Pagination control
   const goToNextPage = () => {
@@ -106,4 +85,4 @@ function BookList() {
   );
 }
 
-export default BookList;
+export default AllBooks;

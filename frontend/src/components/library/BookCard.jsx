@@ -6,7 +6,7 @@ function BookCard({ book }) {
   return (
     <li key={book.id} className="border rounded-lg p-4 mb-4 shadow-lg flex ">
       {/* Book Cover Image */}
-      <Link href={`/library/book/${book.title.toLowerCase()}/${book.id}`} passHref>
+      <Link href={`/book/${book.id}/${book.title.toLowerCase()}`} passHref>
         <div className="cursor-pointer">
           {book.cover_art_url ? (
             <Image 
@@ -26,7 +26,7 @@ function BookCard({ book }) {
 
       <div className='px-2 flex flex-col gap-2'>
         {/* Book Title */}
-        <Link href={`/library/book/${book.title.toLowerCase()}/${book.id}`} passHref>
+        <Link href={`/book/${book.id}/${book.title.toLowerCase()}`} passHref>
           <p className="text-xl font-bold text-blue-600 hover:underline mt-2 cursor-pointer">
             {book.title}
           </p>
