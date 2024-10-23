@@ -12,19 +12,25 @@ function AllBooks() {
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Fetch books on load and whenever page, searchQuery, or filters change
+  // Fetch books on load and whenever page, searchQuery, or filters change -Debounced fetch operation for searching books
   useEffect(() => {
-    const loadBooks = async () => {
-      setLoading(true);
-      const data = await fetchBooks(page, searchQuery, filters);  // Fetch with searchQuery and filters from context
-      if (data) {
-        setBooks(data.results);
-        setTotalPages(data.num_pages);
-      }
-      setLoading(false);
-    };
-    loadBooks();
+    const debounceFetch = setTimeout(() => {
+      const loadBooks = async () => {
+        setLoading(true);
+        const data = await fetchBooks(page, searchQuery, filters);  // Fetch with searchQuery and filters from context
+        if (data) {
+          setBooks(data.results);
+          setTotalPages(data.num_pages);
+        }
+        setLoading(false);
+      };
+      loadBooks();
+    }, 400);  // Delay the fetch by 300ms (adjust as needed)
+
+    // Clean up the timeout if user is still typing or page/filters change
+    return () => clearTimeout(debounceFetch);
   }, [page, searchQuery, filters]);  // Trigger fetch on page, searchQuery, or filters change
+  
 
   // Pagination control
   const goToNextPage = () => {
