@@ -37,15 +37,7 @@ function SettingsPage() {
 
       <hr className='pb-2 mt-2'/>
 
-
-
-      <div className="bg-white dark:bg-gray-900 text-black dark:text-white">
-        <p>This text color and background will change with dark mode!</p>
-      </div>
-      
-      <hr className='pb-2 mt-2'/>
-
-      <div className="mt-4">
+      <div className="mt-2">
         <h3 className="text-lg font-medium">App Info</h3>
         <p>Version: 1.0.0</p>
         <p>Author: John Doe</p>

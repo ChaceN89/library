@@ -4,7 +4,6 @@ import "../styles/globals.css";  // Fix the import path for globals.css
 import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";
 import Footer from "@/components/general/Footer";
-import DarkModeInitialize from "@/components/settings/DarkModeInitialize";
 import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
 
 const geistSans = localFont({
@@ -29,7 +28,7 @@ export const metadata = {
 
 const darkModeScript = `
   (function() {
-    const storedTheme = localStorage.getItem('theme');
+    const storedTheme = sessionStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
       document.documentElement.classList.add('dark');
@@ -43,17 +42,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Dark mode initialization script */}
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}   >
-        <SearchProvider> {/* Wrap the entire layout in SearchProvider context */}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
+        <SearchProvider>
           <TailwindBreakPoints />
-          <DarkModeInitialize />
           <Navbar />
-          <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">  {/* flex-grow to fill space */}
+          <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
             {children}
           </main>
-          <Footer className="mt-auto" />  {/* Ensure footer stays at the bottom */}
+          <Footer className="mt-auto" />
         </SearchProvider>
       </body>
     </html>
