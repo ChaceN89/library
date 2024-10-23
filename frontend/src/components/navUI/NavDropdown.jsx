@@ -48,7 +48,7 @@ const NavDropdown = ({ items }) => {
         Menu
       </button>
       {isOpen && (
-        <div ref={dropRef} className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg py-2 w-48">
+        <div ref={dropRef} className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg py-2 w-fit">
           {items.map((item, index) => (
             <a
               key={index}
@@ -56,7 +56,10 @@ const NavDropdown = ({ items }) => {
               className="block px-4 py-2 hover:bg-gray-100"
               onClick={item.action ? item.action : null}
             >
-              {item.label}
+              <div className='flex gap-2 items-center whitespace-nowrap'>
+                {item.icon}  
+                {item.label}
+              </div>
             </a>
           ))}
         </div>

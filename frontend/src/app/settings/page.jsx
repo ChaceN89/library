@@ -43,6 +43,8 @@ function SettingsPage() {
         <p>Author: John Doe</p>
         <p>Cn fetch this from a backend route so it stays up to date</p>
       </div>
+
+      {/* link to the /admin page if */}
     </div>
   )
 }

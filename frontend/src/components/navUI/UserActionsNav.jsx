@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { FaCogs, FaUpload, FaBook, FaHeart, FaSignOutAlt } from 'react-icons/fa';  // Importing icons
+
 import NavDropdown from './NavDropdown';
 import NavButton from './NavButton';
 import UserProfileNav from './UserProfileNav';  // Import the new component
@@ -23,11 +25,11 @@ const UserActionsNav = () => {
   };
 
   const dropdownItems = [
-    { label: 'Settings', href: '/settings' },
-    { label: 'Upload Book', href: '/upload' },
-    { label: 'My Books', href: '/my-books' },
-    { label: 'Favorites', href: '/favorites' },
-    { label: 'Sign Out', action: handleLogout }
+    { label: 'My Books', href: '/my-books', icon: <FaBook /> },
+    { label: 'Favorites', href: '/favorites', icon: <FaHeart /> },
+    { label: 'Upload', href: '/upload', icon: <FaUpload /> },
+    { label: 'Settings', href: '/settings', icon: <FaCogs /> },
+    { label: 'Sign Out', action: handleLogout, icon: <FaSignOutAlt /> }
   ];
 
   return (
