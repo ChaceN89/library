@@ -28,7 +28,7 @@ function BookPage() {
   }, [id, title, router]);
 
   if (!id || !book) {
-    return <p>Loading...</p>;
+    return <p>Loading... Book might not eixist - need to dispaly the 404 component here</p>;
   }
 
   return <BookDisplayPage id={id} />;

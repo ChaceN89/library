@@ -1,0 +1,11 @@
+
+
+
+
+
+
+In the perform_destroy method
+Instance: chacen3
+Books owned by instance: <QuerySet []>
+Deleted profile picture from S3: https://library-app-data.s3.ca-west-1.amazonaws.com/profilePictures/37_profile_image_2e42b4a5-262d-4b2d-8bad-81ce30a43990_foxMascot.png
+Deleted instance: chacen3

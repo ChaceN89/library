@@ -241,25 +241,29 @@ APP_VERSION = config('APP_VERSION', default="1.0.0")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
-LOGGING = config('DEBUG', default=False, cast=bool)
 
-# Set the logging level based on the DEBUG setting
+
+import os
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+        'file': {
+            'level': 'DEBUG',  # Adjust the level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_debug.log'),  # The file path for the log
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG' if LOGGING else 'INFO',  # Use DEBUG level only if DEBUG is True
+            'handlers': ['file'],
+            'level': 'DEBUG',  # Log level
+            'propagate': True,
         },
-        'allauth': {
-            'handlers': ['console'],
-            'level': 'DEBUG' if LOGGING else 'INFO',  # Adjust for allauth as well
+        'my_custom_logger': {  # A custom logger for your specific app
+            'handlers': ['file'],
+            'level': 'DEBUG',  # Adjust the log level as needed
         },
     },
 }

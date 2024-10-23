@@ -12,6 +12,7 @@ Modified: 2024-10-10
 @since 1.0
 """
 
+
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import PermissionDenied
@@ -84,33 +85,27 @@ class UserCRUDViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         """
-        Prevent deletion of superuser accounts.
-
-        Checks if the user being deleted is a superuser and raises a PermissionDenied exception if so.
+        Prevent deletion of superuser accounts and delete all associated S3 files
+        (books, profile picture) when a user is deleted.
 
         Args:
             instance (User): The user instance to be deleted.
-        
-        Raises:
-            PermissionDenied: Raised if the user to be deleted is a superuser.
-
-        Custom logic to delete associated books and their files in S3
-        when a user is deleted.        
         """
         # Fetch all books owned by the user
         books = Book.objects.filter(owner=instance)
 
         # Loop through each book and delete associated files from S3
         for book in books:
-            # Delete content file from S3
             if book.content_url:
                 delete_file_from_s3(book.content_url)
-            # Delete cover art file from S3 (if available)
             if book.cover_art_url:
                 delete_file_from_s3(book.cover_art_url)
-            
-            # Delete the book itself from the database
             book.delete()
+
+        # Check if the user has an associated profile picture and delete the image from S3
+        if hasattr(instance, 'profile_picture') and instance.profile_picture.profile_image_url:
+            delete_file_from_s3(instance.profile_picture.profile_image_url)
+            instance.profile_picture.delete()
 
         # Now, delete the user instance (this also cascades to other related objects)
         instance.delete()
