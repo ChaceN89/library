@@ -5,7 +5,7 @@ import BookCard from './BookCard';
 import SearchBar from './search/SearchBar';  // Import the SearchBar component
 import { useSearch } from '@/context/SearchContext';  // Import useSearch from context
 
-function AllBooks() {
+function DisplayAllBooks() {
   const { searchQuery, handleSearch, filters, handleFilterChange } = useSearch();  // Get search context
   const [books, setBooks] = useState([]);
   const [page, setPage] = useState(1);
@@ -91,4 +91,4 @@ function AllBooks() {
   );
 }
 
-export default AllBooks;
+export default DisplayAllBooks;
