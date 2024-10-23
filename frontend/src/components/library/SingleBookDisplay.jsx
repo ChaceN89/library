@@ -5,7 +5,7 @@ import { fetchBookById, incrementDownloads, incrementViews } from '@/API/books';
 import Image from 'next/image';
 import BookComments from './comments/BookComments';
 
-function BookDisplay({ id }) {
+function SingleBookDisplay({ id }) {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -106,4 +106,4 @@ function BookDisplay({ id }) {
   );
 }
 
-export default BookDisplay;
+export default SingleBookDisplay;
