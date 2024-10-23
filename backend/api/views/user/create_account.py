@@ -31,20 +31,24 @@ class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = PublicUserSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]  # Allow file uploads and form data
+    parser_classes = [MultiPartParser, FormParser]  # Enable file upload handling
 
     def perform_create(self, serializer):
-        user = serializer.save()  # Save the user instance
+        # Save the user instance (this doesn't include profile_image)
+        user = serializer.save()
 
         # Handle profile image upload (if provided)
         profile_image = self.request.FILES.get('profile_image')
         if profile_image:
             unique_string = str(uuid.uuid4())  # Generate a unique string for filename
             profile_image_url = upload_file_to_s3(profile_image, user.id, 'profile_image', 'image/png', unique_string)
-            UserProfilePicture.objects.create(user=user, profile_image_url=profile_image_url) 
+            # Create or update the profile picture record for the user
+            UserProfilePicture.objects.create(user=user, profile_image_url=profile_image_url)
 
     def create(self, request, *args, **kwargs):
-        """Overrides the default create method to include JWT tokens and user data in the response."""
+        """
+        Overrides the default create method to include JWT tokens and user data in the response.
+        """
         response = super().create(request, *args, **kwargs)
 
         # Attach JWT tokens to the response
