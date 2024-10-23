@@ -43,17 +43,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Dark mode script */}
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}  
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}   >
         <SearchProvider> {/* Wrap the entire layout in SearchProvider context */}
           <TailwindBreakPoints />
           <DarkModeInitialize />
-
-          <Navbar /> {/*  */}
+          <Navbar />
           <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">  {/* flex-grow to fill space */}
             {children}
           </main>

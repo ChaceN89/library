@@ -1,27 +1,20 @@
-// src/components/settings/DarkModeButton.js
-
 "use client";
-
-/**
- * DarkModeButton
- * @desc Button to toggle between dark mode and light mode.
- * The button updates the localStorage and toggles the theme dynamically.
- * 
- * @created 2024-09-XX
- */
 
 import React, { useState, useEffect } from "react";
 import { toggleTheme, initializeTheme } from "./DarkModeUtils";
 import "./dark-mode.css";
 
-
 export default function DarkModeButton() {
-  const [darkMode, setDarkMode] = useState(false);
+  // Initialize with the system preference (for instant rendering)
+  const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [darkMode, setDarkMode] = useState(systemPrefersDark);
+  const [initialized, setInitialized] = useState(false);
 
-  // Initialize the dark mode state based on user's system preference or localStorage
+  // Sync dark mode with localStorage (override system preference)
   useEffect(() => {
-    const isDarkMode = initializeTheme();
+    const isDarkMode = initializeTheme();  // Load theme from localStorage or system preference
     setDarkMode(isDarkMode);
+    setInitialized(true);  // Mark as initialized once syncing is complete
   }, []);
 
   // Toggle dark mode and store the preference in localStorage
@@ -30,6 +23,7 @@ export default function DarkModeButton() {
     setDarkMode(!darkMode); // Toggle the state
   };
 
+  // Ensure that the toggle is always visible immediately, even if initialization is in progress
   return (
     <div className="flex items-center gap-2">
       <span>{darkMode ? "Dark Mode" : "Light Mode"}</span>
