@@ -15,12 +15,15 @@ export const getLoginCredentials = async (username, password) => {
     if (response.ok) {
       const data = await response.json();
 
-      // Store access, refresh tokens and user data in localStorage
-      localStorage.setItem('access_token', data.access); // Store access token
-      localStorage.setItem('refresh_token', data.refresh); // Store refresh token
-      localStorage.setItem('user', JSON.stringify(data.user)); // Store user data
+      // Store all authentication data in a single object in localStorage
+      const authData = {
+        accessToken: data.access,
+        refreshToken: data.refresh,
+        user: data.user
+      };
+      localStorage.setItem('authData', JSON.stringify(authData));  // Store the object
 
-      window.location.reload(); // Reload the page to update the user state - need to replace this later with a redirect off the page 
+      window.location.reload(); // Reload the page to update the user state - can be replaced with a redirect later
 
       return data;
     } else {
@@ -49,12 +52,15 @@ export const createAccount = async (formData) => {
 
     const data = await response.json();
 
-    // Store access, refresh tokens and user data in localStorage
-    localStorage.setItem('access_token', data.access); // Store access token
-    localStorage.setItem('refresh_token', data.refresh); // Store refresh token
-    localStorage.setItem('user', JSON.stringify(data.user)); // Store user data
+    // Store all authentication data in a single object in localStorage
+    const authData = {
+      accessToken: data.access,
+      refreshToken: data.refresh,
+      user: data.user
+    };
+    localStorage.setItem('authData', JSON.stringify(authData));  // Store the object
 
-    window.location.reload(); // Reload the page to update the user state - need to replace this later with a redirect off the page 
+    window.location.reload(); // Reload the page to update the user state - can be replaced with a redirect later
 
     return data;
   } catch (error) {
@@ -63,11 +69,9 @@ export const createAccount = async (formData) => {
   }
 };
 
+// Logout function to clear authData
 export const logout = async () => {
-  // Clear session storage for access token, refresh token, and user data
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('user');
+  localStorage.removeItem('authData');  // Clear all authentication data
 
   // Optionally, you could redirect the user after logout
   // For example, if using Next.js, you could use Router to navigate
@@ -77,12 +81,17 @@ export const logout = async () => {
   return 'User has been logged out successfully';
 };
 
+// Function to check if the access token is valid
 export const checkToken = async () => {
-  const accessToken = localStorage.getItem('access_token');
+  const storedAuthData = JSON.parse(localStorage.getItem('authData'));
 
-  if (!accessToken || isTokenExpired(accessToken)) {
+  if (!storedAuthData || isTokenExpired(storedAuthData.accessToken)) {
     const newAccessToken = await refreshAccessToken();  // Refresh the token if expired
-    if (!newAccessToken) {
+    if (newAccessToken) {
+      // Update localStorage with the new access token
+      storedAuthData.accessToken = newAccessToken;
+      localStorage.setItem('authData', JSON.stringify(storedAuthData));
+    } else {
       throw new Error('Failed to refresh token or user is not authenticated.');
     }
   }

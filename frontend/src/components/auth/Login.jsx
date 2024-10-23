@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
-
 import { getLoginCredentials } from '@/API/auth';  // Assuming correct path
 
 const Login = () => {
@@ -24,7 +23,6 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-left gap-4">
-
       {/* Google Sign-In button */}
       <GoogleSignIn />
 
@@ -50,7 +48,7 @@ const Login = () => {
           Login
         </button>
 
-        {/* For debugging or testing session storage */}
+        {/* For debugging or testing local storage */}
         <LocalStorageDisplay />
       </form>
     </div>
@@ -61,26 +59,21 @@ export default Login;
 
 // Display session storage data for testing purposes
 const LocalStorageDisplay = () => {
-  const [sessionData, setSessionData] = useState(null);
+  const [displayData, setDisplayData] = useState(null);
 
   useEffect(() => {
-    // Retrieve session storage data and set it to state
-    const accessToken = localStorage.getItem('access_token');
-    const refreshToken = localStorage.getItem('refresh_token');
-    const user = localStorage.getItem('user');
-    
-    // Store the retrieved values in an object and set the state
-    setSessionData({
-      accessToken,
-      refreshToken,
-      user: user ? JSON.parse(user) : null, // Parse user if it exists
-    });
+    // Retrieve the authData object from localStorage and parse it
+    const authData = JSON.parse(localStorage.getItem('authData'));
+
+    setDisplayData(authData);  // Set the entire authData object in state
   }, []);
 
   return (
-    <div>
+    <div className=' w-screen '>
       <h3>Local Storage Data:</h3>
-      <pre>{JSON.stringify(sessionData, null, 2)}</pre> {/* Display data as formatted JSON */}
+      <pre className='w-9/12' style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+        {JSON.stringify(displayData, null, 2)}
+      </pre> {/* Display data as formatted JSON */}
     </div>
   );
 };

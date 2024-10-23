@@ -11,41 +11,40 @@ export const isTokenExpired = (token, bufferTime = 60000) => {  // Buffer of 1 m
   return Date.now() > (expTime - bufferTime);  
 };
 
-
 // Check if the refresh token is expired
 export const checkRefreshToken = () => {
-  const refreshToken = localStorage.getItem('refresh_token');
-  
-  if (!refreshToken) return true;  // If no token, assume expired
+  const authData = JSON.parse(localStorage.getItem('authData'));
+  if (!authData?.refreshToken) return true;  // If no token, assume expired
 
-  const decoded = JSON.parse(atob(refreshToken.split('.')[1]));
+  const decoded = JSON.parse(atob(authData.refreshToken.split('.')[1]));
   const expTime = decoded.exp * 1000;  // Convert expiration time to milliseconds
 
   // Check if current time is past the expiration time (no buffer needed here)
   return Date.now() > expTime;
 };
 
-
 // Refresh the access token using the refresh token
 export const refreshAccessToken = async () => {
-  const refreshToken = localStorage.getItem('refresh_token');
+  const authData = JSON.parse(localStorage.getItem('authData'));
   
-  if (refreshToken) {
+  if (authData?.refreshToken) {
     try {
       const response = await fetch(`${API_BASE_URL}/api/token/refresh/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refresh: refreshToken }),
+        body: JSON.stringify({ refresh: authData.refreshToken }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('access_token', data.access); // Update access token
+        // Update access token in localStorage
+        authData.accessToken = data.access;
+        localStorage.setItem('authData', JSON.stringify(authData));
         return data.access;
       } else {
-        localStorage.clear(); // Clear session storage on failure
+        localStorage.clear(); // Clear all data on failure
         throw new Error('Failed to refresh token');
       }
     } catch (error) {

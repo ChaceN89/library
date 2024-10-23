@@ -1,4 +1,3 @@
-// src/components/navUI/UserActionsNav.jsx
 "use client";
 import React, { useState, useEffect } from 'react';
 import NavDropdown from './NavDropdown';
@@ -11,11 +10,10 @@ const UserActionsNav = () => {
   const [profilePic, setProfilePic] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUsername(user.username);
-      setProfilePic(user.profile_image_url);
+    const authData = JSON.parse(localStorage.getItem('authData'));
+    if (authData && authData.user) {
+      setUsername(authData.user.username);
+      setProfilePic(authData.user.profile_image_url);
     }
   }, []);
 
