@@ -31,6 +31,8 @@ from api.views.comment.comment_public import CommentPublicViewSet
 
 from api.views.favorites.fav_crud import FavoriteBookViewSet
 
+from api.views.user.profile_pic import UpdateProfilePictureView
+
 # Router setup for different CRUD operations
 router = DefaultRouter()
 router.register(r'admin/users', AdminUserViewSet, basename='admin-user')  # Admin-specific CRUD operations
@@ -58,6 +60,9 @@ urlpatterns = [
     path('api/books/<int:pk>/add_favorite/', FavoriteBookViewSet.as_view({'post': 'add_favorite'}), name='add_favorite'),
     path('api/books/<int:pk>/remove_favorite/', FavoriteBookViewSet.as_view({'delete': 'remove_favorite'}), name='remove_favorite'),
     path('api/books/get_favorites/', FavoriteBookViewSet.as_view({'get': 'get_favorites'}), name='get_favorites'),
+
+    # profile image edit
+    path('api/profile-picture/', UpdateProfilePictureView.as_view(), name='update_profile_picture'),
 
     # Private Routes (handled by the router) - all routes prefixed with 'api/'
     path('api/', include(router.urls)),
