@@ -1,7 +1,6 @@
 import { API_BASE_URL } from '../globals';
 import { logout } from './auth';
 
-// Function to check the validity of the access token, refresh it if necessary, or log out
 // Function to check and return a valid access token or throw an error if user needs to sign in
 export const checkAndRefreshAccessToken = async () => {
   try {
@@ -12,8 +11,8 @@ export const checkAndRefreshAccessToken = async () => {
     if (!accessToken || !refreshToken) {
       // If either token is missing, log out the user and throw an error
       console.error('Access or refresh token missing from localStorage.');
-      logout();
-      throw new Error('Missing tokens. Please sign in again.');
+      // logout();
+      throw new Error('Please sign in again.');
     }
 
     // Check if the access token is expired
@@ -31,10 +30,9 @@ export const checkAndRefreshAccessToken = async () => {
 
     // If we can't refresh the access token, log out and throw an error
     logout();
-    throw new Error('Session expired. Please sign in again.');
-  } catch (error) {
-    console.error('Error checking and refreshing token:', error);
     throw new Error('Please sign in again.');
+  } catch (error) {
+    throw error
   }
 };
 

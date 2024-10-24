@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
 import { getLoginCredentials } from '@/API/auth';  // Assuming correct path
-
 import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
+import { toast } from 'react-hot-toast';  // Import react-hot-toast
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -21,10 +21,11 @@ const Login = () => {
       // Trigger profile reload after successful login
       triggerProfileReload();
 
-      alert('Logged in successfully');
-      // replace wit react hot toast 
+      // Show success toast
+      toast.success('Logged in successfully!');
     } catch (error) {
-      alert('Login failed');
+      // Show error toast
+      toast.error(error.message);
     }
   };
 

@@ -22,10 +22,9 @@ export const getLoginCredentials = async (username, password) => {
 
       return data;
     } else {
-      throw new Error('Login failed');
+      throw new Error('Login failed. Check your credentials and try again.');
     }
   } catch (error) {
-    console.error('Error during login:', error);
     throw error;  // Re-throw to handle in the component
   }
 };
@@ -42,7 +41,16 @@ export const createAccount = async (formData) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create account');
+      const errorData = await response.json();
+      // Check if the API returned a specific error message
+      if (errorData.username) {
+        throw new Error(errorData.username);
+      }
+      if (errorData.email) {
+        throw new Error(errorData.email);
+      }
+      // Add any other field-specific error messages you want to handle
+      throw new Error('Failed to create account. Please check the details and try again.');
     }
 
     const data = await response.json();
@@ -56,8 +64,7 @@ export const createAccount = async (formData) => {
 
     return data;
   } catch (error) {
-    console.error('Error during account creation:', error);
-    return null;
+    throw error;  // Re-throw to handle in
   }
 };
 

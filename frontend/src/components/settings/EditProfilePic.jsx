@@ -2,17 +2,12 @@
 import React, { useState } from 'react';
 import { editProfile, getUserProfileForLocalStorage } from '@/API/editProfile';
 import { useProfileContext } from '@/context/ProfileContext';  // Import ProfileContext
+import { toast } from 'react-hot-toast';  // Import toast from react-hot-toast
 
 function EditProfilePic({ profileImageUrl }) {
   const [newProfileImage, setNewProfileImage] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
-  const { triggerProfileReload
-,
-    accessToken,
-    refreshToken,
-    userData
-
-   } = useProfileContext();  // Access triggerProfileReload from context
+  const { triggerProfileReload } = useProfileContext();  // Access triggerProfileReload from context
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -35,10 +30,9 @@ function EditProfilePic({ profileImageUrl }) {
         // Trigger a reload of the profile context
         triggerProfileReload();
 
-        alert('Profile picture updated successfully!');
+        toast.success('Profile picture updated successfully!');
       } catch (error) {
-        console.error('Failed to update profile picture:', error);
-        alert('Failed to update profile picture.');
+        toast.error(error.message)
       }
     }
     setShowConfirm(false);
@@ -74,18 +68,6 @@ function EditProfilePic({ profileImageUrl }) {
           </button>
         </div>
       )}
-
-
-<div className="w-screen p-4">
-        <h3 className="text-xl font-bold mb-2">Profile Data from Context:</h3>
-        <pre className='w-9/12 bg-gray-100 p-2 rounded-lg' style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-          {JSON.stringify({
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-            user: userData
-          }, null, 2)}
-        </pre>
-      </div>
     </div>
   );
 }

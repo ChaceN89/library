@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { createAccount } from '@/API/auth';
+import { toast } from 'react-hot-toast';  // Import react-hot-toast
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -11,9 +12,6 @@ function Register() {
     password: '',
     profile_image: null, // For handling image upload
   });
-
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,8 +24,6 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
 
     // Prepare formData for multipart/form-data submission
     const data = new FormData();
@@ -40,19 +36,19 @@ function Register() {
       data.append('profile_image', formData.profile_image); // Add image if selected
     }
 
-    const result = await createAccount(data);
-    if (result) {
-      setSuccess('Account created successfully!');
-    } else {
-      setError('Failed to create account. Please try again.');
+    try {
+      const result = await createAccount(data);
+      if (result) {
+        toast.success('Account created successfully!');
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Register</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Username */}

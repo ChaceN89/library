@@ -9,6 +9,9 @@ import Footer from "@/components/general/Footer";
 import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
 import { ProfileProvider } from "@/context/ProfileContext";
 
+import { Toaster } from 'react-hot-toast';
+
+
 const geistSans = localFont({
   src: "/fonts/GeistVF.woff",  // Correct path relative to the public folder
   variable: "--font-geist-sans",
@@ -51,6 +54,8 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
         <ProfileProvider>
           <SearchProvider>
+            <Toaster position="top-center" reverseOrder={false} />
+
             <TailwindBreakPoints />
             <Navbar />
             <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">

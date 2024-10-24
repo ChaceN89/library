@@ -23,8 +23,8 @@ export const editProfile = async (data) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error('Error updating profile picture:', error);
-    throw error;  // Re-throw to handle it in the functional component
+    // Re-throw to handle it in the functional component
+    throw error 
   }
 };
 
