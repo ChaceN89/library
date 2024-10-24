@@ -8,7 +8,16 @@ function UserAdminView({ user }) {
   return (
     <div className="mb-4 border-b pb-4">
       <div className="flex justify-between items-center">
-        <p>{user.username}</p>
+        <div className='flex gap-1 items-center'>
+
+          <img
+            src={user.profile_image_url }  // Use a default image if profile_image_url is not available
+            alt={`${user.username}'s profile picture`}
+            className="w-12 h-12 rounded-full object-cover"  // Styling for a small, rounded image
+            loading="lazy"  // Lazy loading for the image
+            />
+          <p>{user.username}</p>
+        </div>
         <button
           className="text-blue-500"
           onClick={() => setShowDetails(!showDetails)}

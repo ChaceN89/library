@@ -13,7 +13,7 @@ function LinkToAdminPage() {
 
   return (
     <div className="my-4">
-      <Link href="/admin">
+      <Link href="/admin/users">
         <div className="text-blue-500 hover:underline">Go to Admin Page</div>
       </Link>
     </div>

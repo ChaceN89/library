@@ -4,7 +4,7 @@ import { fetchAllUsers } from '@/API/adminAPI';  // Import API function
 import UserAdminView from './UserAdminView';  // Import UserAdminView component
 import { toast } from 'react-hot-toast';  // Import toast for notifications
 
-function AdminSettings() {
+function AdminUserSettings() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,4 +38,4 @@ function AdminSettings() {
   );
 }
 
-export default AdminSettings;
+export default AdminUserSettings;
