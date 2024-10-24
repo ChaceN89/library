@@ -38,15 +38,14 @@ export const checkAndRefreshAccessToken = async () => {
   }
 };
 
-
 // Check if the token is expired
-export const isTokenExpired = (token, bufferTime = 0) => {  // Buffer of 1 minute
-  if (!token) return true;
+export const isTokenExpired = (token, bufferTime = 60000) => {  // Buffer of 1 minute (60000 ms) - token will be considered expired 1 minute before actual expiration
+  if (!token) return true;  // If no token is present, it's considered expired
 
-  const decoded = JSON.parse(atob(token.split('.')[1]));
-  const expTime = decoded.exp * 1000; // Convert to milliseconds
+  const decoded = JSON.parse(atob(token.split('.')[1]));  // Decode the token payload
+  const expTime = decoded.exp * 1000; // Convert expiration time (in seconds) to milliseconds
 
-  // Check if current time is past the expiration time minus buffer
+  // Check if the current time is past the expiration time minus buffer (1 minute by default)
   return Date.now() > (expTime - bufferTime);  
 };
 
@@ -63,12 +62,12 @@ export const checkRefreshToken = () => {
 };
 
 // Refresh the access token using the refresh token
-export const refreshAccessToken = async () => {
+const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem('refreshToken');  // Get refresh token from localStorage
   
   if (refreshToken) {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/token/refresh/`, {
+      const response = await fetch(`${API_BASE_URL}/token/refresh/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,9 +81,7 @@ export const refreshAccessToken = async () => {
         localStorage.setItem('accessToken', data.access);
         return data.access;
       } else {
-        // Clear tokens on failure
-        // call signout function
-
+        // Clear tokens on failure and log out
         logout();
         throw new Error('Failed to refresh token');
       }
@@ -94,3 +91,4 @@ export const refreshAccessToken = async () => {
     }
   }
 };
+

@@ -17,6 +17,9 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from django.conf import settings  # Import settings to access the DEFAULT_PROFILE_PIC_URL
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+
 # Schema view for Swagger documentation
 schema_view = get_schema_view(
     openapi.Info(
@@ -46,5 +49,9 @@ urlpatterns = [
 
     # Route for Google OAuth and allauth login
     path('accounts/', include('allauth.urls')),  # Route for Google OAuth and allauth login
+
+    # JWT token authentication routes for getting and refreshing tokens
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 ]

@@ -218,8 +218,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Django Allauth settings for authentication using jwt and the refresh token time
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),  # Default is 5 minutes
-    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=2),    # Default is 1 day
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Default is 5 minutes- set fof 2 hours 
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),    # Default is 1 day - set for 2 days
     'ROTATE_REFRESH_TOKENS': True,                 # Optionally rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old tokens after rotation
 }
@@ -233,7 +233,6 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Dummy variable
 DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
-
 
 DEFAULT_PROFILE_PIC_URL = 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'
 
