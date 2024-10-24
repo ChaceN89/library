@@ -20,7 +20,7 @@ function SetFavBook({ inFavSection, id }) {
       }
     } catch (error) {
       toast.error(error.message || 'Error updating favorites');
-      if (error.message==='Book is already in favorites.'){
+      if (error.message === 'Book is already in favorites.') {
         setIsLocalFav(true);
       }
     }
@@ -29,9 +29,9 @@ function SetFavBook({ inFavSection, id }) {
   return (
     <div onClick={toggleFavorite} className="cursor-pointer">
       {isLocalFav ? (
-        <span className="text-red-500">❤️ Filled Heart (Favorited)</span>
+        <span className="text-yellow-500">⭐</span> 
       ) : (
-        <span className="text-gray-500">🤍 Empty Heart (Not Favorited)</span>
+        <span className="text-yellow-500">☆</span> 
       )}
     </div>
   );

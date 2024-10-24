@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchBookById, incrementDownloads, incrementViews } from '@/API/booksAPI';
 import Image from 'next/image';
 import BookComments from './comments/BookComments';
+import SetFavBook from './SetFavBook';
 
 function Book({ id }) {
   const [book, setBook] = useState(null);
@@ -82,6 +83,8 @@ function Book({ id }) {
           </a>
         </p>
       )}
+
+      <SetFavBook id={book.id} />
 
 
       {/* Timestamps */}
