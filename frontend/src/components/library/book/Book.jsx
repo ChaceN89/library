@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchBookById, incrementDownloads, incrementViews } from '@/API/booksAPI';
 import Image from 'next/image';
-import BookComments from './comments/BookComments';
-import SetFavBook from './SetFavBook';
+import BookComments from '../comments/BookComments';
+import SetFavBook from '../favBooks/SetFavBook';
 
 function Book({ id }) {
   const [book, setBook] = useState(null);

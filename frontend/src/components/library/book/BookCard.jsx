@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SetFavBook from './SetFavBook';
+import SetFavBook from '../favBooks/SetFavBook';
 
 function BookCard({ book, inFavSection=false }) {
   return (
@@ -40,7 +40,7 @@ function BookCard({ book, inFavSection=false }) {
         <p className="text-gray-500 text-sm mt-2">Views: {book.views}</p>
         <p className="text-gray-500 text-sm mt-2">Downloads: {book.downloads}</p>
         <hr />
-        <SetFavBook inFavSection={inFavSection} id={book.id}/>
+        <SetFavBook id={book.id} />
       </div>
     </li>
   );

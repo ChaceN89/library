@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
-import BookDisplayPage from '@/components/library/Book';
+import BookDisplayPage from '@/components/library/book/Book';
 import { fetchBookById } from '@/API/booksAPI';
 
 function BookPage() {

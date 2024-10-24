@@ -1,43 +1,30 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { fetchFavBooks } from '@/API/favBooksAPI';
-import BookCard from '../BookCard';
-import { toast } from 'react-hot-toast';  // For notifications
+import React, { useState, useEffect } from 'react';
+import BookCard from '../book/BookCard';
+import { useFavBooks } from '@/context/FavBooksContext';  // Import the favorite books context
 
 function FavBooks() {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { favBooks, loading } = useFavBooks();  // Use the context for favorite books
+  const [sortedBooks, setSortedBooks] = useState([]);  // Local state for sorted books
   const [sortOption, setSortOption] = useState('');  // State to handle sorting option
 
-  // Fetch favorite books on component load
+  // Update sorted books whenever favBooks or sortOption changes
   useEffect(() => {
-    const loadFavBooks = async () => {
-      try {
-        const favBooks = await fetchFavBooks();  // Fetch favorite books
-        setBooks(favBooks);
-      } catch (error) {
-        toast.error('Failed to load favorite books');
-        console.error('Error loading favorite books:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    let books = [...favBooks]; // Make a copy of favBooks to sort locally
 
-    loadFavBooks();
-  }, []);
+    if (sortOption === 'title') {
+      books = books.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortOption === 'author') {
+      books = books.sort((a, b) => a.author.localeCompare(b.author));
+    }
 
-  // Simple sorting handler (you can expand this for more sorting options)
+    setSortedBooks(books);
+  }, [favBooks, sortOption]);  // Run this effect whenever favBooks or sortOption changes
+
+  // Simple sorting handler
   const handleSort = (e) => {
     const option = e.target.value;
-    setSortOption(option);
-
-    if (option === 'title') {
-      const sortedBooks = [...books].sort((a, b) => a.title.localeCompare(b.title));
-      setBooks(sortedBooks);
-    } else if (option === 'author') {
-      const sortedBooks = [...books].sort((a, b) => a.author.localeCompare(b.author));
-      setBooks(sortedBooks);
-    }
+    setSortOption(option);  // Set the selected sort option
   };
 
   return (
@@ -58,8 +45,8 @@ function FavBooks() {
         <p>Loading...</p>
       ) : (
         <ul className="gap-4 grid grid-cols-3">
-          {books.length > 0 ? (
-            books.map((book) => <BookCard inFavSection={true} key={book.id} book={book} />)
+          {sortedBooks.length > 0 ? (
+            sortedBooks.map((book) => <BookCard inFavSection={true} key={book.id} book={book} />)
           ) : (
             <p>No favorite books found</p>
           )}

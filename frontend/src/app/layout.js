@@ -8,6 +8,7 @@ import Footer from "@/components/general/Footer";
 // contexts
 import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
 import { ProfileProvider } from "@/context/ProfileContext";
+import { FavBooksProvider } from "@/context/FavBooksContext";
 
 import { Toaster } from 'react-hot-toast';
 
@@ -53,16 +54,18 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
         <ProfileProvider>
-          <SearchProvider>
-            <Toaster position="top-center" reverseOrder={false} />
+          <FavBooksProvider>
+            <SearchProvider>
+              <Toaster position="top-center" reverseOrder={false} />
 
-            <TailwindBreakPoints />
-            <Navbar />
-            <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
-              {children}
-            </main>
-            <Footer className="mt-auto" />
-          </SearchProvider>
+              <TailwindBreakPoints />
+              <Navbar />
+              <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
+                {children}
+              </main>
+              <Footer className="mt-auto" />
+            </SearchProvider>
+          </FavBooksProvider>
         </ProfileProvider>
       </body>
     </html>
