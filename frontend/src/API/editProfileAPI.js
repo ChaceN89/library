@@ -2,7 +2,7 @@ import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';
 
 // Function to edit profile picture
-export const editProfile = async (data) => {
+export const editProfilePicture = async (data) => {
   try {
     // Retrieve a valid access token or throw an error
     const accessToken = await checkAndRefreshAccessToken();
@@ -29,41 +29,35 @@ export const editProfile = async (data) => {
 };
 
 
-
-// Function to get user profile from the API and update local storage
-export const getUserProfileForLocalStorage = async () => {
+// Function to update profile fields (username, first_name, last_name, email)
+export const updateProfileField = async (field, value) => {
   try {
-    // Retrieve a valid access token or throw an error
     const accessToken = await checkAndRefreshAccessToken();
-
-    const response = await fetch(`${API_BASE_URL}/users/`, {
-      method: 'GET',
+    const userId = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : null;  // Retrieve user ID from localStorage
+    
+    const response = await fetch(`${API_BASE_URL}/users/${userId}/`, {
+      method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
-        'Accept': 'application/json'
-      }
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ [field]: value })  // Dynamic field update
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch user profile');
+      const errorData = await response.json();
+      throw new Error(errorData.detail || `Failed to update ${field}`);
     }
 
-    const data = await response.json();
-
-    // Assuming the API returns an array, we'll use the first user object for now
-    if (data && data.length > 0) {
-      const userProfile = data[0];
-
-      // Store the user profile in localStorage
-      localStorage.setItem('user', JSON.stringify(userProfile));
-
-      console.log('User profile successfully updated in local storage');
-      return userProfile;
-    } else {
-      throw new Error('No user profile data found');
-    }
+    return await response.json();
   } catch (error) {
-    console.error('Error fetching user profile:', error);
-    throw error;  // Re-throw to handle it in the functional component
+    console.error(`Error updating ${field}:`, error);
+    throw error;
   }
+};
+
+// Placeholder for password update functionality
+export const updatePassword = async (password) => {
+  throw new Error("Password update route not yet implemented");
 };

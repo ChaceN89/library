@@ -2,7 +2,6 @@ import React from 'react'
 import AccountBanner from './AccountBanner'
 import DarkModeButton from './DarkModeButton'
 import VersionInfo from './VersionInfo'
-import Link from 'next/link'  // Import Next.js Link component
 
 function Settings() {
   return (
@@ -11,12 +10,7 @@ function Settings() {
       <AccountBanner />
       <DarkModeButton />
       
-      {/* Text with underline hover effect */}
-      <Link href="/settings/account">
-        <div className="text-blue-500 hover:underline transition">
-          Edit Account
-        </div>
-      </Link>
+
       
       <VersionInfo />
     </div>

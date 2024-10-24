@@ -2,6 +2,8 @@
 import React from 'react';
 import EditProfilePic from './EditProfilePic';
 import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
+import Link from 'next/link'  // Import Next.js Link component
+
 
 function AccountBanner() {
   // Get user data from ProfileContext
@@ -16,6 +18,11 @@ function AccountBanner() {
         <p>First Name: {userData?.first_name || ''}</p>
         <p>Last Name: {userData?.last_name || ''}</p>
         <p>Email: {userData?.email || ''}</p>
+        <Link href="/settings/account">
+          <div className="text-blue-500 hover:underline transition">
+            Edit Account
+          </div>
+        </Link>
       </div>
     </div>
   );

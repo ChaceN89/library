@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { editProfile, getUserProfileForLocalStorage } from '@/API/editProfileAPI';
+import { editProfilePicture } from '@/API/editProfileAPI';
+import { getUserProfileForLocalStorage } from '@/API/getProfileAPI';
 import { useProfileContext } from '@/context/ProfileContext';  // Import ProfileContext
 import { toast } from 'react-hot-toast';  // Import toast from react-hot-toast
 
@@ -22,7 +23,7 @@ function EditProfilePic({ profileImageUrl }) {
 
       try {
         // Update the profile picture in the backend
-        await editProfile(formData);
+        await editProfilePicture(formData);
 
         // Fetch the updated profile and store in localStorage
         await getUserProfileForLocalStorage();  
