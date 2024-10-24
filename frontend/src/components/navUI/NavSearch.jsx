@@ -1,14 +1,13 @@
 "use client";  // Ensure this is a client component
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSearch } from '@/context/SearchContext';
-import { useRouter, usePathname } from 'next/navigation';  // Import usePathname from next/navigation
+import { useRouter } from 'next/navigation';  // Import useRouter from next/navigation
 
 const NavSearch = () => {
   const [localQuery, setLocalQuery] = useState('');  // Local state for the search input
   const { handleSearch } = useSearch();  // Access the context to update search globally
   const router = useRouter();  // Use the new next/navigation's useRouter
-  const pathname = usePathname();  // Get the current path
 
   // Handle user input in NavSearch
   const handleInputChange = (e) => {
@@ -19,22 +18,35 @@ const NavSearch = () => {
     handleSearch(e);
   };
 
-  // Effect to navigate to /browse and scroll to the element with id="bookDisplay"
-  useEffect(() => {
-    if (localQuery.length > 0 && pathname !== '/browse') {
-      router.push('/browse');  // Navigate to /browse only if not already there
+  // Handle "Enter" key press for search submission
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      router.push('/browse');  // Navigate to /browse when "Enter" is pressed
     }
-  }, [localQuery, pathname, router]);  // Watch localQuery, pathname, and router
+  };
 
+  // Handle button click for search submission
+  const handleSearchClick = () => {
+    router.push('/browse');  // Navigate to /browse when the button is clicked
+  };
 
   return (
+    <div className="flex items-center">
       <input
         type="text"
         placeholder="Search..."
         value={localQuery}  // Use local state to manage the input
         onChange={handleInputChange}  // Trigger input change
-        className="border rounded-lg p-2"
+        onKeyDown={handleKeyDown}  // Trigger navigation when "Enter" is pressed
+        className="border rounded-lg p-2 mr-2"  // Add margin-right for spacing
       />
+      <button
+        onClick={handleSearchClick}  // Trigger navigation when button is clicked
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+      >
+        Search
+      </button>
+    </div>
   );
 };
 
