@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import SetFavBook from './SetFavBook';
 
-function BookCard({ book }) {
+function BookCard({ book, inFavSection=false }) {
   return (
     <li key={book.id} className="border rounded-lg p-4 mb-4 shadow-lg flex ">
       {/* Book Cover Image */}
@@ -38,6 +39,8 @@ function BookCard({ book }) {
         </p>
         <p className="text-gray-500 text-sm mt-2">Views: {book.views}</p>
         <p className="text-gray-500 text-sm mt-2">Downloads: {book.downloads}</p>
+        <hr />
+        <SetFavBook inFavSection={inFavSection} id={book.id}/>
       </div>
     </li>
   );
