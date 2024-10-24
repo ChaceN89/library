@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { useProfileContext } from '@/context/ProfileContext';  // Context with user data
-import { updateProfileField } from '@/API/editProfileAPI';  // Import new API calls
+import { updateProfileField, updatePassword } from '@/API/editProfileAPI';  // Import the password update function
 import { getUserProfileForLocalStorage } from '@/API/getProfileAPI';  // For updating local storage
 import { toast } from 'react-hot-toast';  // For showing success/error toasts
 import Link from 'next/link';
@@ -10,10 +10,13 @@ function AccountSettings() {
   const { userData, triggerProfileReload } = useProfileContext();  // Get the current user data and reload trigger
   const [editField, setEditField] = useState(null);  // To track which field is being edited
   const [formData, setFormData] = useState({
-    username: userData.username,
-    firstName: userData.first_name,
-    lastName: userData.last_name,
-    email: userData.email,
+    username: userData ? userData.username : '',
+    firstName: userData ? userData.first_name : '',
+    lastName: userData ? userData.last_name : '',
+    email: userData ? userData.email : '',
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const handleChange = (e) => {
@@ -21,6 +24,21 @@ function AccountSettings() {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handlePasswordUpdate = async () => {
+    if (formData.newPassword !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+    
+    try {
+      await updatePassword(formData.oldPassword, formData.newPassword);
+      toast.success('Password updated successfully');
+      setEditField(null);  // Exit edit mode after success
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const handleUpdate = async (field) => {
@@ -67,7 +85,7 @@ function AccountSettings() {
           </div>
         ) : (
           <div className="flex justify-between items-center">
-            <p>{userData.username}</p>
+            <p>{userData && userData.username}</p>
             <button className="text-blue-500" onClick={() => setEditField('username')}>Edit</button>
           </div>
         )}
@@ -101,7 +119,7 @@ function AccountSettings() {
           </div>
         ) : (
           <div className="flex justify-between items-center">
-            <p>{userData.first_name} {userData.last_name}</p>
+            <p>{userData && (userData.first_name + ' ' + userData.last_name)}</p>
             <button className="text-blue-500" onClick={() => setEditField('name')}>Edit</button>
           </div>
         )}
@@ -124,19 +142,52 @@ function AccountSettings() {
           </div>
         ) : (
           <div className="flex justify-between items-center">
-            <p>{userData.email}</p>
+            <p>{userData && userData.email}</p>
             <button className="text-blue-500" onClick={() => setEditField('email')}>Edit</button>
           </div>
         )}
       </div>
 
-      {/* Placeholder for Password Section */}
+      {/* Password Section */}
       <div className="mt-4">
         <label className="block font-medium">Password</label>
-        <div className="flex justify-between items-center">
-          <p>********</p>
-          <button className="text-blue-500" disabled>Change Password (coming soon)</button>
-        </div>
+        {editField === 'password' ? (
+          <div className="space-y-2">
+            <input
+              type="password"
+              name="oldPassword"
+              value={formData.oldPassword}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+              placeholder="Old Password"
+            />
+            <input
+              type="password"
+              name="newPassword"
+              value={formData.newPassword}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+              placeholder="New Password"
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+              placeholder="Confirm New Password"
+            />
+            <div className="flex space-x-2">
+              <button className="bg-blue-500 text-white px-4 py-2" onClick={handlePasswordUpdate}>Save</button>
+              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-between items-center">
+            <p>********</p>
+            <button className="text-blue-500" onClick={() => setEditField('password')}>Change Password</button>
+          </div>
+        )}
       </div>
 
       {/* Back button */}

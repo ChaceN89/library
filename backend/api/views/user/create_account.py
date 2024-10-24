@@ -11,8 +11,10 @@ Created: 2024-08-14
 Modified: 2024-10-10
 @since 1.0
 """
+# create_account.py
+# create_account.py
 
-from rest_framework import generics
+from rest_framework import generics, serializers  # Import serializers here
 from api.serializers.userSerializer import PublicUserSerializer
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
@@ -23,6 +25,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
 import uuid
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 class UserCreateView(generics.CreateAPIView):
     """
@@ -34,8 +38,24 @@ class UserCreateView(generics.CreateAPIView):
     parser_classes = [MultiPartParser, FormParser]  # Enable file upload handling
 
     def perform_create(self, serializer):
-        # Save the user instance (this doesn't include profile_image)
+        # Validate the password
+        password = self.request.data.get('password')
+        
+        # Use validated_data to inspect or modify data before saving
+        user_data = serializer.validated_data
+
+        try:
+            validate_password(password, user=user_data)
+        except ValidationError as e:
+            # Return password validation errors
+            raise serializers.ValidationError({"passwordError": e})
+        
+        # Save the user instance (without 'commit=False')
         user = serializer.save()
+
+        # Set the password
+        user.set_password(password)
+        user.save()
 
         # Handle profile image upload (if provided)
         profile_image = self.request.FILES.get('profile_image')

@@ -58,6 +58,32 @@ export const updateProfileField = async (field, value) => {
 };
 
 // Placeholder for password update functionality
-export const updatePassword = async (password) => {
-  throw new Error("Password update route not yet implemented");
+// Function to update password
+export const updatePassword = async (oldPassword, newPassword) => {
+  try {
+    const accessToken = await checkAndRefreshAccessToken();
+
+    const response = await fetch(`${API_BASE_URL}/users/change-password/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail.join(' ') || 'Failed to update password');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating password:', error);
+    throw error;
+  }
 };

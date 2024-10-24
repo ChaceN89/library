@@ -42,15 +42,24 @@ export const createAccount = async (formData) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      // Check if the API returned a specific error message
+      console.log('Error data:', errorData);
+
+      // Check if the API returned password validation errors
+      if (errorData.passwordError) {
+        throw new Error(errorData.passwordError);  // Join the errors into a single message
+      }
+
+      // Handle other field-specific error messages like username or email
       if (errorData.username) {
         throw new Error(errorData.username);
       }
       if (errorData.email) {
         throw new Error(errorData.email);
       }
-      // Add any other field-specific error messages you want to handle
-      throw new Error('Failed to create account. Please check the details and try again.');
+
+      // Generic error message
+      throw new Error(errorData.message ||errorData || 'Account creation failed');
+
     }
 
     const data = await response.json();
@@ -64,9 +73,10 @@ export const createAccount = async (formData) => {
 
     return data;
   } catch (error) {
-    throw error;  // Re-throw to handle in
+    throw error;  // Re-throw to handle in register.jsx
   }
 };
+
 
 // Logout function to clear all tokens and user data
 export const logout = async () => {

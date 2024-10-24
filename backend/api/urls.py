@@ -33,6 +33,9 @@ from api.views.favorites.fav_crud import FavoriteBookViewSet
 
 from api.views.user.profile_pic import UpdateProfilePictureView
 
+from api.views.user.change_password import ChangePasswordView  # Import the view
+
+
 # Router setup for different CRUD operations
 router = DefaultRouter()
 router.register(r'admin/users', AdminUserViewSet, basename='admin-user')  # Admin-specific CRUD operations
@@ -69,6 +72,9 @@ urlpatterns = [
 
     # profile image edit
     path('api/profile-picture/', UpdateProfilePictureView.as_view(), name='update_profile_picture'),
+
+    # Change password route
+    path('api/users/change-password/', ChangePasswordView.as_view(), name='change_password'),
 
     # Private Routes (handled by the router) - all routes prefixed with 'api/'
     path('api/', include(router.urls)),
