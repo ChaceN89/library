@@ -5,12 +5,18 @@ import { useFavBooks } from '@/context/FavBooksContext';  // Import the favorite
 
 function FavBooks() {
   const { favBooks, loading } = useFavBooks();  // Use the context for favorite books
+  const [localFavBooks, setLocalFavBooks] = useState([]);  // Local state for fetched fav books
   const [sortedBooks, setSortedBooks] = useState([]);  // Local state for sorted books
   const [sortOption, setSortOption] = useState('');  // State to handle sorting option
 
-  // Update sorted books whenever favBooks or sortOption changes
+  // Fetch the favorite books only once when the component loads
   useEffect(() => {
-    let books = [...favBooks]; // Make a copy of favBooks to sort locally
+    setLocalFavBooks(favBooks);  // Set the local state once from the context
+  }, [favBooks]);
+
+  // Handle sorting of books based on user's selection
+  useEffect(() => {
+    let books = [...localFavBooks]; // Make a copy of localFavBooks to sort locally
 
     if (sortOption === 'title') {
       books = books.sort((a, b) => a.title.localeCompare(b.title));
@@ -19,9 +25,8 @@ function FavBooks() {
     }
 
     setSortedBooks(books);
-  }, [favBooks, sortOption]);  // Run this effect whenever favBooks or sortOption changes
+  }, [localFavBooks, sortOption]);  // Run this effect whenever localFavBooks or sortOption changes
 
-  // Simple sorting handler
   const handleSort = (e) => {
     const option = e.target.value;
     setSortOption(option);  // Set the selected sort option
@@ -46,7 +51,9 @@ function FavBooks() {
       ) : (
         <ul className="gap-4 grid grid-cols-3">
           {sortedBooks.length > 0 ? (
-            sortedBooks.map((book) => <BookCard inFavSection={true} key={book.id} book={book} />)
+            sortedBooks.map((book) => (
+              <BookCard inFavSection={true} key={book.id} book={book} />
+            ))
           ) : (
             <p>No favorite books found</p>
           )}
