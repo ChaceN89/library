@@ -2,6 +2,7 @@ import React from 'react'
 import AccountBanner from './AccountBanner'
 import DarkModeButton from './DarkModeButton'
 import VersionInfo from './VersionInfo'
+import LinkToAdminPage from '../admin/LinkToAdminPage'
 
 function Settings() {
   return (
@@ -11,7 +12,7 @@ function Settings() {
       <DarkModeButton />
       
 
-      
+      <LinkToAdminPage />
       <VersionInfo />
     </div>
   )
