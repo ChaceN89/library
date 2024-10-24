@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { createAccount } from '@/API/auth';
+import { createAccount } from '@/API/authAPI';
 import { toast } from 'react-hot-toast';  // Import react-hot-toast
 
 function Register() {

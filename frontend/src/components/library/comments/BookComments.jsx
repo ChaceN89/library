@@ -1,6 +1,6 @@
 // src/components/library/BookComments.jsx
 import React, { useEffect, useState } from 'react';
-import { fetchCommentsByBookId } from '@/API/comments';
+import { fetchCommentsByBookId } from '@/API/commentsAPI';
 import Comment from './Comment';
 
 function BookComments({ bookId }) {

@@ -1,7 +1,7 @@
 
 // src/components/library/BookDisplayPage.jsx
 import React, { useEffect, useState } from 'react';
-import { fetchBookById, incrementDownloads, incrementViews } from '@/API/books';
+import { fetchBookById, incrementDownloads, incrementViews } from '@/API/booksAPI';
 import Image from 'next/image';
 import BookComments from './comments/BookComments';
 

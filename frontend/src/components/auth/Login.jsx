@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
-import { getLoginCredentials } from '@/API/auth';  // Assuming correct path
+import { getLoginCredentials } from '@/API/authAPI';  // Assuming correct path
 import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
 import { toast } from 'react-hot-toast';  // Import react-hot-toast
 

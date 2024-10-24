@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { editProfile, getUserProfileForLocalStorage } from '@/API/editProfile';
+import { editProfile, getUserProfileForLocalStorage } from '@/API/editProfileAPI';
 import { useProfileContext } from '@/context/ProfileContext';  // Import ProfileContext
 import { toast } from 'react-hot-toast';  // Import toast from react-hot-toast
 

@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../globals';
-import { checkAndRefreshAccessToken } from './tokenFetch';
+import { checkAndRefreshAccessToken } from './tokenFetchAPI';
 
 // Function to edit profile picture
 export const editProfile = async (data) => {

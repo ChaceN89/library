@@ -4,7 +4,7 @@ import { FaCogs, FaUpload, FaBook, FaHeart, FaSignOutAlt } from 'react-icons/fa'
 import NavDropdown from './NavDropdown';
 import NavButton from './NavButton';
 import UserProfileNav from './UserProfileNav';  // Import the new component
-import { logout } from '@/API/auth';
+import { logout } from '@/API/authAPI';
 import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
 
 const UserActionsNav = () => {

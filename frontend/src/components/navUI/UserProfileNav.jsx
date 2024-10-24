@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { checkRefreshToken } from '@/API/tokenFetch';  // Check refresh token validity
-import { logout } from '@/API/auth';  // Logout function
+import { checkRefreshToken } from '@/API/tokenFetchAPI';  // Check refresh token validity
+import { logout } from '@/API/authAPI';  // Logout function
 import Link from 'next/link';  // Import Link for navigation
 
 const UserProfileNav = ({ username, profilePic }) => {

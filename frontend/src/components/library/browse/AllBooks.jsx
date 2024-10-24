@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { fetchBooks } from '@/API/books';
+import { fetchBooks } from '@/API/booksAPI';
 import BookCard from '../BookCard';
 import SearchBar from './SearchBar';  // Import the SearchBar component
 import Pagination from './Pagination';  // Import the Pagination component

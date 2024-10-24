@@ -3,7 +3,7 @@
 import { useRouter, useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 import BookDisplayPage from '@/components/library/Book';
-import { fetchBookById } from '@/API/books';
+import { fetchBookById } from '@/API/booksAPI';
 
 function BookPage() {
   const params = useParams();

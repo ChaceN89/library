@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../globals';
-import { logout } from './auth';
+import { logout } from './authAPI';
 
 // Function to check and return a valid access token or throw an error if user needs to sign in
 export const checkAndRefreshAccessToken = async () => {
