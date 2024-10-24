@@ -84,7 +84,7 @@ function Book({ id }) {
         </p>
       )}
 
-      <SetFavBook id={book.id} />
+      <SetFavBook title={book.title} id={book.id} />
 
 
       {/* Timestamps */}

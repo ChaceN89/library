@@ -40,7 +40,7 @@ function BookCard({ book, inFavSection=false }) {
         <p className="text-gray-500 text-sm mt-2">Views: {book.views}</p>
         <p className="text-gray-500 text-sm mt-2">Downloads: {book.downloads}</p>
         <hr />
-        <SetFavBook id={book.id} />
+        <SetFavBook title={book.title}  id={book.id} />
       </div>
     </li>
   );
