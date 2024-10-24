@@ -55,6 +55,7 @@ class UserCreateView(generics.CreateAPIView):
 
         # Set the password
         user.set_password(password)
+        user.is_active = True  # Explicitly set the user as active
         user.save()
 
         # Handle profile image upload (if provided)
