@@ -1,11 +1,14 @@
 import Image from "next/image";
+import WelcomePage from "@/components/home/WelcomePage";
 
 export default function Home() {
 
 
   return(
     <div>
-      <h1 className="text-4xl font-bold">Hello World</h1>
+      <WelcomePage />
+      
+      {/* <h1 className="text-4xl font-bold">Hello World</h1>
       <div>Welcome Page/Home Page - has nav bar always in the top</div>
       <div className="flex flex-wrap">
 
@@ -64,10 +67,10 @@ export default function Home() {
           alt="Library Fox Mascot"
           width={400}
           height={200}
-        />
+        /> */}
 
                 
-      </div>
+      {/* </div> */}
     </div>
   )
 

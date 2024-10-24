@@ -36,7 +36,6 @@ export const addFavoriteBook = async (bookId) => {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Accept': 'application/json',
-        'X-CSRFToken': localStorage.getItem('csrftoken'),  // Ensure CSRF token is sent
       },
       body: ''  // Empty body for POST request
     });
@@ -62,7 +61,6 @@ export const removeFavoriteBook = async (bookId) => {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Accept': 'application/json',
-        'X-CSRFToken': localStorage.getItem('csrftoken'),  // Ensure CSRF token is sent
       }
     });
 

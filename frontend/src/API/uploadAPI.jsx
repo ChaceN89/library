@@ -10,7 +10,6 @@ export const uploadBook = async (data) => {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Accept': 'application/json',
-        'X-CSRFToken': localStorage.getItem('csrftoken'),  // Ensure CSRF token is sent
       },
       body: data,  // Send form data
     });

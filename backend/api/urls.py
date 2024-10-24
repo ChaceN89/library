@@ -56,6 +56,12 @@ urlpatterns = [
     path('api/public/books/<int:pk>/increment_views/', PublicBookViewSet.as_view({'post': 'increment_views'}), name='public_books_increment_views'),
     path('api/public/books/<int:pk>/increment_downloads/', PublicBookViewSet.as_view({'post': 'increment_downloads'}), name='public_books_increment_downloads'),
 
+    # New routes for top books and stats
+    path('api/public/books/most-viewed/', PublicBookViewSet.as_view({'get': 'top_n_most_viewed'}), name='most_viewed_books'),
+    path('api/public/books/most-recent/', PublicBookViewSet.as_view({'get': 'top_n_recent'}), name='most_recent_books'),
+    path('api/public/books/stats/', PublicBookViewSet.as_view({'get': 'site_statistics'}), name='site_statistics'),
+
+    
     # Add and remove favorites
     path('api/books/<int:pk>/add_favorite/', FavoriteBookViewSet.as_view({'post': 'add_favorite'}), name='add_favorite'),
     path('api/books/<int:pk>/remove_favorite/', FavoriteBookViewSet.as_view({'delete': 'remove_favorite'}), name='remove_favorite'),
