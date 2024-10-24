@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../globals';
-import { refreshAccessToken, isTokenExpired } from './tokenFetch';  // Import from tokenFetch.js
+
 
 // Function to log in and store tokens
 export const getLoginCredentials = async (username, password) => {
@@ -15,15 +15,10 @@ export const getLoginCredentials = async (username, password) => {
     if (response.ok) {
       const data = await response.json();
 
-      // Store all authentication data in a single object in localStorage
-      const authData = {
-        accessToken: data.access,
-        refreshToken: data.refresh,
-        user: data.user
-      };
-      localStorage.setItem('authData', JSON.stringify(authData));  // Store the object
-
-      window.location.reload(); // Reload the page to update the user state - can be replaced with a redirect later
+      // Store access token, refresh token, and user data in separate localStorage keys
+      localStorage.setItem('accessToken', data.access);
+      localStorage.setItem('refreshToken', data.refresh);
+      localStorage.setItem('user', JSON.stringify(data.user));  // User data stored as JSON
 
       return data;
     } else {
@@ -52,13 +47,10 @@ export const createAccount = async (formData) => {
 
     const data = await response.json();
 
-    // Store all authentication data in a single object in localStorage
-    const authData = {
-      accessToken: data.access,
-      refreshToken: data.refresh,
-      user: data.user
-    };
-    localStorage.setItem('authData', JSON.stringify(authData));  // Store the object
+    // Store access token, refresh token, and user data in separate localStorage keys
+    localStorage.setItem('accessToken', data.access);
+    localStorage.setItem('refreshToken', data.refresh);
+    localStorage.setItem('user', JSON.stringify(data.user));  // User data stored as JSON
 
     window.location.reload(); // Reload the page to update the user state - can be replaced with a redirect later
 
@@ -69,30 +61,14 @@ export const createAccount = async (formData) => {
   }
 };
 
-// Logout function to clear authData
+// Logout function to clear all tokens and user data
 export const logout = async () => {
-  localStorage.removeItem('authData');  // Clear all authentication data
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('user');  // Clear user data
 
-  // Optionally, you could redirect the user after logout
-  // For example, if using Next.js, you could use Router to navigate
-  // Router.push('/login'); // Un-comment this if you want to redirect
+  // need to reload the page to update the user state upon a successful logout
+  window.location.reload();  // Reload the page to update the user state - can be replaced with a redirect later
 
-  // Alternatively, you could return a message indicating successful logout
   return 'User has been logged out successfully';
-};
-
-// Function to check if the access token is valid
-export const checkToken = async () => {
-  const storedAuthData = JSON.parse(localStorage.getItem('authData'));
-
-  if (!storedAuthData || isTokenExpired(storedAuthData.accessToken)) {
-    const newAccessToken = await refreshAccessToken();  // Refresh the token if expired
-    if (newAccessToken) {
-      // Update localStorage with the new access token
-      storedAuthData.accessToken = newAccessToken;
-      localStorage.setItem('authData', JSON.stringify(storedAuthData));
-    } else {
-      throw new Error('Failed to refresh token or user is not authenticated.');
-    }
-  }
 };

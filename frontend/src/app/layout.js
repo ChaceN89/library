@@ -4,7 +4,10 @@ import "../styles/globals.css";  // Fix the import path for globals.css
 import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";
 import Footer from "@/components/general/Footer";
+
+// contexts
 import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
+import { ProfileProvider } from "@/context/ProfileContext";
 
 const geistSans = localFont({
   src: "/fonts/GeistVF.woff",  // Correct path relative to the public folder
@@ -46,14 +49,16 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
-        <SearchProvider>
-          <TailwindBreakPoints />
-          <Navbar />
-          <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
-            {children}
-          </main>
-          <Footer className="mt-auto" />
-        </SearchProvider>
+        <ProfileProvider>
+          <SearchProvider>
+            <TailwindBreakPoints />
+            <Navbar />
+            <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
+              {children}
+            </main>
+            <Footer className="mt-auto" />
+          </SearchProvider>
+        </ProfileProvider>
       </body>
     </html>
   );

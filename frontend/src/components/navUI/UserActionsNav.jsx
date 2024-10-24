@@ -1,23 +1,14 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FaCogs, FaUpload, FaBook, FaHeart, FaSignOutAlt } from 'react-icons/fa';  // Importing icons
-
 import NavDropdown from './NavDropdown';
 import NavButton from './NavButton';
 import UserProfileNav from './UserProfileNav';  // Import the new component
 import { logout } from '@/API/auth';
+import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
 
 const UserActionsNav = () => {
-  const [username, setUsername] = useState(null);
-  const [profilePic, setProfilePic] = useState(null);
-
-  useEffect(() => {
-    const authData = JSON.parse(localStorage.getItem('authData'));
-    if (authData && authData.user) {
-      setUsername(authData.user.username);
-      setProfilePic(authData.user.profile_image_url);
-    }
-  }, []);
+  const { userData } = useProfileContext();  // Access user data from the ProfileContext
 
   const handleLogout = async () => {
     await logout();
@@ -34,10 +25,10 @@ const UserActionsNav = () => {
 
   return (
     <div className="flex items-center gap-3">
-      {username ? (
+      {userData ? (
         <>
           {/* Use the new UserProfileNav component */}
-          <UserProfileNav username={username} profilePic={profilePic} />
+          <UserProfileNav username={userData.username} profilePic={userData.profile_image_url} />
           <NavDropdown items={dropdownItems} />
         </>
       ) : (

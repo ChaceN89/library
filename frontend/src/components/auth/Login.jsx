@@ -3,9 +3,13 @@ import React, { useState, useEffect } from 'react';
 import GoogleSignIn from './GoogleSignIn';  // Import the GoogleSignIn component
 import { getLoginCredentials } from '@/API/auth';  // Assuming correct path
 
+import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const { accessToken, refreshToken, userData, triggerProfileReload } = useProfileContext();  // Access context data
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -14,8 +18,11 @@ const Login = () => {
       // Call the login function from auth.js
       await getLoginCredentials(username, password);
       
+      // Trigger profile reload after successful login
+      triggerProfileReload();
+
       alert('Logged in successfully');
-      // Optionally, redirect or refresh the page
+      // replace wit react hot toast 
     } catch (error) {
       alert('Login failed');
     }
@@ -47,33 +54,20 @@ const Login = () => {
         <button className="border-2 rounded-lg hover:bg-slate-400" type="submit">
           Login
         </button>
-
-        {/* For debugging or testing local storage */}
-        <LocalStorageDisplay />
       </form>
+
+      <div className="w-screen p-4">
+        <h3 className="text-xl font-bold mb-2">Profile Data from Context:</h3>
+        <pre className='w-9/12 bg-gray-100 p-2 rounded-lg' style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+          {JSON.stringify({
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            user: userData
+          }, null, 2)}
+        </pre>
+      </div>
     </div>
   );
 };
 
 export default Login;
-
-// Display session storage data for testing purposes
-const LocalStorageDisplay = () => {
-  const [displayData, setDisplayData] = useState(null);
-
-  useEffect(() => {
-    // Retrieve the authData object from localStorage and parse it
-    const authData = JSON.parse(localStorage.getItem('authData'));
-
-    setDisplayData(authData);  // Set the entire authData object in state
-  }, []);
-
-  return (
-    <div className=' w-screen '>
-      <h3>Local Storage Data:</h3>
-      <pre className='w-9/12' style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-        {JSON.stringify(displayData, null, 2)}
-      </pre> {/* Display data as formatted JSON */}
-    </div>
-  );
-};

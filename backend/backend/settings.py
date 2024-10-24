@@ -218,8 +218,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Django Allauth settings for authentication using jwt and the refresh token time
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),  # Default is 5 minutes
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Default is 1 day
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),  # Default is 5 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=2),    # Default is 1 day
     'ROTATE_REFRESH_TOKENS': True,                 # Optionally rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old tokens after rotation
 }
@@ -241,29 +241,3 @@ APP_VERSION = config('APP_VERSION', default="1.0.0")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
-
-
-import os
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',  # Adjust the level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django_debug.log'),  # The file path for the log
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',  # Log level
-            'propagate': True,
-        },
-        'my_custom_logger': {  # A custom logger for your specific app
-            'handlers': ['file'],
-            'level': 'DEBUG',  # Adjust the log level as needed
-        },
-    },
-}
