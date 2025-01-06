@@ -1,4 +1,4 @@
-import EditBook from '@/components/library/myBooks/MyBook'
+import EditBook from '@/components/library/myBooks/MyBookEdits'
 import React from 'react'
 
 function EditBookPage() {

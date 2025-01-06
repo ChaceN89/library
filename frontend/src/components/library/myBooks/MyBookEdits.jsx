@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link'; // Import Link for navigation
 import { fetchBookDetails } from '@/API/editBookAPI'; // API call to get book details
-import EditBook from './EditBook';
+import EditBook from './EditBookFields';
 import DeleteBook from './DeleteBook';
 import ChangeBookContent from './ChangeBookContent';
 import { toast } from 'react-hot-toast';
 
-function MyBook() {
+function MyBookEdits() {
   const params = useParams(); // Using useParams hook to get the route params
   const { id } = params; // Extract the 'id' from the params
   const [book, setBook] = useState(null); // State to hold the book details
@@ -65,4 +65,4 @@ function MyBook() {
   );
 }
 
-export default MyBook;
+export default MyBookEdits;

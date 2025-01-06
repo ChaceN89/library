@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { updateBookDetails } from '@/API/editBookAPI'; // Import the API function for updating book details
 import { toast } from 'react-hot-toast';
 
-function EditBook({ book, triggerRefresh }) {
+function EditBookFields({ book, triggerRefresh }) {
   const [editField, setEditField] = useState(null);  // To track which field is being edited
   const [formData, setFormData] = useState({
     title: book.title,
@@ -27,8 +27,9 @@ function EditBook({ book, triggerRefresh }) {
       triggerRefresh();  // Refresh the book details after update
       setEditField(null);
     } catch (error) {
-      toast.error(`Failed to update ${field}`);
-    }
+
+      const errorMessage = error.response?.data?.detail || error.message || 'Unknown error occurred';
+      toast.error(`Failed to update ${field}: ${errorMessage}`);    }
   };
 
   return (
@@ -185,4 +186,4 @@ function EditBook({ book, triggerRefresh }) {
   );
 }
 
-export default EditBook;
+export default EditBookFields;
