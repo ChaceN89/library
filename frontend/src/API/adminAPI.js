@@ -62,3 +62,41 @@ export const deleteUser = async (userId) => {
     throw error;
   }
 };
+
+
+export const updateUserPassword = async (userId, newPassword) => {
+  try {
+    const accessToken = await checkAndRefreshAccessToken();
+
+    const response = await fetch(`${API_BASE_URL}/admin/users/${userId}/update_password/`, {
+      method: 'PUT', // Corrected to PUT
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ new_password: newPassword }),
+    });
+
+    if (!response.ok) {
+      const errorDetails = await response.json().catch(() => ({
+        detail: 'Unable to parse error response',
+      })); // Gracefully handle JSON parse errors
+      console.error('Failed to update password:', {
+        status: response.status,
+        statusText: response.statusText,
+        errorDetails,
+      });
+      throw new Error(
+        `Failed to update password. Status: ${response.status} - ${response.statusText}. Details: ${errorDetails.detail || 'No additional details'}`
+      );
+    }
+
+    const data = await response.json();
+    console.log('Password updated successfully:', data); // Log success response for debugging
+    return data;
+  } catch (error) {
+    console.error('Error in updateUserPassword:', error); // Log the thrown error
+    throw error; // Re-throw the error for the calling function to handle
+  }
+};
+

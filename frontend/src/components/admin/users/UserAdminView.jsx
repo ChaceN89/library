@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AdminEditUser from './AdminEditUser';  // Import AdminEditUser component
 import AdminDeleteUser from './AdminDeleteUser';  // Import AdminDeleteUser component
+import AdminPasswordUpdate from './AdminPasswordUpdate';
 
 function UserAdminView({ user }) {
   const [showDetails, setShowDetails] = useState(false);  // Toggle visibility of user details
@@ -37,6 +38,7 @@ function UserAdminView({ user }) {
           <div className="flex space-x-4 mt-4">
             <AdminEditUser user={user} />
             <AdminDeleteUser userId={user.id} />
+            <AdminPasswordUpdate userId={user.id}/>
           </div>
         </div>
       )}

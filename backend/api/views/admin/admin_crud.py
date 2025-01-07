@@ -17,6 +17,9 @@ from api.serializers.userSerializer import UserSerializer
 from rest_framework.permissions import IsAdminUser
 from api.models.book import Book
 from api.aws.delete import delete_file_from_s3
+from rest_framework.decorators import action
+from rest_framework.response import Response 
+from rest_framework import status
 
 class AdminUserViewSet(viewsets.ModelViewSet):
     """
@@ -60,3 +63,27 @@ class AdminUserViewSet(viewsets.ModelViewSet):
         # Finally, delete the user instance (which cascades other related objects)
         instance.delete()
 
+
+
+    @action(detail=True, methods=['Put'])
+    def update_password(self, request, pk=None):
+        """
+        Custom action to update a user's password.
+
+        Args:
+            request: The HTTP request containing the new password.
+            pk: The primary key of the user whose password is being updated.
+
+        Returns:
+            Response: Success or error message.
+        """
+        user = self.get_object()
+        new_password = request.data.get('new_password')
+
+        if not new_password:
+            return Response({'error': 'New password is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({'detail': 'Password updated successfully'}, status=status.HTTP_200_OK)
