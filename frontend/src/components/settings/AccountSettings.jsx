@@ -5,6 +5,7 @@ import { updateProfileField, updatePassword } from '@/API/editProfileAPI';  // I
 import { getUserProfileForLocalStorage } from '@/API/getProfileAPI';  // For updating local storage
 import { toast } from 'react-hot-toast';  // For showing success/error toasts
 import Link from 'next/link';
+import DeleteAccount from './DeleteAccount';
 
 function AccountSettings() {
   const { userData, triggerProfileReload } = useProfileContext();  // Get the current user data and reload trigger
@@ -189,6 +190,15 @@ function AccountSettings() {
           </div>
         )}
       </div>
+
+
+      {userData &&
+        <DeleteAccount 
+          userID = {userData.id}
+          triggerProfileReload={triggerProfileReload}
+        />
+      }
+
 
       {/* Back button */}
       <div className="mt-6">
