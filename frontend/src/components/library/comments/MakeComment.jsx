@@ -27,13 +27,13 @@ function MakeComment({ bookId, parentCommentId = null, triggerRefresh }) {
   return (
     <div>
       {isLoggedIn ? (
-        <div className="mt-2">
+        <div className="mt-2 flex gap-2">
           <textarea
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}
             placeholder="Write your reply here..."
             className="w-full border rounded-lg p-2 mb-2"
-            rows="3"
+            rows="1"
           />
           <button
             onClick={handleCommentSubmit}

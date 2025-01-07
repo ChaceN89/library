@@ -21,11 +21,18 @@ from api.serializers.userSerializer import PublicUserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from google.oauth2 import id_token
 from google.auth.transport import requests
+import requests as fetchRequest  # This is the correct requests library for making HTTP requests
+
 from rest_framework import status
+from django.core.files.base import ContentFile
 
 from django.conf import settings  # Import settings to access the GOOGLE_CLIENT_ID
 
 from api.models.userProfilePicture import UserProfilePicture
+from api.aws.upload import upload_file_to_s3
+
+import uuid
+
 
 
 class LoginView(TokenObtainPairView):
@@ -76,18 +83,29 @@ class GoogleLoginView(APIView):
                 },
             )
 
-            if created or not hasattr(user, 'profile_picture') or user.profile_picture.profile_image_url != picture:
-                # Create or update the user's profile picture
-                UserProfilePicture.objects.update_or_create(
-                    user=user,
-                    defaults={"profile_image_url": picture},
-                )
+            # if google provides an image copy it and uplaod the new img to s3
 
-            # Optional: Update the profile picture if the user was newly created
-            if created and picture:
-                user.profile_image_url = picture  # Ensure this field exists in your User model
-                user.save()
+            # ONly happens if a user is creating an account
+            if picture and created:
+                print("\n\n users google account has a google image")
 
+                response = fetchRequest.get(picture, stream=True)
+                response.raise_for_status()
+                image_file = ContentFile(response.content, name=f"{uuid.uuid4()}.jpg")
+
+                print("here")
+
+                
+                # Handle profile image upload (if provided)
+                unique_string = str(uuid.uuid4())  # Generate a unique string for filename
+                profile_image_url = upload_file_to_s3(image_file, user.id, 'profile_image', 'image/png', unique_string)
+                # Create or update the profile picture record for the user
+                UserProfilePicture.objects.update_or_create(user=user, profile_image_url=profile_image_url)
+
+                print("here2")
+            else:
+                print("\nUser has already been rcreate\n")
+     
             # Generate JWT tokens for the user
             refresh = RefreshToken.for_user(user)
 

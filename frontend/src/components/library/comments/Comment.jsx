@@ -1,8 +1,17 @@
 // src/components/library/Comment.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import MakeComment from './MakeComment';
+import DeleteComment from './DeleteComment';
 
-function Comment({ comment, bookId }) {
+function Comment({id, comment, bookId }) {
+
+  const onCommentDeleted =(id)=>{
+    setcommentContent("[Comment Deleted]")
+  }
+
+  const [commentContent, setcommentContent] = useState(comment.content)
+
+
   return (
     <li className="border rounded-lg p-3 shadow">
       <div className="flex items-center gap-3">
@@ -11,10 +20,15 @@ function Comment({ comment, bookId }) {
           alt="User Profile"
           className="w-8 h-8 rounded-full"
         />
-        <p className="text-gray-800">{comment.content}</p>
+        <p className="text-gray-800">{commentContent}</p>
       </div>
       <p className="text-sm text-gray-500">
-        Posted by {comment.user_username} on {new Date(comment.created_at).toLocaleDateString()}
+       {id} Posted by {comment.user_username} on {new Date(comment.created_at).toLocaleDateString()}
+        <DeleteComment
+          commentUserId={comment.user}
+          commentId={comment.id}
+          onCommentDeleted = {onCommentDeleted}
+        />
       </p>
 
       <MakeComment bookId={bookId} parentCommentId={comment.id} />

@@ -33,6 +33,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_edited = models.BooleanField(default=False)
     content = models.TextField()
+    is_deleted = models.BooleanField(default=False)  # New field to mark comments as deleted
     book = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)  # Reference to Django's User model
     parent_comment = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)

@@ -28,7 +28,7 @@ function BookComments({ bookId }) {
       <h3 className="text-xl font-semibold">Comments</h3>
       <ul className="space-y-2">
         {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} bookId={bookId} />
+          <Comment key={comment.id} id={comment.id} comment={comment} bookId={bookId} />
         ))}
       </ul>
       <MakeComment bookId={bookId} triggerRefresh={() => setComments([])} />

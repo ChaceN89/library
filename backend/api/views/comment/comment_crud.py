@@ -57,11 +57,15 @@ class CommentCRUDViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         """
-        Prevent deleting comments that do not belong to the authenticated user.
+        Replace the comment content with '[Deleted]' instead of deleting it.
         """
         if instance.user != self.request.user:
             raise PermissionDenied("You do not have permission to delete this comment.")
-        instance.delete()
+        
+        # Replace the comment content with '[Deleted]'
+        instance.content = "[Deleted]"
+        instance.is_deleted = True  # Add a flag to indicate the comment is deleted (if not already present)
+        instance.save()
 
     def retrieve(self, request, *args, **kwargs):
         """

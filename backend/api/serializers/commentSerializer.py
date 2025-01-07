@@ -23,7 +23,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'created_at', 'updated_at', 'is_edited', 'content', 'book', 'user', 'user_username', 'user_profile_pic', 'parent_comment', 'replies']
+        fields = ['id', 'created_at', 'updated_at', 'is_edited', "is_deleted", 'content', 'book', 'user', 'user_username', 'user_profile_pic', 'parent_comment', 'replies']
         read_only_fields = ['id', 'created_at', 'updated_at', 'is_edited', 'user', 'user_username', 'user_profile_pic']
 
     def get_replies(self, obj):
