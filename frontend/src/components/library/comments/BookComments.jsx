@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCommentsByBookId } from '@/API/commentsAPI';
 import Comment from './Comment';
-
+import MakeComment from './MakeComment';
 function BookComments({ bookId }) {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,18 +23,15 @@ function BookComments({ bookId }) {
     return <p>Loading comments...</p>;
   }
 
-  if (comments.length === 0) {
-    return <p>No comments available for this book.</p>;
-  }
-
   return (
-    <div className="mt-4">
+    <div className="my-4">
       <h3 className="text-xl font-semibold">Comments</h3>
       <ul className="space-y-2">
         {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
+          <Comment key={comment.id} comment={comment} bookId={bookId} />
         ))}
       </ul>
+      <MakeComment bookId={bookId} triggerRefresh={() => setComments([])} />
     </div>
   );
 }

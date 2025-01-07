@@ -28,6 +28,9 @@ export const ProfileProvider = ({ children }) => {
     setShouldReloadProfile((prev) => !prev);
   };
 
+  const isLoggedIn = !!accessToken; // Boolean check for logged-in status
+
+
   return (
     <ProfileContext.Provider
       value={{
@@ -38,7 +41,8 @@ export const ProfileProvider = ({ children }) => {
         userData,
         setAccessToken,
         setRefreshToken,
-        setUserData
+        setUserData,
+        isLoggedIn, // Add this to the context
       }}
     >
       {children}
