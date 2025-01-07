@@ -128,13 +128,25 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         """
         Handle file updates and overwrite content or cover art in S3 if provided.
+        Allow updates for other fields like description, author, genre, etc.
         """
         content_file = self.request.FILES.get('content')
         cover_art_file = self.request.FILES.get('cover_art')
-        title = self.request.data.get('title', serializer.instance.title)  # Default to existing title if not provided
 
-        # Retrieve the existing instance to get the URLs
+        # Retrieve the existing instance to get the current state
         instance = serializer.instance
+
+        print("Debugging")
+
+        # Default to existing values if not provided in the request
+        title = self.request.data.get('title', instance.title)
+        description = self.request.data.get('description', instance.description)
+        print("Debugging " + description)
+
+        author = self.request.data.get('author', instance.author)
+        genre = self.request.data.get('genre', instance.genre)
+        published_date = self.request.data.get('published_date', instance.published_date)
+        language = self.request.data.get('language', instance.language)
 
         content_url = instance.content_url
         cover_art_url = instance.cover_art_url
@@ -147,9 +159,18 @@ class BookCRUDViewSet(viewsets.ModelViewSet):
         if cover_art_file:
             cover_art_url = edit_upload(cover_art_file, instance.cover_art_url, 'cover_art', instance.owner.id)
 
-        # Save the title update (if provided) and other fields
+        print("Debugging before serializer save?")
+        print("Request Data:", self.request.data)
+
+
+        # Save the updates to the instance
         serializer.save(
             title=title,
+            description=description,
+            author=author,
+            genre=genre,
+            published_date=published_date,
+            language=language,
             content_url=content_url,
             cover_art_url=cover_art_url
         )

@@ -7,6 +7,8 @@ import EditBook from './EditBookFields';
 import DeleteBook from './DeleteBook';
 import ChangeBookContent from './ChangeBookContent';
 import { toast } from 'react-hot-toast';
+import Image from 'next/image'; // Ensure you import the Next.js Image component
+
 
 function MyBookEdits() {
   const params = useParams(); // Using useParams hook to get the route params
@@ -45,22 +47,34 @@ function MyBookEdits() {
     <div>
       <h1>Edit Book</h1>
 
-
       {/* Components to edit, delete, and change book content */}
       <EditBook book={book} triggerRefresh={fetchBook} />
       <hr className='my-4'/>
 
       <ChangeBookContent bookId={book.id} triggerRefresh={fetchBook} />
       <hr className='my-4'/>
+
+            {/* Image for the book */}
+            <h1 className='font-bold underline'>Book Cover</h1>
+      <Image 
+        src={book.cover_art_url} 
+        alt={`Cover art for ${book.title}`} 
+        width={400} 
+        height={120} 
+        className="rounded-lg"
+      />
+
+      <hr className='my-4'/>
       <DeleteBook bookId={book.id} />
       <hr className='my-4'/>
-
       {/* Link to go back to My Books */}
       <Link href="/my-books">
         <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition mt-4">
           Go Back to My Books
         </button>
       </Link>
+      <hr className='my-4'/>
+
     </div>
   );
 }

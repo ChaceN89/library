@@ -57,8 +57,13 @@ class BookSerializer(serializers.ModelSerializer):
         return book
 
     def update(self, instance, validated_data):
-        # Handle title if provided
+        # Update all relevant fields if provided in validated_data
         instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.author = validated_data.get('author', instance.author)
+        instance.genre = validated_data.get('genre', instance.genre)
+        instance.published_date = validated_data.get('published_date', instance.published_date)
+        instance.language = validated_data.get('language', instance.language)
 
         # Handle content file if provided
         if 'content' in validated_data:
@@ -68,5 +73,6 @@ class BookSerializer(serializers.ModelSerializer):
         if 'cover_art' in validated_data:
             instance.cover_art = validated_data.pop('cover_art')
 
+        # Save the updated instance
         instance.save()
         return instance

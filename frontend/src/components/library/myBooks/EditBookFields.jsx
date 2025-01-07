@@ -21,6 +21,9 @@ function EditBookFields({ book, triggerRefresh }) {
   };
 
   const handleUpdate = async (field) => {
+    console.log("The Update handler uses the field variable")
+    console.log(field + " formData[field] " + formData[field])
+
     try {
       await updateBookDetails(book.id, { [field]: formData[field] });
       toast.success(`${field} updated successfully`);
