@@ -87,3 +87,32 @@ class AdminUserViewSet(viewsets.ModelViewSet):
         user.save()
 
         return Response({'detail': 'Password updated successfully'}, status=status.HTTP_200_OK)
+    
+
+    @action(detail=True, methods=['delete'], url_path='delete-book')
+    def delete_book(self, request, pk=None):
+        """
+        Deletes a specific book by ID.
+        
+        Args:
+            request: The HTTP request.
+            pk: The primary key of the book to delete.
+        
+        Returns:
+            Response: Success or error message.
+        """
+        try:
+            book = Book.objects.get(pk=pk)
+            
+            # Delete associated S3 files if they exist
+            if book.content_url:
+                delete_file_from_s3(book.content_url)
+            if book.cover_art_url:
+                delete_file_from_s3(book.cover_art_url)
+            
+            book.delete()
+            return Response({'detail': 'Book deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Book.DoesNotExist:
+            return Response({'error': 'Book not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

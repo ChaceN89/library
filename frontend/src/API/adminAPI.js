@@ -100,3 +100,32 @@ export const updateUserPassword = async (userId, newPassword) => {
   }
 };
 
+
+export const deleteBook = async (bookId) => {
+  try {
+    const accessToken = await checkAndRefreshAccessToken();
+
+    const response = await fetch(`${API_BASE_URL}/admin/users/${bookId}/delete-book/`, {
+
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorDetails = await response.json().catch(() => ({
+        detail: 'Unable to parse error response',
+      }));
+      throw new Error(
+        `Failed to delete book. Status: ${response.status} - ${response.statusText}. Details: ${errorDetails.detail || 'No additional details'}`
+      );
+    }
+
+    return response.status === 204 ? { detail: 'Book deleted successfully' } : await response.json();
+  } catch (error) {
+    console.error('Error in deleteBook:', error);
+    throw error;
+  }
+};
