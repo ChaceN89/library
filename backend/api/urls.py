@@ -20,7 +20,7 @@ from api.views.testing.testing_viewset import TestingViewSet
 from api.views.admin.admin_crud import AdminUserViewSet
 
 from api.views.user.user_crud import UserCRUDViewSet
-from api.views.user.login import LoginView
+from api.views.user.login import LoginView, GoogleLoginView
 from api.views.user.create_account import UserCreateView
 
 from api.views.book.book_crud import BookCRUDViewSet
@@ -50,6 +50,7 @@ urlpatterns = [
     # Public Routes
     path('api/register/', UserCreateView.as_view(), name='user_create'),  # Route for public account creation
     path('api/login/', LoginView.as_view(), name='user_login'),  # Route for public login
+    path("api/google-login/", GoogleLoginView.as_view(), name="google-login"),  # Add Google login route
 
     # Custom Public Book Routes
     path('api/public/books/', PublicBookViewSet.as_view({'get': 'list'}), name='public_books_list'),  # Get all books

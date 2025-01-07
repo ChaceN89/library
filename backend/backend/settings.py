@@ -198,23 +198,8 @@ AWS_DEFAULT_ACL = 'public-read'
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
 
-
-# Google authentication settings for Django Allauth
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'FETCH_USERINFO': True,
-        'OAUTH_PKCE_ENABLED': True, 
-        'CLIENT_ID': config('GOOGLE_CLIENT_ID', default=''),
-        'SECRET': config('GOOGLE_CLIENT_SECRET', default=''),
-    }
-}
+# Google authentication settings for Frontend to backend route for google
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', default='')
 
 # Django Allauth settings for authentication using jwt and the refresh token time
 SIMPLE_JWT = {

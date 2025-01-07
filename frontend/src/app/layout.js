@@ -5,6 +5,10 @@ import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";
 import Footer from "@/components/general/Footer";
 
+// Google Signin info and google context
+import { GOOGLE_CLIENT_ID } from "../globals";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 // contexts
 import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
 import { ProfileProvider } from "@/context/ProfileContext";
@@ -53,20 +57,22 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
-        <ProfileProvider>
-          <FavBooksProvider>
-            <SearchProvider>
-              <Toaster position="top-center" reverseOrder={false} />
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <ProfileProvider>
+            <FavBooksProvider>
+              <SearchProvider>
+                <Toaster position="top-center" reverseOrder={false} />
 
-              <TailwindBreakPoints />
-              <Navbar />
-              <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
-                {children}
-              </main>
-              <Footer className="mt-auto" />
-            </SearchProvider>
-          </FavBooksProvider>
-        </ProfileProvider>
+                <TailwindBreakPoints />
+                <Navbar />
+                <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
+                  {children}
+                </main>
+                <Footer className="mt-auto" />
+              </SearchProvider>
+            </FavBooksProvider>
+          </ProfileProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

@@ -1,44 +1,32 @@
-import React from 'react';
+import { GoogleLogin } from '@react-oauth/google';
+import { loginWithGoogle } from '@/API/googleAPI'; // Correctly import the API function
 
-const GoogleSignIn = () => {
-  // Function to open a new popup window for Google Sign-In
-  const openGoogleSignInPopup = () => {
-    const popupWidth = 500;
-    const popupHeight = 600;
-    const left = (window.innerWidth - popupWidth) / 2;
-    const top = (window.innerHeight - popupHeight) / 2;
+export default function GoogleSignIn() {
+  const handleLoginSuccess = async (credentialResponse) => {
+    console.log('Login Success:', credentialResponse);
 
-    const popup = window.open(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/accounts/google/login/`,
-      'googleSignIn',
-      `width=${popupWidth},height=${popupHeight},top=${top},left=${left}`
-    );
+    try {
+      // Pass the credential to your backend API for authentication
+      await loginWithGoogle(credentialResponse.credential);
 
-    if (popup) {
-      const interval = setInterval(() => {
-        try {
-          if (popup.closed) {
-            clearInterval(interval);
-            // Handle post-login (e.g., check session storage for tokens)
-            console.log('Google login popup closed');
-          }
-        } catch (error) {
-          console.error('Error during Google login popup handling:', error);
-        }
-      }, 500);
+      // Handle post-login UI updates (e.g., redirect, show success message)
+    } catch (error) {
+      console.error('Google login failed:', error.message);
+      alert('Google login failed. Please try again.');
     }
+  };
+
+  const handleLoginFailure = (error) => {
+    console.error('????Login Failed:', error);
+    alert('??Google login failed. Please try again.');
   };
 
   return (
     <div>
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-        onClick={openGoogleSignInPopup}
-      >
-        Sign in with Google
-      </button>
+      <GoogleLogin
+        onSuccess={handleLoginSuccess}
+        onError={handleLoginFailure}
+      />
     </div>
   );
-};
-
-export default GoogleSignIn;
+}

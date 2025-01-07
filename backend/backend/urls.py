@@ -46,10 +46,6 @@ urlpatterns = [
     # path('swagger.yaml', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     # go to http://127.0.0.1:8000/swagger.yaml to download documentation 
 
-
-    # Route for Google OAuth and allauth login
-    path('accounts/', include('allauth.urls')),  # Route for Google OAuth and allauth login
-
     # JWT token authentication routes for getting and refreshing tokens
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
