@@ -1,8 +1,9 @@
+import AdminBookSettings from '@/components/admin/books/AdminBookSettings'
 import React from 'react'
 
 function AdminBooksPage() {
   return (
-    <div>AdminBooksPage</div>
+    <AdminBookSettings/>
   )
 }
 

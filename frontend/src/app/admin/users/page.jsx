@@ -1,4 +1,4 @@
-import AdminUserSettings from '@/components/admin/AdminUserSettings';
+import AdminUserSettings from '@/components/admin/users/AdminUserSettings';
 import React from 'react'
 
 function AdminPage() {
