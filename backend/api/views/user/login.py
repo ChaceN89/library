@@ -25,11 +25,7 @@ from rest_framework import status
 
 from django.conf import settings  # Import settings to access the GOOGLE_CLIENT_ID
 
-
-# Replace with your Google Client ID
-# import os
-# GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "your-default-client-id")
-# Get from settings instead
+from api.models.userProfilePicture import UserProfilePicture
 
 
 class LoginView(TokenObtainPairView):
@@ -79,6 +75,13 @@ class GoogleLoginView(APIView):
                     "last_name": last_name,
                 },
             )
+
+            if created or not hasattr(user, 'profile_picture') or user.profile_picture.profile_image_url != picture:
+                # Create or update the user's profile picture
+                UserProfilePicture.objects.update_or_create(
+                    user=user,
+                    defaults={"profile_image_url": picture},
+                )
 
             # Optional: Update the profile picture if the user was newly created
             if created and picture:
