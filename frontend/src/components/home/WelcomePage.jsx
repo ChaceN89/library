@@ -4,6 +4,10 @@ import { fetchMostViewedBooks, fetchMostRecentBooks, fetchSiteStatistics } from 
 import BookCard from '../library/book/BookCard'; // Ensure the path to BookCard is correct
 import { toast } from 'react-hot-toast';
 
+import { IMAGE_PREFIX } from '@/globals';
+import Image from 'next/image';
+
+
 function WelcomePage() {
   const [mostViewedBooks, setMostViewedBooks] = useState([]);
   const [mostRecentBooks, setMostRecentBooks] = useState([]);
@@ -42,6 +46,13 @@ function WelcomePage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Welcome to the Library</h1>
+
+      <Image
+  src={`${IMAGE_PREFIX}/frontendAssets/foxMascot.png`}
+  alt="Library Fox Mascot"
+  width={200}
+  height={200}
+/>
 
       <p className="text-lg mb-8">
         Our mission is to make books accessible to everyone, offering a rich library experience where you can explore, read, and save your favorites. Whether you're discovering new genres or revisiting timeless classics, PageFlow Library is here to fuel your passion for reading. Sign up today to create an account, browse our growing collection, and manage your personal library with features like favorites and recommendations. Begin your reading journey now!
