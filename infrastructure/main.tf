@@ -46,3 +46,14 @@ resource "aws_s3_object" "misc_files" {
   key      = "misc/${each.value}"
   source   = "${path.module}/s3/misc/${each.value}"
 }
+
+
+
+# Set up the database in postgresQL 
+
+
+
+# Set up the Frontend Nextjs project
+
+
+# Set UP the Django project
