@@ -5,7 +5,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'library-app-data.s3.ca-west-1.amazonaws.com',
+        // hostname: 'library-app-data.s3.ca-west-1.amazonaws.com',
+        hostname: `${process.env.AWS_STORAGE_BUCKET_NAME}.s3.${process.env.AWS_S3_REGION_NAME}.amazonaws.com`,
+
       },
     ],
   },
