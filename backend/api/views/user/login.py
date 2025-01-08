@@ -51,6 +51,8 @@ class LoginView(TokenObtainPairView):
 
         # Add user data to the response
         response.data['user'] = user_data
+        response.data['user'] ["googleUser"] = False
+
         return response
 
 class GoogleLoginView(APIView):
@@ -60,8 +62,6 @@ class GoogleLoginView(APIView):
         token = request.data.get("token")
         if not token:
             return Response({"error": "Token is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-        print("\n\ngoogle value " + settings.GOOGLE_CLIENT_ID + "\n\n")
 
         try:
             # Use GOOGLE_CLIENT_ID from settings
@@ -87,14 +87,10 @@ class GoogleLoginView(APIView):
 
             # ONly happens if a user is creating an account
             if picture and created:
-                print("\n\n users google account has a google image")
 
                 response = fetchRequest.get(picture, stream=True)
                 response.raise_for_status()
                 image_file = ContentFile(response.content, name=f"{uuid.uuid4()}.jpg")
-
-                print("here")
-
                 
                 # Handle profile image upload (if provided)
                 unique_string = str(uuid.uuid4())  # Generate a unique string for filename
@@ -102,15 +98,14 @@ class GoogleLoginView(APIView):
                 # Create or update the profile picture record for the user
                 UserProfilePicture.objects.update_or_create(user=user, profile_image_url=profile_image_url)
 
-                print("here2")
-            else:
-                print("\nUser has already been rcreate\n")
      
             # Generate JWT tokens for the user
             refresh = RefreshToken.for_user(user)
 
             # Serialize user data
             user_data = PublicUserSerializer(user).data
+
+            user_data["googleUser"] = True
 
             return Response({
                 "accessToken": str(refresh.access_token),
