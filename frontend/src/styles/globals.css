@@ -1,7 +1,32 @@
+/**
+ * @file globals.css
+ * @module GlobalStyles
+ * @desc Global styles for the PageFlow Library application, including theme variables, typography, and utility classes.
+ *
+ * @requires Tailwind CSS (base, components, utilities)
+ * @requires Google Fonts (Lexend, Open Sans, Roboto, Lato, Montserrat, Nunito, Poppins, Bebas Neue)
+ * 
+ * @description
+ * - Defines light and dark mode theme variables.
+ * - Sets default font styles and imports external fonts for use across the application.
+ * - Adds utility classes for text wrapping.
+ * - Ensures consistent typography and layout for a professional design.
+ *
+ * @see {@link https://tailwindcss.com/docs | Tailwind CSS Documentation}
+ * @see {@link https://fonts.google.com | Google Fonts}
+ *
+ * @author Chace Nielson
+ * @since 1.0
+ * @created 2025-01-08
+ * @updated 2025-01-08
+ */
+/* Tailwind CSS Layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+/* Theme Variables */
 /* Light Mode Theme Variables */
 :root {
   --primary: #ffffff;
@@ -12,7 +37,7 @@
   --accent-dark: #541616;
 }
 
-/* Dark Mode Theme Variables - Activated by the 'dark' class on the HTML element */
+/* Dark Mode Theme Variables */
 :root.dark {
   --primary: #0a0a0a;
   --primary-dark: #0f0f0f;
@@ -22,13 +47,14 @@
   --accent-dark: #7F1D1D;
 }
 
+/* Typography */
 body {
   color: var(--secondary);
   background: var(--primary);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Extra Utility for Balancing Text */
+/* Utility Classes */
+/* Balances text wrapping */
 @layer utilities {
   .text-balance {
     text-wrap: balance;

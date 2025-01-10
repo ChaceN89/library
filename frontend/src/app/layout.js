@@ -1,8 +1,54 @@
-import localFont from "next/font/local";
+/**
+ * @file RootLayout.jsx - layout.jsx
+ * @module RootLayout
+ * @desc Entry point layout for the PageFlow Library application, managing global providers, styles, and structure.
+ * This layout wraps the entire application, providing shared components like context providers, the footer, and testing utilities.
+ *
+ * @component RootLayout
+ * 
+ * @requires Navbar from "@/components/navUI/Navbar"
+ * @requires Footer from "@/components/general/Footer"
+ * @requires TailwindBreakPoints from "@/components/testing/TailwindBreakPoints"
+ * @requires DarkModeTestingToggle from "@/components/testing/DarkModeTestingToggle"
+ * @requires GoogleOAuthProvider from '@react-oauth/google'
+ * @requires GOOGLE_CLIENT_ID from "../globals"
+ * @requires ProfileProvider from "@/context/ProfileContext"
+ * @requires FavBooksProvider from "@/context/FavBooksContext"
+ * @requires SearchProvider from '@/context/SearchContext'
+ * @requires Toaster from 'react-hot-toast'
+ * @requires "../styles/globals.css"
+ * @requires "../styles/typography.css"
+ *
+ * @description
+ * - Wraps the app with context providers: `GoogleOAuthProvider`, `ProfileProvider`, `FavBooksProvider`, and `SearchProvider`.
+ * - Includes testing utilities (`DarkModeTestingToggle`, `TailwindBreakPoints`) only for development.
+ * - Provides a consistent footer and a `Toaster` for notifications.
+ * 
+ * @notes
+ * - Uses environment variables to configure Google OAuth.
+ * - `Navbar` is currently commented out but can be enabled as needed.
+ * 
+ * @example
+ * // Example of usage:
+ * import RootLayout from './layout';
+ * 
+ * export default function App({ children }) {
+ *   return <RootLayout>{children}</RootLayout>;
+ * }
+ * 
+ * @exports RootLayout
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-08
+ * @updated 2025-01-08
+ */
+
 import "../styles/globals.css";  // Fix the import path for globals.css
+import "../styles/typography.css";  // Fix the import path for globals.css
 
 import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";
+import DarkModeTestingToggle from "@/components/testing/DarkModeTestingToggle";
 import Footer from "@/components/general/Footer";
 
 // Google Signin info and google context
@@ -16,19 +62,6 @@ import { FavBooksProvider } from "@/context/FavBooksContext";
 
 import { Toaster } from 'react-hot-toast';
 
-
-const geistSans = localFont({
-  src: "/fonts/GeistVF.woff",  // Correct path relative to the public folder
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const geistMono = localFont({
-  src: "/fonts/GeistMonoVF.woff",  // Correct path relative to the public folder
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
 export const metadata = {
   title: "PageFlow Library",
   description: "A simple library app to manage txt files",
@@ -37,35 +70,19 @@ export const metadata = {
   },
 };
 
-const darkModeScript = `
-  (function() {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  })();
-`;
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        {/* Dark mode initialization script */}
-        <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
+      <body className={` antialiased h-full flex flex-col`}>
         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
           <ProfileProvider>
             <FavBooksProvider>
               <SearchProvider>
                 <Toaster position="top-center" reverseOrder={false} />
-
+                <DarkModeTestingToggle/>
                 <TailwindBreakPoints />
                 <Navbar />
-                <main className="flex-grow container mx-auto flex flex-col justify-stretch h-full min-h-screen">
+                <main className="flex-grow  flex flex-col justify-stretch h-full min-h-screen">
                   {children}
                 </main>
                 <Footer className="mt-auto" />

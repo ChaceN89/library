@@ -14,12 +14,12 @@
  * 
  * @example
  * // Ensure the environment variable is set to development
- * process.env.REACT_APP_ENVIRONMENT = 'development';
+ * process.env.NEXT_PUBLIC_ENVIRONMENT = 'development';
  * 
  * // Include the TailwindBreakPoints component in your application
  * <TailwindBreakPoints />
  * 
- * @note The environment variable `REACT_APP_ENVIRONMENT` must be set to 'development' for this component to render.
+ * @note The environment variable `NEXT_PUBLIC_ENVIRONMENT` must be set to 'development' for this component to render.
  * 
  * @see {@link https://reactjs.org/docs/getting-started.html | React Documentation}
  * @see {@link https://tailwindcss.com/docs/responsive-design | Tailwind CSS Responsive Design Documentation}
@@ -34,7 +34,7 @@ import React from 'react';
 
 function TailwindBreakPoints() {
   // Check if the environment variable indicates development mode
-  const isDevelopment = process.env.REACT_APP_ENVIRONMENT === 'development';
+  const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
   if (!isDevelopment) {
     return null; // Do not render in production

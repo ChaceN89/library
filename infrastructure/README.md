@@ -35,10 +35,17 @@ terraform validate
 2
 Preview the Changes: Use terraform plan to preview the changes Terraform will make without applying them.
 terraform plan -var-file="prod.tfvars"
+terraform plan -var-file="dev.tfvars"
 
 3.
 terraform apply -var-file="prod.tfvars"
+terraform apply -var-file="dev.tfvars"
 
 
 4. after pushing changes
 terraform destroy -var-file="prod.tfvars"
+
+
+
+add an existing bucket to be manged by terraform
+terraform import aws_s3_bucket.library_app_s3_bucket library-app-data
