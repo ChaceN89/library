@@ -45,6 +45,7 @@
 
 import "../styles/globals.css";  // Fix the import path for globals.css
 import "../styles/typography.css";  // Fix the import path for globals.css
+import "../styles/display.css";  // Fix the import path for globals.css
 
 import Navbar from "@/components/navUI/Navbar";
 import TailwindBreakPoints from "@/components/testing/TailwindBreakPoints";

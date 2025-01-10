@@ -83,7 +83,7 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
         {error ?(
           <ErrorLoading className='h-32' message="Failed to load books. Please try again later." />
         ):(
-          <ul className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          <ul className="gridBookDisplay">
             {loading ? (
               <>
                 {/* Display multiple loading wheels */}
