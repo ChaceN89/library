@@ -44,7 +44,7 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import BookCard from "@/components/library/book/BookCard";
+import BookCard from "@/components/home/BookCard";
 import LoadingWheel from "../loading/LoadingWheel";
 import ErrorLoading from "../loading/ErrorLoading";
 
@@ -83,17 +83,17 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
         {error ?(
           <ErrorLoading className='h-32' message="Failed to load books. Please try again later." />
         ):(
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {loading ? (
               <>
-                {/*  */}
+                {/* Display multiple loading wheels */}
                 {Array.from({ length: booksToFetch }).map((_, index) => (
                   <LoadingWheel key={index} className="h-32" />
                 ))}
               </>
             ):(
               <>
-                {/*  */}
+                {/* Display multiple book cards */}
                 {books.map((book) => (
                   <BookCard key={book.id} book={book} />
                 ))}

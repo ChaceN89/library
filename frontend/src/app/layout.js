@@ -81,7 +81,7 @@ export default function RootLayout({ children }) {
                 <Toaster position="top-center" reverseOrder={false} />
                 <DarkModeTestingToggle/>
                 <TailwindBreakPoints />
-                <Navbar />
+                {/* <Navbar /> */}
                 <main className="flex-grow  flex flex-col justify-stretch h-full min-h-screen">
                   {children}
                 </main>

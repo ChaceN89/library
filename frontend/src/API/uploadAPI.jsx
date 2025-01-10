@@ -2,6 +2,11 @@ import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';  // Ensure the token is valid
 
 export const uploadBook = async (data) => {
+  console.log("Uploading book with the following data:");
+  for (const [key, value] of data.entries()) {
+    console.log(`${key}:`, value);
+  }
+
   try {
     const accessToken = await checkAndRefreshAccessToken();  // Ensure valid token
 
@@ -15,11 +20,14 @@ export const uploadBook = async (data) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to upload book');
+      const errorResponse = await response.json();
+      console.error("Backend responded with:", errorResponse);
+      throw new Error(`Failed to upload book: ${errorResponse.detail || 'Unknown error'}`);
     }
 
     return await response.json();  // Return the result
   } catch (error) {
+    console.error("Upload error:", error);
     throw error;  // Throw error to handle it in the component
   }
 };

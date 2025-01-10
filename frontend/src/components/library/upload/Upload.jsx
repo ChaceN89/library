@@ -32,17 +32,20 @@ function Upload() {
     e.preventDefault();
     setLoading(true);
     const uploadToast = toast.loading("Uploading book...");
-
+  
     const data = new FormData();
     data.append('title', formData.title);
     data.append('description', formData.description);
-    data.append('author', formData.author);
-    data.append('genre', formData.genre);
-    data.append('published_date', formData.published_date);
-    data.append('language', formData.language);
+    data.append('author', formData.author || ''); // Default to empty if not provided
+    data.append('genre', formData.genre || '');
+    data.append('published_date', formData.published_date || '');
+    data.append('language', formData.language || '');
     data.append('content', formData.content);
-    data.append('cover_art', formData.cover_art);
-
+  
+    if (formData.cover_art) {
+      data.append('cover_art', formData.cover_art);
+    }
+  
     try {
       await uploadBook(data);  // Call the API function
       toast.success('Book uploaded successfully!', { id: uploadToast });
@@ -53,6 +56,7 @@ function Upload() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="p-6 max-w-md mx-auto">

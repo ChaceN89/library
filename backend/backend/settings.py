@@ -219,7 +219,9 @@ CORS_ALLOW_CREDENTIALS = True
 # Dummy variable
 DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
 
-DEFAULT_PROFILE_PIC_URL = 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'
+DEFAULT_PROFILE_PIC_URL = f'https://{AWS_S3_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/misc/defaultProfilePic.jpg'
+# Probably not used in backend
+DEFAULT_BOOK_COVER_URL = f'https://{AWS_S3_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/misc/defaultBookCover.png'
 
 APP_VERSION = config('APP_VERSION', default="1.0.0")
 

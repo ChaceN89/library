@@ -19,12 +19,10 @@ function SetFavBook({ id, title }) {
         // Remove from favorites
         await removeFavoriteBook(id);
         setIsLocalFav(false);  // Update the star to unfilled
-        toast.success(`'${title}' removed from favorites`);
       } else {
         // Add to favorites
         await addFavoriteBook(id);
         setIsLocalFav(true);  // Update the star to filled
-        toast.success(`'${title}' added to favorites`);
       }
     } catch (error) {
       toast.error(error.message || 'Error updating favorites');
@@ -34,9 +32,9 @@ function SetFavBook({ id, title }) {
   return (
     <div onClick={toggleFavorite} className="cursor-pointer">
       {isLocalFav ? (
-        <span className="text-yellow-500">⭐ Favourite</span>
+        <span className="text-yellow-500 text-2xl">⭐ </span>
       ) : (
-        <span className="text-gray-500">☆ Not Favourite</span>
+        <span className="text-gray-500 text-2xl">☆ </span>
       )}
     </div>
   );

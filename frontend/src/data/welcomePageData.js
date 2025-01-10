@@ -20,7 +20,7 @@
 import { IMAGE_PREFIX } from "@/globals";
 
 export const welcomePageData ={
-  TopBooksToDisplay: 3,
+  TopBooksToDisplay: 6,
   title: "Welcome to the Libary",
   subTitle: "Our mission is to make books accessible to everyone, offering a rich library experience where you can explore, read, and save your favorites. Whether you're discovering new genres or revisiting timeless classics, PageFlow Library is here to fuel your passion for reading.",
   background: `${IMAGE_PREFIX}/frontendAssets/whiteGeoMetric2.png`

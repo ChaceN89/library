@@ -44,32 +44,32 @@ body {
 /* Global typography styles */
 @layer base {
   h1 {
-    @apply text-3xl font-extrabold leading-tight md:text-5xl lg:text-6xl;
+    @apply text-3xl font-extrabold leading-tight md:text-4xl lg:text-5xl;
     color: var(--secondary); /* Dynamic based on theme */
   }
 
   h2 {
-    @apply text-2xl font-bold leading-snug md:text-4xl;
+    @apply text-2xl font-bold leading-snug md:text-3xl;
     color: var(--secondary); /* Dynamic based on theme */
   }
 
   h3 {
-    @apply text-xl font-semibold leading-snug md:text-3xl;
+    @apply text-xl font-semibold leading-snug md:text-2xl;
     color: var(--secondary-dark); /* Slightly muted for smaller headers */
   }
 
   h4 {
-    @apply text-lg font-semibold leading-snug md:text-2xl;
+    @apply text-lg font-semibold leading-snug md:text-xl;
     color: var(--secondary-dark); /* Slightly muted for smaller headers */
   }
 
   h5 {
-    @apply text-base font-medium leading-snug md:text-xl;
+    @apply text-base font-medium leading-snug md:text-lg;
     color: var(--secondary-dark); /* Slightly muted for smaller headers */
   }
 
   h6 {
-    @apply text-sm font-medium leading-snug md:text-lg;
+    @apply text-sm font-medium leading-snug md:text-base;
     color: var(--secondary-dark); /* Slightly muted for smaller headers */
   }
 

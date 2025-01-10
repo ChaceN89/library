@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import BookCard from '../book/BookCard';
+import BookCard from '../../home/BookCard';
 import { useFavBooks } from '@/context/FavBooksContext';  // Import the favorite books context
 
 function FavBooks() {
