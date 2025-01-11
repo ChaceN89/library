@@ -55,7 +55,7 @@
   }
 
   h3 {
-    @apply font-bold text-3xl sm:text-3xl md:text-4xl leading-snug !important;
+    @apply font-bold text-3xl sm:text-3xl md:text-3xl leading-snug !important;
   }
 
   h4 {

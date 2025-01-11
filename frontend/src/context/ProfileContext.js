@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { logout as authLogout } from "@/API/authAPI";
 
 // Create the context
 const ProfileContext = createContext();
@@ -27,7 +28,17 @@ export const ProfileProvider = ({ children }) => {
     setShouldReloadProfile((prev) => !prev);
   };
 
-  const isLoggedIn = !!accessToken; // Boolean check for logged-in status
+  // Boolean check for logged-in status
+  const isLoggedIn = !!accessToken;
+
+  // Logout function
+  const handleLogout = async () => {
+    await authLogout(); // Clear tokens via API call
+    setAccessToken(null);
+    setRefreshToken(null);
+    setUserData(null);
+    triggerProfileReload(); // Trigger UI updates based on logout
+  };
 
   return (
     <ProfileContext.Provider
@@ -41,6 +52,7 @@ export const ProfileProvider = ({ children }) => {
         setRefreshToken,
         setUserData,
         isLoggedIn,
+        handleLogout, // Include the logout function
       }}
     >
       {children}

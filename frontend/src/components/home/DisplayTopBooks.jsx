@@ -76,7 +76,7 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
 
   return (
     <section className="my-6">
-      <h2 className='pb-2'>{title} aaa {JSON.stringify(error)}</h2>
+      <h2 className='pb-2'>{title}</h2>
       <div className="min-h-44">
 
         {/* If Error display the Error Box else display loading or the actual books */}

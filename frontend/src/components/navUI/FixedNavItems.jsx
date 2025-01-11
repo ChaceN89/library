@@ -8,10 +8,10 @@ import { navData } from '@/data/navData';
 
 const FixedNavItems = ({popUp=false}) => (
 
-  <div className={`flex flex-col lg:flex-row items-center gap-2 ${popUp && "lg:hidden"}`}>
+  <div className={`nav-actions ${popUp && "lg:hidden"}`}>
     <LogoLink />
     <NavButton
-      href={navData.browseButton.link}
+      href={navData.browseButton.href}
       label={navData.browseButton.label}
     />
     <NavSearch />

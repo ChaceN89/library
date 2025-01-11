@@ -16,7 +16,6 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { overlayVariants, slideVariants } from "@/data/navData";
 
 const SideMenu = ({ menuOpen, toggleMenu, LeftSideItems, RightSideItems }) => {
@@ -57,9 +56,9 @@ const SideMenu = ({ menuOpen, toggleMenu, LeftSideItems, RightSideItems }) => {
               <FaTimes size={24} />
             </button>
 
-            <LeftSideItems popUp={true} />
-            <hr className="my-3 h-[2px] bg-primary dark:bg-secondary border-0" />
-            <RightSideItems popUp={true}  />
+            <LeftSideItems popUp={true}/>
+            <hr className="my-5 h-[2px] bg-primary dark:bg-secondary border-0" />
+            <RightSideItems popUp={true}/>
           </motion.div>
         )}
       </AnimatePresence>

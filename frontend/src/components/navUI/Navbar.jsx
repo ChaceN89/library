@@ -12,52 +12,39 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
+import { useProfileContext } from "@/context/ProfileContext";
+import { navData } from "@/data/navData";
 import FixedNavItems from "./FixedNavItems";
 import UserActionsNav from "./UserActionsNav";
 import SideMenu from "./SideMenu";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoggedIn, handleLogout } = useProfileContext(); // Access profile data
 
-  // Toggle betwee on and off
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const closeMenu = () => setMenuOpen(false);
 
-  // If the meny is open close it
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
-  // Add an event listener for the Escape key
+  // Close the menu on Escape key press
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape" && menuOpen) {
+      if (event.key === "Escape" && menuOpen) closeMenu();
+    };
+
+    const handleResize = ()=>{
+      if (window.innerWidth >= 1024){
         closeMenu();
       }
-    };
+    } 
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [menuOpen]);
-
-  // Add a resize listener to close the menu when screen size exceeds `md`
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        closeMenu(); // Close the menu if screen size is `md` or larger
-      }
-    };
-
     window.addEventListener("resize", handleResize);
 
-    // Cleanup the resize listener on unmount
     return () => {
+      document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [menuOpen]);
 
   return (
     <nav className="w-full bg-accent p-4 sticky top-0 z-50 shadow-lg">
@@ -78,7 +65,7 @@ const NavBar = () => {
 
         {/* Right side: User actions */}
         <div className="hidden lg:flex">
-          <UserActionsNav />
+          <UserActionsNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         </div>
       </div>
 
@@ -87,7 +74,13 @@ const NavBar = () => {
         menuOpen={menuOpen}
         toggleMenu={toggleMenu}
         LeftSideItems={FixedNavItems}
-        RightSideItems={UserActionsNav}
+        RightSideItems={(props) => (
+          <UserActionsNav
+            {...props}
+            isLoggedIn={isLoggedIn}
+            handleLogout={handleLogout}
+          />
+        )}
       />
     </nav>
   );

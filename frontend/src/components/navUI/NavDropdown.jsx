@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import NavButton from './NavButton';
+import { navData } from '@/data/navData';
 
 const NavDropdown = ({ items }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,8 +46,8 @@ const NavDropdown = ({ items }) => {
 
   return (
     <div className="relative">
-      <button ref={btnRef} onClick={toggleDropdown} className="border p-2 rounded-lg">
-        Menu
+      <button ref={btnRef} onClick={toggleDropdown} className="nav-button-1 flex gap-0.5 items-center">
+        <span className="relative z-10 flex gap-1 items-center">{navData.menuButton.icon}{navData.menuButton.label}</span>
       </button>
       {isOpen && (
         <div ref={dropRef} className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg py-2 w-fit">

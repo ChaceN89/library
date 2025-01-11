@@ -21,7 +21,7 @@ const NavSearch = () => {
 
 
   const search = (e) => {
-    router.push(navData.browseButton.link);
+    router.push(navData.browseButton.href);
     // close the meny
   }
 
@@ -30,13 +30,13 @@ const NavSearch = () => {
   // Handle "Enter" key press for search submission
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      router.push(navData.browseButton.link); // Navigate to /browse when "Enter" is pressed
+      router.push(navData.browseButton.href); // Navigate to /browse when "Enter" is pressed
     }
   };
 
   // Handle button click for search submission
   const handleSearchClick = () => {
-    router.push(navData.browseButton.link); // Navigate to /browse when the button is clicked
+    router.push(navData.browseButton.href); // Navigate to /browse when the button is clicked
   };
 
   return (
