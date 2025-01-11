@@ -1,24 +1,23 @@
-// src/components/LogoLink.jsx
 import React from 'react';
 import Link from 'next/link';  // Use Next.js's Link component for navigation
 import Image from 'next/image';  // Use Next.js's Image component for optimized images
 import './logoLink.css';  // Import the styles from logo.css
+import { navData } from '@/data/navData';
 
 const LogoLink = () => {
   return (
-    <Link href="/" className="logo-link flex items-center text-primary">
-      <div className="flex items-center">
+    <Link href={navData.logoLink} className="logo-link flex items-center text-primary">
+      <div className="relative h-10 w-10 flex-shrink-0">
         <Image
-          className="object-contain w-10 h-10"  // Adjusted size using Tailwind CSS
           src="/fox.ico"  // Path to the actual location of your logo
-          alt="PageFlow Logo"
-          width={40}  // Adjust width for optimization
-          height={40}  // Adjust height for optimization
+          alt="PageFlow"
+          fill
+          className="object-contain"
         />
       </div>
-      <h1 className="text-3xl whitespace-nowrap titleFont underline-effect">
+      <h3 className="text-lg whitespace-nowrap underline-effect">
         PAGEFLOW
-      </h1>
+      </h3>
     </Link>
   );
 };

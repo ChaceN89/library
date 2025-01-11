@@ -8,6 +8,13 @@ import { logout } from '@/API/authAPI';
 import { useProfileContext } from '@/context/ProfileContext';  // Import the ProfileContext
 
 const UserActionsNav = () => {
+
+  return(
+
+    <div>User Action Items</div>
+  )
+  
+
   const { userData } = useProfileContext();  // Access user data from the ProfileContext
 
   const handleLogout = async () => {
