@@ -83,7 +83,7 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
         {error ?(
           <ErrorLoading className='h-32' message="Failed to load books. Please try again later." />
         ):(
-          <ul className="gridBookDisplay">
+          <ul className="grid-book-display">
             {(loading ? Array.from({ length: booksToFetch }) : books).map((book, index) => (
               <BookCard
                 key={book?.id || index}

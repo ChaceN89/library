@@ -8,7 +8,6 @@
  * 
  * @requires react
  * @requires SectionHeader from './SectionHeader'
- * @requires SlideTransition from '../../animations/SlideTransition'
  * 
  * @see {@link https://reactjs.org/docs/getting-started.html | React Documentation}
  * 
@@ -41,26 +40,12 @@
  * @updated 2025-01-10
  */
 import React from 'react';
-import SlideTransition from '../animations/SlideTransition';
 
-/**
- * SectionWrapper component
- *
- * @param {Object} props - The component props.
- * @param {React.ReactNode} props.children - The content to be wrapped inside the section.
- * @param {string} props.title - The title of the section.
- * @param {string} props.subtitle - The subtitle of the section.
- * @returns {JSX.Element} The SectionWrapper component.
- */
 function SectionWrapper({ children, title, subtitle }) {
   return (
-    <div className='container mx-auto py-4 px-2'>
-      <SlideTransition>
-        <div className='space-y-2'>
-          <h1 className='font-bold'>{title}</h1>
-          <p className='text-darken'>{subtitle}</p>
-        </div>
-      </SlideTransition>
+    <div className='container mx-auto py-4 px-2 space-y-2'>
+      <h1 className='font-bold'>{title}</h1>
+      <p className='text-darken'>{subtitle}</p>
       <div className='px-4'>
         {children}
       </div>

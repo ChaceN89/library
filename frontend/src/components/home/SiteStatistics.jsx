@@ -1,7 +1,7 @@
 /**
  * @file SiteStatistics.jsx
  * @module SiteStatistics
- * @description Component for displaying detailed site statistics in a user-friendly layout.
+ * @description Component for displaying detailed site statistics in a user-friendly layout using reusable `StatBox` components.
  *
  * @author Chace Nielson
  * @created 2025-01-10
@@ -43,18 +43,33 @@ function SiteStatistics() {
    * @param {string} title - The title of the statistic.
    * @param {string|number} data - The statistic value to display.
    * @param {string} [subtext] - Optional subtext or additional information.
+   * @param {Array} [list] - Optional list of items to display.
    */
-  const StatBox = ({ title, data, subtext }) => (
-    <div className="bg-gray-100 p-4 rounded-lg shadow">
-      <h4 className="">{title}</h4>
-      <p className="text-xl font-bold">"{data}"</p>
-      {subtext && <p className="text-sm">{subtext}</p>}
+  const StatBox = ({ title, data, subtext, list = [] }) => (
+    <div className="card-background">
+      <h4 className="text-lg font-semibold pb-1.5">{title}</h4>
+      <div className="flex justify-between gap-2 items-center">
+        {data && <h6 className="item-box"><span className="px-2">{data}</span></h6>}
+        {subtext && <p>{subtext}</p>}
+      </div>
+      {list.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {list.map((item, index) => (
+            <p
+              key={index}
+              className="item-box"
+            >
+              {item}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 
   return (
     <section className="mt-8">
-      <h2 className='pb-2'>Site Statistics</h2>
+      <h2 className="pb-2 text-2xl font-bold">Site Statistics</h2>
       {loading ? (
         <div className="flex flex-col items-center justify-center">
           <p className="text-lg mb-2">Loading site statistics...</p>
@@ -65,50 +80,47 @@ function SiteStatistics() {
       ) : !siteStats ? (
         <ErrorLoading message="No site statistics available at the moment." />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <StatBox title="Total Books" data={siteStats.total_books} />
-          <StatBox title="Total Authors" data={siteStats.total_authors} />
-          <StatBox title="Total Views" data={siteStats.total_views} />
-          <StatBox title="Total Downloads" data={siteStats.total_downloads} />
-          <StatBox
-            title="Average Views Per Book"
-            data={siteStats.average_views_per_book.toFixed(2)}
-          />
-          <StatBox
-            title="Average Downloads Per Book"
-            data={siteStats.average_downloads_per_book.toFixed(2)}
-          />
-          <StatBox
-            title="Top Viewed Book"
-            data={siteStats.top_viewed_book.title}
-            subtext={`Views: ${siteStats.top_viewed_book.views}`}
-          />
-          <StatBox
-            title="Top Downloaded Book"
-            data={siteStats.top_downloaded_book.title}
-            subtext={`Downloads: ${siteStats.top_downloaded_book.downloads}`}
-          />
-          <div className="bg-gray-100 p-4 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
-            <h4 className="text-lg font-semibold">Books Per Language</h4>
-            <ul className="list-disc list-inside">
-              {siteStats.books_per_language.map((lang) => (
-                <li key={lang.language} className="text-sm">
-                  {lang.language}: {lang.count} books
-                </li>
-              ))}
-            </ul>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <StatBox title="Total Books" data={siteStats.total_books} />
+            <StatBox title="Total Authors" data={siteStats.total_authors} />
+            <StatBox title="Total Views" data={siteStats.total_views} />
+            <StatBox title="Total Downloads" data={siteStats.total_downloads} />
+            <StatBox
+              title="Average Views Per Book"
+              data={siteStats.average_views_per_book.toFixed(2)}
+            />
+            <StatBox
+              title="Average Downloads Per Book"
+              data={siteStats.average_downloads_per_book.toFixed(2)}
+            />
+            <StatBox
+              title="Top Viewed Book"
+              data={siteStats.top_viewed_book.title}
+              subtext={`Views: ${siteStats.top_viewed_book.views}`}
+            />
+            <StatBox
+              title="Top Downloaded Book"
+              data={siteStats.top_downloaded_book.title}
+              subtext={`Downloads: ${siteStats.top_downloaded_book.downloads}`}
+            />
           </div>
-          <div className="bg-gray-100 p-4 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
-            <h4 className="text-lg font-semibold">Genres</h4>
-            <ul className="list-disc list-inside">
-              {Object.entries(siteStats.genres).map(([genre, count]) => (
-                <li key={genre} className="text-sm">
-                  {genre}: {count} books
-                </li>
-              ))}
-            </ul>
+
+          <div className="flex flex-col gap-6 mt-6">
+            <StatBox
+              title="Books Per Language"
+              list={siteStats.books_per_language.map(
+                (lang) => `${lang.language}: ${lang.count} books`
+              )}
+            />
+            <StatBox
+              title="Genres"
+              list={Object.entries(siteStats.genres).map(
+                ([genre, count]) => `${genre}: ${count} books`
+              )}
+            />
           </div>
-        </div>
+        </>
       )}
     </section>
   );

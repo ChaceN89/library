@@ -55,8 +55,7 @@ function BookCard({ book, loading }) {
     <li
       key={book.id}
       onClick={handleCardClick}
-      className="bg-gray-100 dark:bg-black border border-gray-300 
-        rounded-lg p-4 mb-4 shadow-xl 
+      className="card-background 
         flex flex-col md:flex-row gap-4 cursor-pointer
         hover:shadow-accent dark:hover:shadow-primary-dark 
         transition-shadow"
