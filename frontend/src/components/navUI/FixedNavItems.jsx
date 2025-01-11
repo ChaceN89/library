@@ -6,16 +6,15 @@ import LogoLink from '../general/LogoLink';
 import NavButton from './NavButton';
 import { navData } from '@/data/navData';
 
-const FixedNavItems = () => (
+const FixedNavItems = ({popUp=false}) => (
 
-  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+  <div className={`flex flex-col lg:flex-row items-center gap-2 ${popUp && "lg:hidden"}`}>
     <LogoLink />
     <NavButton
       href={navData.browseButton.link}
       label={navData.browseButton.label}
     />
-      {/* <NavSearch /> */}
-
+    <NavSearch />
   </div>
 );
 

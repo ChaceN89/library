@@ -19,10 +19,12 @@ import SideMenu from "./SideMenu";
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Toggle betwee on and off
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
 
+  // If the meny is open close it
   const closeMenu = () => {
     setMenuOpen(false);
   };
@@ -44,7 +46,7 @@ const NavBar = () => {
   // Add a resize listener to close the menu when screen size exceeds `md`
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         closeMenu(); // Close the menu if screen size is `md` or larger
       }
     };
@@ -61,13 +63,13 @@ const NavBar = () => {
     <nav className="w-full bg-accent p-4 sticky top-0 z-50 shadow-lg">
       <div className="flex justify-between items-center container mx-auto">
         {/* Left side: Fixed items */}
-        <div className="hidden md:flex">
+        <div className="hidden lg:flex">
           <FixedNavItems />
         </div>
 
         {/* Hamburger menu for small screens */}
         <button
-          className="md:hidden text-white focus:outline-none"
+          className="lg:hidden text-white focus:outline-none"
           onClick={toggleMenu}
           aria-label="Toggle Menu"
         >
@@ -75,7 +77,7 @@ const NavBar = () => {
         </button>
 
         {/* Right side: User actions */}
-        <div className="hidden md:flex">
+        <div className="hidden lg:flex">
           <UserActionsNav />
         </div>
       </div>

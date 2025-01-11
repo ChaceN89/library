@@ -57,9 +57,9 @@ const SideMenu = ({ menuOpen, toggleMenu, LeftSideItems, RightSideItems }) => {
               <FaTimes size={24} />
             </button>
 
-            <LeftSideItems />
+            <LeftSideItems popUp={true} />
             <hr className="my-3 h-[2px] bg-primary dark:bg-secondary border-0" />
-            <RightSideItems />
+            <RightSideItems popUp={true}  />
           </motion.div>
         )}
       </AnimatePresence>
