@@ -1,15 +1,17 @@
 /**
  * @file NavBar.jsx
  * @module NavBar
- * @description Responsive navigation bar with a hamburger menu for smaller screens.
- * Includes fixed left-side navigation and user actions on the right, with animated transitions.
+ * @description 
+ *   A responsive navigation bar with a hamburger menu for smaller screens and a fixed layout for larger screens. 
+ *   Includes left-side navigation links and user actions on the right, with animated transitions and keyboard accessibility.
  *
  * @author Chace Nielson
  * @created 2025-01-10
- * @updated 2025-01-10
+ * @updated 2025-01-11
  */
 
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import { useProfileContext } from "@/context/ProfileContext";
@@ -19,28 +21,37 @@ import UserActionsNav from "./UserActionsNav";
 import SideMenu from "./SideMenu";
 
 const NavBar = () => {
+  // State to track the menu open/close state
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isLoggedIn, handleLogout } = useProfileContext(); // Access profile data
 
+  // Access user authentication and logout logic from ProfileContext
+  const { isLoggedIn, handleLogout } = useProfileContext();
+
+  // Toggle menu state
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  // Close menu
   const closeMenu = () => setMenuOpen(false);
 
-  // Close the menu on Escape key press
+  // Effect: Close the menu when Escape is pressed or screen is resized
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape" && menuOpen) closeMenu();
     };
 
-    const handleResize = ()=>{
-      if (window.innerWidth >= 1024){
+    const handleResize = () => {
+      // Automatically close the menu if the screen is resized to desktop width
+      if (window.innerWidth >= 1024) {
         closeMenu();
       }
-    } 
+    };
 
+    // Attach event listeners for keyboard and window resize
     document.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
 
     return () => {
+      // Cleanup event listeners on unmount
       document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
@@ -49,27 +60,27 @@ const NavBar = () => {
   return (
     <nav className="w-full bg-accent p-4 sticky top-0 z-50 shadow-lg">
       <div className="flex justify-between items-center container mx-auto">
-        {/* Left side: Fixed items */}
+        {/* Left side: Static navigation links for larger screens */}
         <div className="hidden lg:flex">
           <FixedNavItems />
         </div>
 
-        {/* Hamburger menu for small screens */}
+        {/* Hamburger menu button for smaller screens */}
         <button
           className="lg:hidden text-white focus:outline-none"
           onClick={toggleMenu}
           aria-label="Toggle Menu"
         >
-          <FaBars size={24} />
+          {navData.hamburgerMenuIcons.open}
         </button>
 
-        {/* Right side: User actions */}
+        {/* Right side: User actions for larger screens */}
         <div className="hidden lg:flex">
           <UserActionsNav isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         </div>
       </div>
 
-      {/* Animated pop-out menu for small screens */}
+      {/* Side menu for smaller screens, with animated transitions */}
       <SideMenu
         menuOpen={menuOpen}
         toggleMenu={toggleMenu}

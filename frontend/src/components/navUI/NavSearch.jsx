@@ -1,3 +1,18 @@
+/**
+ * @file NavSearch.jsx
+ * @module NavSearch
+ * @description 
+ *   A search bar component for the navigation bar. Allows users to input search queries 
+ *   and navigate to the browse page on submission. Integrates with the global search context.
+ * 
+ * @example
+ *   <NavSearch />
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-10
+ * @updated 2025-01-11
+ */
+
 "use client";
 
 import React, { useState } from "react";
@@ -7,54 +22,66 @@ import { navData } from "@/data/navData";
 
 const NavSearch = () => {
   const [localQuery, setLocalQuery] = useState(""); // Local state for the search input
-  const { handleSearch } = useSearch(); // Access the context to update search globally
-  const router = useRouter(); // Use the new next/navigation's useRouter
+  const { handleSearch } = useSearch(); // Access the global search context to update the search query
+  const router = useRouter(); // Next.js router for navigation
 
-  // Handle user input in NavSearch
+  /**
+   * Handles user input changes in the search bar.
+   * Updates the local state and global search context.
+   * 
+   * @param {Event} e - Input change event.
+   */
   const handleInputChange = (e) => {
     const newQuery = e.target.value;
-    setLocalQuery(newQuery); // Update the local state
-
-    // Update global search context
-    handleSearch(e);
+    setLocalQuery(newQuery); // Update local state
+    handleSearch(e); // Update global search context
   };
 
+  /**
+   * Handles navigation to the browse page for search results.
+   * Triggered on "Enter" key press or button click.
+   */
+  const navigateToBrowse = () => {
+    router.push(navData.browseButton.href); // Navigate to the browse page
+  };
 
-  const search = (e) => {
-    router.push(navData.browseButton.href);
-    // close the meny
-  }
-
-
-
-  // Handle "Enter" key press for search submission
+  /**
+   * Handles "Enter" key press in the search bar to submit the search.
+   * 
+   * @param {Event} e - Keyboard event.
+   */
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      router.push(navData.browseButton.href); // Navigate to /browse when "Enter" is pressed
+      navigateToBrowse(); // Trigger navigation
     }
   };
 
-  // Handle button click for search submission
+  /**
+   * Handles button click to submit the search.
+   */
   const handleSearchClick = () => {
-    router.push(navData.browseButton.href); // Navigate to /browse when the button is clicked
+    navigateToBrowse(); // Trigger navigation
   };
 
   return (
-    <div className=" w-full flex flex-col lg:flex-row lg:items-center gap-1 bg-secondary dark:bg-primary rounded-lg p-0.5 shadow-md">
+    <div className="w-full flex flex-col lg:flex-row lg:items-center gap-1 bg-secondary dark:bg-primary rounded-lg p-0.5 shadow-md">
+      {/* Search input field */}
       <input
         type="text"
         placeholder="Search Books..."
-        value={localQuery} // Use local state to manage the input
-        onChange={handleInputChange} // Trigger input change
-        onKeyDown={handleKeyDown} // Trigger navigation when "Enter" is pressed
-        className="flex-1 px-2 py-1.5 rounded-lg bg-primary dark:bg-secondary text-secondary dark:text-primary border border-secondary dark:border-primary focus:outline-none focus:ring-2 focus:ring-accent-dark transition"
+        value={localQuery} // Bind to local state
+        onChange={handleInputChange} // Handle input changes
+        onKeyDown={handleKeyDown} // Trigger navigation on "Enter"
+        className="flex-1 px-2 py-1 rounded-lg bg-primary dark:bg-secondary text-secondary dark:text-primary border border-secondary dark:border-primary focus:outline-none focus:ring-2 focus:ring-accent-dark transition"
       />
+      {/* Search button */}
       <button
-        onClick={handleSearchClick} // Trigger navigation when button is clicked
-        className="px-1.5 py-1 bg-accent hover text-primary  font-semibold rounded-lg dark:hover:bg-accent transition-all 
-        border-2 dark:border-4 dark:px-1 dark:py-0.5 border-transparent hover:border-primary hover:dark:border-black "
+        onClick={handleSearchClick} // Trigger navigation on click
+        className="nav-button-1"
       >
-        Search
+        <span className="relative z-10 flex gap-1 items-center">
+          {navData.browseButton.searchTitle}
+        </span>
       </button>
     </div>
   );

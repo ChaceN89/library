@@ -16,7 +16,7 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { overlayVariants, slideVariants } from "@/data/navData";
+import { navData, overlayVariants, slideVariants } from "@/data/navData";
 
 const SideMenu = ({ menuOpen, toggleMenu, LeftSideItems, RightSideItems }) => {
   return (
@@ -53,7 +53,7 @@ const SideMenu = ({ menuOpen, toggleMenu, LeftSideItems, RightSideItems }) => {
               onClick={toggleMenu}
               aria-label="Close Menu"
             >
-              <FaTimes size={24} />
+              {navData.hamburgerMenuIcons.close}
             </button>
 
             <LeftSideItems popUp={true}/>

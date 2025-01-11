@@ -1,54 +1,71 @@
+/**
+ * @file styles.css
+ * @module TailwindCSSStyles
+ * @description 
+ *   A custom CSS file extending Tailwind CSS utilities with reusable classes 
+ *   for consistent design across the application. Includes styles for buttons, 
+ *   grid layouts, dropdown menus, and other UI components.
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-10
+ * @updated 2025-01-11
+ */
+
 /* Tailwind CSS Layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Classes */
 
+/* Grid layout for displaying books */
 .grid-book-display {
   @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4;
-
 }
 
+/* Background styling for cards */
 .card-background {
-  @apply bg-gray-200 dark:bg-secondary
-      bg-opacity-35 dark:bg-opacity-35
-      backdrop-blur-md
-      shadow-lg rounded-lg p-4
-      border border-gray-400;
-         
-         
+  @apply bg-gray-200 dark:bg-secondary 
+         bg-opacity-35 dark:bg-opacity-35 
+         backdrop-blur-md shadow-lg rounded-lg p-4 
+         border border-gray-400;
 }
 
-.item-box{
-  @apply bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded-lg font-semibold
+/* Styling for item boxes (e.g., tags or labels) */
+.item-box {
+  @apply bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded-lg font-semibold;
 }
 
-.nav-button-1{
-  @apply relative w-full flex justify-center lg:flex-none lg:w-auto
-  bg-primary text-secondary 
-  dark:bg-secondary dark:text-primary 
-  border border-secondary dark:border-primary 
-  overflow-hidden font-medium shadow-2xl 
-  rounded-xl px-2.5 py-2 transition-all duration-300 ease-in-out
-  hover:bg-secondary hover:text-primary 
-  dark:hover:bg-primary dark:hover:text-secondary
-  hover:shadow-accent-dark 
-  focus:outline-none focus:ring-2 focus:ring-accent-dark focus:ring-offset-2
-  before:absolute before:inset-0 before:rounded-md before:border-0 
-  before:border-secondary dark:before:border-primary
-  before:transition-all before:duration-300 before:ease-linear 
-  hover:before:border-[25px]
+/* Primary navigation button styling */
+.nav-button-1 {
+  @apply relative w-full flex justify-center lg:flex-none lg:w-auto 
+         bg-primary text-secondary 
+         dark:bg-secondary dark:text-primary 
+         border border-secondary dark:border-primary 
+         overflow-hidden font-medium shadow-2xl 
+         rounded-xl px-2.5 py-2 transition-all duration-300 ease-in-out 
+         hover:bg-secondary hover:text-primary 
+         dark:hover:bg-primary dark:hover:text-secondary 
+         hover:shadow-accent-dark 
+         focus:outline-none focus:ring-2 focus:ring-accent-dark focus:ring-offset-2 
+         before:absolute before:inset-0 before:rounded-md before:border-0 
+         before:border-secondary dark:before:border-primary 
+         before:transition-all before:duration-300 before:ease-linear 
+         hover:before:border-[25px];
 }
 
-
-.nav-actions{
+/* Flex container for navigation actions */
+.nav-actions {
   @apply flex flex-col lg:flex-row items-center gap-2;
 }
 
-
-.dropdown-cell{
-  @apply block px-4 py-2 hover:bg-gray-200 hover:dark:text-secondary cursor-pointer w-full text-secondary dark:text-primary
+/* Dropdown menu cell styling */
+.dropdown-cell {
+  @apply block px-4 py-2 hover:bg-gray-200 hover:dark:text-secondary 
+         cursor-pointer w-full text-secondary dark:text-primary;
 }
-.dropdown-item{
-  @apply w-full text-left flex gap-2 items-center whitespace-nowrap  text-inherit
+
+/* Dropdown menu item styling */
+.dropdown-item {
+  @apply w-full text-left flex gap-2 items-center whitespace-nowrap text-inherit;
 }
