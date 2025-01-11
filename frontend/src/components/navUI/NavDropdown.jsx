@@ -1,20 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import NavButton from './NavButton';
 import { navData } from '@/data/navData';
+import Link from 'next/link';
 
 const NavDropdown = ({ items }) => {
   const [isOpen, setIsOpen] = useState(false);
   const btnRef = useRef(null);  // Ref for the button
   const dropRef = useRef(null); // Ref for the dropdown
 
-  // The boundary value to check if the mouse is out of the reference element
-  const boundaryValue = 100;  
+  const boundaryValue = 100; // The boundary value to check if the mouse is out of the reference element
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  // Check if the mouse is out of the boundary area from the reference element
   const isMouseOutOfBounds = (rect, mouseX, mouseY) => {
     return (
       mouseX < rect.left - boundaryValue || 
@@ -24,7 +22,6 @@ const NavDropdown = ({ items }) => {
     );
   };
 
-  // Handle mouse leave event to close the dropdown if the mouse is far enough out of the elemetns reference
   const handleMouseLeave = (event) => {
     const btnRect = btnRef.current?.getBoundingClientRect();
     const dropRect = dropRef.current?.getBoundingClientRect();
@@ -45,24 +42,36 @@ const NavDropdown = ({ items }) => {
   }, [isOpen]);
 
   return (
-    <div className="relative">
-      <button ref={btnRef} onClick={toggleDropdown} className="nav-button-1 flex gap-0.5 items-center">
+    <div className="relative w-full lg:w-auto">
+      <button ref={btnRef} onClick={toggleDropdown} className="nav-button-1 w-full flex gap-.5 items-center">
         <span className="relative z-10 flex gap-1 items-center">{navData.menuButton.icon}{navData.menuButton.label}</span>
       </button>
       {isOpen && (
-        <div ref={dropRef} className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg py-2 w-fit">
+        <div ref={dropRef} className="absolute right-0 bg-white dark:bg-secondary border rounded-lg shadow-lg w-full lg:w-fit ">
           {items.map((item, index) => (
-            <a
-              key={index}
-              href={item.href}
-              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={item.action ? item.action : null}
-            >
-              <div className='flex gap-2 items-center whitespace-nowrap'>
-                {item.icon}  
-                {item.label}
-              </div>
-            </a>
+             <div 
+                className={`dropdown-cell 
+                  ${index === 0 ? 'rounded-t-lg' : ''} 
+                  ${index === items.length - 1 ? 'rounded-b-lg' : ''}`}  
+              >
+                {item.logoutAction ? (
+                  <a
+                    onClick={item.action ? item.action : null}
+                    className="dropdown-item"
+                  >
+                    {item.icon}
+                    {item.label}
+                  </a>
+                ):(
+                  <Link
+                    href={item.href}
+                    className="dropdown-item"
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                )}
+             </div>
           ))}
         </div>
       )}
