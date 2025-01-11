@@ -75,13 +75,13 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
   }, [fetchFunction, booksToFetch]);
 
   return (
-    <section className="mt-8">
-      <h2 className='pb-2'>{title}</h2>
-      <div className="min-h-40">
+    <section className="my-6">
+      <h2 className='pb-2'>{title} aaa {JSON.stringify(error)}</h2>
+      <div className="min-h-44">
 
         {/* If Error display the Error Box else display loading or the actual books */}
         {error ?(
-          <ErrorLoading className='h-32' message="Failed to load books. Please try again later." />
+          <ErrorLoading className="pt-5"  message="Failed to load books. Please try again later." />
         ):(
           <ul className="grid-book-display">
             {(loading ? Array.from({ length: booksToFetch }) : books).map((book, index) => (
