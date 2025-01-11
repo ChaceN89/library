@@ -18,45 +18,59 @@
  * @author Chace Nielson
  * @since 1.0
  * @created 2025-01-08
- * @updated 2025-01-08
+ * @updated 2025-01-10
  */
 /* Tailwind CSS Layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Font Imports */
+@import url("https://fonts.googleapis.com/css2?family=Lexend");
+@import url("https://fonts.googleapis.com/css2?family=Lexend&family=Open+Sans&family=Roboto&family=Lato&family=Montserrat&family=Nunito");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Bebas+Neue&display=swap');
 
-/* Theme Variables */
-/* Light Mode Theme Variables */
-:root {
-  --primary: #ffffff;
-  --primary-dark: #f0f0f0;
-  --secondary: #171717;
-  --secondary-dark: #0f0f0f;
-  --accent: #7F1D1D;
-  --accent-dark: #541616;
-}
+/* Global Theme Styles */
+@layer base {
+  /* Main Body */
+  body {
+    @apply bg-primary dark:bg-secondary text-secondary dark:text-primary !important;
+  }
 
-/* Dark Mode Theme Variables */
-:root.dark {
-  --primary: #0a0a0a;
-  --primary-dark: #0f0f0f;
-  --secondary: #ededed;
-  --secondary-dark: #f0f0f0;
-  --accent: #5f1515;
-  --accent-dark: #7F1D1D;
-}
+  /* Typography Defaults */
+  h1, h2, h3 {
+    @apply font-poppins tracking-tight !important;
+  }
 
-/* Typography */
-body {
-  color: var(--secondary);
-  background: var(--primary);
-}
+  h4, h5, h6, p {
+    @apply font-roboto !important;
+  }
 
-/* Utility Classes */
-/* Balances text wrapping */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  h1 {
+    @apply font-bold text-4xl sm:text-5xl md:text-6xl leading-tight !important;
+  }
+
+  h2 {
+    @apply font-bold text-3xl sm:text-4xl md:text-5xl leading-snug !important;
+  }
+
+  h3 {
+    @apply font-bold text-2xl sm:text-3xl md:text-4xl leading-snug !important;
+  }
+
+  h4 {
+    @apply font-semibold text-xl sm:text-2xl md:text-3xl leading-relaxed !important;
+  }
+
+  h5 {
+    @apply font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed !important;
+  }
+
+  h6 {
+    @apply font-semibold text-base sm:text-lg md:text-xl leading-relaxed !important;
+  }
+
+  p {
+    @apply text-sm sm:text-base leading-relaxed !important;
   }
 }

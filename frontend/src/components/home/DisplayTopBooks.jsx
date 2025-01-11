@@ -39,12 +39,12 @@
  * 
  * @author Chace Nielson
  * @created 2025-01-08
- * @updated 2025-01-08
+ * @updated 2025-01-10
  */
 
 "use client";
 import React, { useEffect, useState } from "react";
-import BookCard from "@/components/home/BookCard";
+import BookCard from "@/components/bookCard/BookCard";
 import LoadingWheel from "../loading/LoadingWheel";
 import ErrorLoading from "../loading/ErrorLoading";
 
@@ -76,7 +76,7 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
 
   return (
     <section className="mt-8">
-      <h3 className='font-bold pb-2'>{title}</h3>
+      <h2 className='pb-2'>{title}</h2>
       <div className="min-h-40">
 
         {/* If Error display the Error Box else display loading or the actual books */}
@@ -84,21 +84,13 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
           <ErrorLoading className='h-32' message="Failed to load books. Please try again later." />
         ):(
           <ul className="gridBookDisplay">
-            {loading ? (
-              <>
-                {/* Display multiple loading wheels */}
-                {Array.from({ length: booksToFetch }).map((_, index) => (
-                  <LoadingWheel key={index} className="h-32" />
-                ))}
-              </>
-            ):(
-              <>
-                {/* Display multiple book cards */}
-                {books.map((book) => (
-                  <BookCard key={book.id} book={book} />
-                ))}
-              </>
-            )}
+            {(loading ? Array.from({ length: booksToFetch }) : books).map((book, index) => (
+              <BookCard
+                key={book?.id || index}
+                book={book || {}}
+                loading={loading}
+              />
+            ))}
           </ul>
         )}      
       </div>

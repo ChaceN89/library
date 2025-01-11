@@ -11,4 +11,5 @@
 import { IMAGE_PREFIX } from "@/globals";
 export const bookCardData = {
   defaultImg: `${IMAGE_PREFIX}/misc/defaultBookCover2.jpg`,
+  blurURL: `${IMAGE_PREFIX}/misc/blur.jpg`,
 };

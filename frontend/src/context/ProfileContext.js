@@ -1,22 +1,21 @@
-"use client"
-import React, { createContext, useState, useContext, useEffect } from 'react';
+"use client";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 // Create the context
 const ProfileContext = createContext();
 
 // Export the context provider
 export const ProfileProvider = ({ children }) => {
-  // Initialize state directly from localStorage to avoid flicker
   const [shouldReloadProfile, setShouldReloadProfile] = useState(false);
-  const [accessToken, setAccessToken] = useState(() => localStorage.getItem('accessToken'));
-  const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem('refreshToken'));
-  const [userData, setUserData] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
+  const [userData, setUserData] = useState(null);
 
-  // Reload tokens and user data when the component mounts or when shouldReloadProfile changes
+  // Load tokens and user data when the component mounts
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem('accessToken');
-    const storedRefreshToken = localStorage.getItem('refreshToken');
-    const storedUserData = JSON.parse(localStorage.getItem('user'));
+    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedRefreshToken = localStorage.getItem("refreshToken");
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
 
     if (storedAccessToken) setAccessToken(storedAccessToken);
     if (storedRefreshToken) setRefreshToken(storedRefreshToken);
@@ -30,7 +29,6 @@ export const ProfileProvider = ({ children }) => {
 
   const isLoggedIn = !!accessToken; // Boolean check for logged-in status
 
-
   return (
     <ProfileContext.Provider
       value={{
@@ -42,7 +40,7 @@ export const ProfileProvider = ({ children }) => {
         setAccessToken,
         setRefreshToken,
         setUserData,
-        isLoggedIn, // Add this to the context
+        isLoggedIn,
       }}
     >
       {children}

@@ -4,8 +4,8 @@
  * @description Component for displaying detailed site statistics in a user-friendly layout.
  *
  * @author Chace Nielson
- * @created 2025-01-08
- * @updated 2025-01-08
+ * @created 2025-01-10
+ * @updated 2025-01-10
  */
 
 "use client";
@@ -38,36 +38,6 @@ function SiteStatistics() {
     loadStatistics();
   }, []);
 
-  if (loading) {
-    return <LoadingWheel className="h-32" />;
-  }
-
-  if (error) {
-    return (
-      <ErrorLoading message="Failed to load site statistics. Please try again later." />
-    );
-  }
-
-  if (!siteStats) {
-    return (
-      <ErrorLoading message="No site statistics available at the moment." />
-    );
-  }
-
-  // Separate the data for easier use
-  const {
-    total_books,
-    total_authors,
-    total_views,
-    total_downloads,
-    genres,
-    books_per_language,
-    average_views_per_book,
-    average_downloads_per_book,
-    top_viewed_book,
-    top_downloaded_book,
-  } = siteStats;
-
   /**
    * Reusable Statistics Box Component
    * @param {string} title - The title of the statistic.
@@ -84,51 +54,62 @@ function SiteStatistics() {
 
   return (
     <section className="mt-8">
-      <h2 className="text-xl font-bold mb-4">Site Statistics</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <StatBox title="Total Books" data={total_books} />
-        <StatBox title="Total Authors" data={total_authors} />
-        <StatBox title="Total Views" data={total_views} />
-        <StatBox title="Total Downloads" data={total_downloads} />
-        <StatBox
-          title="Average Views Per Book"
-          data={average_views_per_book.toFixed(2)}
-        />
-        <StatBox
-          title="Average Downloads Per Book"
-          data={average_downloads_per_book.toFixed(2)}
-        />
-        <StatBox
-          title="Top Viewed Book"
-          data={top_viewed_book.title}
-          subtext={`Views: ${top_viewed_book.views}`}
-        />
-        <StatBox
-          title="Top Downloaded Book"
-          data={top_downloaded_book.title}
-          subtext={`Downloads: ${top_downloaded_book.downloads}`}
-        />
-        <div className="bg-gray-100 p-4 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
-          <h3 className="text-lg font-semibold">Books Per Language</h3>
-          <ul className="list-disc list-inside">
-            {books_per_language.map((lang) => (
-              <li key={lang.language} className="text-sm">
-                {lang.language}: {lang.count} books
-              </li>
-            ))}
-          </ul>
+      <h2 className='pb-2'>Site Statistics</h2>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-lg mb-2">Loading site statistics...</p>
+          <LoadingWheel className="h-16 w-16" />
         </div>
-        <div className="bg-gray-100 p-4 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
-          <h3 className="text-lg font-semibold">Genres</h3>
-          <ul className="list-disc list-inside">
-            {Object.entries(genres).map(([genre, count]) => (
-              <li key={genre} className="text-sm">
-                {genre}: {count} books
-              </li>
-            ))}
-          </ul>
+      ) : error ? (
+        <ErrorLoading message="Failed to load site statistics. Please try again later." />
+      ) : !siteStats ? (
+        <ErrorLoading message="No site statistics available at the moment." />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <StatBox title="Total Books" data={siteStats.total_books} />
+          <StatBox title="Total Authors" data={siteStats.total_authors} />
+          <StatBox title="Total Views" data={siteStats.total_views} />
+          <StatBox title="Total Downloads" data={siteStats.total_downloads} />
+          <StatBox
+            title="Average Views Per Book"
+            data={siteStats.average_views_per_book.toFixed(2)}
+          />
+          <StatBox
+            title="Average Downloads Per Book"
+            data={siteStats.average_downloads_per_book.toFixed(2)}
+          />
+          <StatBox
+            title="Top Viewed Book"
+            data={siteStats.top_viewed_book.title}
+            subtext={`Views: ${siteStats.top_viewed_book.views}`}
+          />
+          <StatBox
+            title="Top Downloaded Book"
+            data={siteStats.top_downloaded_book.title}
+            subtext={`Downloads: ${siteStats.top_downloaded_book.downloads}`}
+          />
+          <div className="bg-gray-100 p-4 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
+            <h4 className="text-lg font-semibold">Books Per Language</h4>
+            <ul className="list-disc list-inside">
+              {siteStats.books_per_language.map((lang) => (
+                <li key={lang.language} className="text-sm">
+                  {lang.language}: {lang.count} books
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-gray-100 p-4 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
+            <h4 className="text-lg font-semibold">Genres</h4>
+            <ul className="list-disc list-inside">
+              {Object.entries(siteStats.genres).map(([genre, count]) => (
+                <li key={genre} className="text-sm">
+                  {genre}: {count} books
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

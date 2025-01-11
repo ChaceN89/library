@@ -1,4 +1,29 @@
-// related to the gloabls.css stylesheets
+/**
+ * @file tailwind.config.js
+ * @module TailwindConfiguration
+ * @description Custom Tailwind CSS configuration file for the PageFlow Library application. 
+ * This file defines the content paths, enables dark mode, and extends the default Tailwind CSS theme settings 
+ * to include custom colors, font families, font sizes, dimensions, and other utilities.
+ *
+ * @configuration
+ * - **Content Paths**: Specifies directories to scan for class names.
+ * - **Dark Mode**: Enabled using the `class` strategy.
+ * - **Theme Extensions**:
+ *   - Custom colors: Adds primary, secondary, accent, and their dark mode variants.
+ *   - Font families: Includes multiple font families for various text elements.
+ *   - Font sizes: Adds a custom `medium` font size.
+ *   - Dimensions: Extends maxHeight, minHeight, and height with custom values.
+ *   - Z-Index: Adds custom layers for z-index.
+ *   - Blur: Includes a custom `blur-xs` utility.
+ * - **Plugins**: Adds the Tailwind aspect-ratio plugin for handling responsive aspect ratios.
+ *
+ * @see {@link https://tailwindcss.com/docs/configuration | Tailwind CSS Configuration Documentation}
+ * 
+ * @author Chace Nielson
+ * @since 1.0
+ * @created 2025-01-08
+ * @updated 2025-01-08
+ */
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,12 +36,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "var(--primary)",
-        "primary-dark": "var(--primary-dark)",
-        secondary: "var(--secondary)",
-        "secondary-dark": "var(--secondary-dark)",
-        accent: "var(--accent)",
-        "accent-dark": "var(--accent-dark)",
+        primary: "#ffffff",
+        "primary-dark": "#f0f0f0",
+        secondary: "#171717",
+        "secondary-dark": "#0a0a0a",
+        accent: "#7F1D1D",
+        "accent-dark": "#3b1010",
       },
       fontFamily: {
         'open-sans': ['Open Sans', 'sans-serif'],

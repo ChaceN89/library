@@ -17,7 +17,7 @@
  * @requires SearchProvider from '@/context/SearchContext'
  * @requires Toaster from 'react-hot-toast'
  * @requires "../styles/globals.css"
- * @requires "../styles/typography.css"
+ * @requires "../styles/display.css"
  *
  * @description
  * - Wraps the app with context providers: `GoogleOAuthProvider`, `ProfileProvider`, `FavBooksProvider`, and `SearchProvider`.
@@ -44,7 +44,6 @@
  */
 
 import "../styles/globals.css";  // Fix the import path for globals.css
-import "../styles/typography.css";  // Fix the import path for globals.css
 import "../styles/display.css";  // Fix the import path for globals.css
 
 import Navbar from "@/components/navUI/Navbar";
@@ -82,7 +81,7 @@ export default function RootLayout({ children }) {
                 <Toaster position="top-center" reverseOrder={false} />
                 <DarkModeTestingToggle/>
                 <TailwindBreakPoints />
-                {/* <Navbar /> */}
+                <Navbar />
                 <main className="flex-grow  flex flex-col justify-stretch h-full min-h-screen">
                   {children}
                 </main>

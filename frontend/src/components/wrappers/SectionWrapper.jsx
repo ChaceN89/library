@@ -41,7 +41,6 @@
  * @updated 2025-01-10
  */
 import React from 'react';
-import SectionHeader from '../uiElements/SectionHeader';
 import SlideTransition from '../animations/SlideTransition';
 
 /**
@@ -57,7 +56,10 @@ function SectionWrapper({ children, title, subtitle }) {
   return (
     <div className='container mx-auto py-4 px-2'>
       <SlideTransition>
-          <SectionHeader title={title} subtitle={subtitle} />
+        <div className='space-y-2'>
+          <h1 className='font-bold'>{title}</h1>
+          <p className='text-darken'>{subtitle}</p>
+        </div>
       </SlideTransition>
       <div className='px-4'>
         {children}

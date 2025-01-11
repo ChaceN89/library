@@ -73,11 +73,28 @@ function BackgroundWrapper({
   blurAmount = 0,
   children
 }) {
+  const [currentSrc, setCurrentSrc] = useState(src); // Default to `src`
 
-  // set the src based on the window width ( mobileSrc is optional  default to src) will be set and not change is window is resized
-  const currentSrc = window.innerWidth <= 768 ? mobileSrc || src : src;
+  useEffect(() => {
+    const updateSrc = () => {
+      if (window.innerWidth <= 768) {
+        setCurrentSrc(mobileSrc || src);
+      } else {
+        setCurrentSrc(src);
+      }
+    };
 
-  // the laoding state of the currentSRC
+    updateSrc(); // Run once on mount
+
+    // Add event listener for window resize
+    window.addEventListener('resize', updateSrc);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener('resize', updateSrc);
+    };
+  }, [src, mobileSrc]);
+
   const [highResLoaded, setHighResLoaded] = useState(false);
 
   useEffect(() => {
