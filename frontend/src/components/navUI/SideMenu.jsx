@@ -58,7 +58,7 @@ const SideMenu = ({ menuOpen, toggleMenu, LeftSideItems, RightSideItems }) => {
             </button>
 
             <LeftSideItems />
-            <hr className="my-3 text-secondary dark:text-primary" />
+            <hr className="my-3 h-[2px] bg-primary dark:bg-secondary border-0" />
             <RightSideItems />
           </motion.div>
         )}

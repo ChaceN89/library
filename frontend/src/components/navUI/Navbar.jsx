@@ -18,7 +18,6 @@ import SideMenu from "./SideMenu";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [disableTransition, setDisableTransition] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -46,15 +45,7 @@ const NavBar = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        // Temporarily disable transitions
-        setDisableTransition(true);
-
-        closeMenu();
-
-        // Re-enable transitions after a short delay
-        setTimeout(() => {
-          setDisableTransition(false);
-        }, 0);
+        closeMenu(); // Close the menu if screen size is `md` or larger
       }
     };
 
@@ -95,7 +86,6 @@ const NavBar = () => {
         toggleMenu={toggleMenu}
         LeftSideItems={FixedNavItems}
         RightSideItems={UserActionsNav}
-        disableTransition={disableTransition}
       />
     </nav>
   );

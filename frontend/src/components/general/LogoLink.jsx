@@ -6,7 +6,7 @@ import { navData } from '@/data/navData';
 
 const LogoLink = () => {
   return (
-    <Link href={navData.logoLink} className="logo-link flex items-center text-primary">
+    <Link href={navData.logoLink} className="logo-link flex items-center text-primary dark:text-secondary">
       <div className="relative h-10 w-10 flex-shrink-0">
         <Image
           src="/fox.ico"  // Path to the actual location of your logo
@@ -15,7 +15,7 @@ const LogoLink = () => {
           className="object-contain"
         />
       </div>
-      <h3 className="text-lg whitespace-nowrap underline-effect">
+      <h3 className="sm:text-lg whitespace-nowrap underline-effect">
         PAGEFLOW
       </h3>
     </Link>

@@ -1,5 +1,10 @@
 export const navData={
-  logoLink:"/"
+  logoLink:"/",
+
+  browseButton:{
+    link:"/browse",
+    label:"Browse Books"
+  }
 
 }
 

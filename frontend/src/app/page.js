@@ -58,6 +58,7 @@ function WelcomePage() {
     <BackgroundWrapper
       src={welcomePageData.background}
       bgOpacity = {60}
+      backgroundAttachment={'fixed'}
     >
       <SectionWrapper
         title={welcomePageData.title}
