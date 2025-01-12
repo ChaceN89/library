@@ -41,7 +41,7 @@ function BrowsePage() {
       className="min-h-screen"       // Ensures the background spans the full viewport height
     >
       {/* Main Layout */}
-      <div className="flex flex-col lg:flex-row min-h-screen p-2 gap-4">
+      <div className="flex flex-col lg:flex-row min-h-screen p-2 gap-4 section-container">
         {/* Sidebar (Search and Filters) */}
         <div className="flex flex-col-reverse lg:flex-col gap-2 w-full lg:w-1/5 lg:border-r-2 lg:pr-4 lg:border-secondary dark:border-primary">
           <SearchInput /> {/* Search Bar */}

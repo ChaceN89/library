@@ -58,8 +58,8 @@ const NavBar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="w-full bg-accent p-4 sticky top-0 z-50 shadow-lg">
-      <div className="flex justify-between items-center container mx-auto">
+    <nav className="w-full bg-accent py-4 sticky top-0 z-50 shadow-lg section-container">
+      <div className="flex justify-between items-center ">
         {/* Left side: Static navigation links for larger screens */}
         <div className="hidden lg:flex">
           <FixedNavItems />

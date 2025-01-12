@@ -82,7 +82,7 @@ export default function RootLayout({ children }) {
                 <DarkModeTestingToggle/>
                 <TailwindBreakPoints />
                 <Navbar />
-                <main className="flex-grow  flex flex-col justify-stretch h-full min-h-screen">
+                <main className="flex-grow">
                   {children}
                 </main>
                 <Footer className="mt-auto" />

@@ -43,10 +43,10 @@ import React from 'react';
 
 function SectionWrapper({ children, title, subtitle }) {
   return (
-    <div className='container mx-auto py-4 px-2 space-y-2'>
+    <div className='py-4 section-container space-y-2'>
       <h1 className='font-bold'>{title}</h1>
       <p className='text-darken'>{subtitle}</p>
-      <div className='px-4'>
+      <div className='space-y-4'>
         {children}
       </div>
     </div>

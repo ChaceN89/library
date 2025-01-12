@@ -74,7 +74,7 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
   }, [fetchFunction, booksToFetch]);
 
   return (
-    <section className="my-6">
+    <section className="my-10">
       <h2 className='pb-2'>{title}</h2>
       <div className="min-h-44">
 

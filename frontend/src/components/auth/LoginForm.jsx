@@ -88,7 +88,7 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
     >
       <form
         onSubmit={handleLogin}
-        className={`flex flex-col gap-4 card-background w-96 ${
+        className={`flex flex-col gap-4 card-background w-80 md:w-96 ${
           isPopup ? "relative p-6 rounded-lg shadow-lg" : ""
         }`}
       >
