@@ -38,7 +38,7 @@ function BrowsePage() {
       src={browsePageData.background} // Background image for the page
       bgOpacity={60}                 // Background opacity level
       backgroundAttachment="fixed"   // Fixes the background during scroll
-      className="min-h-screen"       // Ensures the background spans the full viewport height
+      className="min-h-screen py-4"       // Ensures the background spans the full viewport height
     >
       {/* Main Layout */}
       <div className="flex flex-col lg:flex-row min-h-screen p-2 gap-4 section-container">

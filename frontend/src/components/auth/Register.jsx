@@ -1,148 +1,155 @@
 "use client";
-import React, { useState } from 'react';
-import { createAccount } from '@/API/authAPI';
-import { toast } from 'react-hot-toast';  // Import react-hot-toast
+
+/**
+ * @file Register.jsx
+ * @module Register
+ * @description
+ *   This component renders a registration form for creating a user account.
+ *   It allows users to enter details such as username, name, email, password, and an optional profile image.
+ *   The form validates required fields and supports image previews for the profile image.
+ *   Additionally, it includes a popup login form for users who already have an account.
+ *
+ * @requires react
+ * @requires useState from React
+ * @requires InputField from "@/components/auth/InputField"
+ * @requires SubmitButton from "@/components/auth/SubmitButton"
+ * @requires ImageInputField from "@/components/auth/ImageInputField"
+ * @requires createAccount from "@/API/authAPI"
+ * @requires toast from "react-hot-toast"
+ * @requires LoginForm from "@/components/auth/LoginForm"
+ *
+ * @example
+ * // Example usage of the Register component:
+ * import Register from "@/components/auth/Register";
+ * 
+ * export default function RegisterPage() {
+ *   return <Register />;
+ * }
+ *
+ * @notes
+ * - Form submissions are handled via `handleSubmit`, which sends the data to the backend.
+ * - Image uploads are managed using the `ImageInputField` component, which supports previewing the selected image.
+ * - The "Already have an account?" button triggers the `LoginForm` component as a popup modal.
+ * - Error and success messages are displayed using `react-hot-toast`.
+ *
+ * @author Chace Nielson
+ * @created 2025-01-11
+ * @updated 2025-01-11
+ */
+
+import React, { useState } from "react";
+import InputField from "@/components/auth/InputField";
+import SubmitButton from "@/components/auth/SubmitButton";
+import ImageInputField from "@/components/auth/ImageInputField";
+import { createAccount } from "@/API/authAPI";
+import { toast } from "react-hot-toast";
+import LoginForm from "@/components/auth/LoginForm";
 
 function Register() {
-  const [formData, setFormData] = useState({
-    username: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    profile_image: null, // For handling image upload
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleImageChange = (e) => {
-    setFormData({ ...formData, profile_image: e.target.files[0] }); // Handle file input
+    setProfileImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare formData for multipart/form-data submission
     const data = new FormData();
-    data.append('username', formData.username);
-    data.append('first_name', formData.first_name);
-    data.append('last_name', formData.last_name);
-    data.append('email', formData.email);
-    data.append('password', formData.password);
-    if (formData.profile_image) {
-      data.append('profile_image', formData.profile_image); // Add image if selected
+    data.append("username", username);
+    data.append("first_name", firstName);
+    data.append("last_name", lastName);
+    data.append("email", email);
+    data.append("password", password);
+    if (profileImage) {
+      data.append("profile_image", profileImage);
     }
 
     try {
-      const result = await createAccount(data);
-      if (result) {
-        toast.success('Account created successfully!');
-      }
+      await createAccount(data);
+      toast.success("Account created successfully!");
     } catch (error) {
       toast.error(error.message);
     }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Register</h1>
+    <>
+      {showLoginPopup && (
+        <LoginForm
+          showRegisterLink={false}
+          isPopup={true}
+          onClose={() => setShowLoginPopup(false)}
+        />
+      )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Username */}
-        <div>
-          <label htmlFor="username" className="block text-gray-700">Username:</label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
-            required
-          />
-        </div>
+      <div className="card-background p-6 bg-white shadow-lg rounded-lg w-full max-w-3xl">
+        <h1 className="text-2xl font-bold text-center mb-6">Create an Account</h1>
 
-        {/* First Name */}
-        <div>
-          <label htmlFor="first_name" className="block text-gray-700">First Name:</label>
-          <input 
-            type="text" 
-            id="first_name" 
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
-          />
-        </div>
-
-        {/* Last Name */}
-        <div>
-          <label htmlFor="last_name" className="block text-gray-700">Last Name:</label>
-          <input 
-            type="text" 
-            id="last_name" 
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
-          />
-        </div>
-
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-gray-700">Email:</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
-            required
-          />
-        </div>
-
-        {/* Password */}
-        <div>
-          <label htmlFor="password" className="block text-gray-700">Password:</label>
-          <input 
-            type="password" 
-            id="password" 
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <InputField
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <InputField
+              type="text"
+              name="first_name"
+              placeholder="First Name (Optional)"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <InputField
+              type="text"
+              name="last_name"
+              placeholder="Last Name (Optional)"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+            <InputField
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <InputField
+            type="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="border border-gray-300 p-2 w-full"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
 
-        {/* Profile Image */}
-        <div>
-          <label htmlFor="profile_image" className="block text-gray-700">Profile Image (Optional):</label>
-          <input 
-            type="file" 
-            id="profile_image"
+          <ImageInputField
+            label="Profile Image (Optional):"
             name="profile_image"
-            accept="image/*"
             onChange={handleImageChange}
-            className="border border-gray-300 p-2 w-full"
           />
-        </div>
 
-        {/* Submit Button */}
-        <div>
-          <button 
-            type="submit" 
-            className="bg-blue-500 text-white p-2 rounded"
-          >
-            Create Account
-          </button>
-        </div>
-      </form>
-    </div>
+          <SubmitButton label="Create Account" />
+
+          <div className="w-full flex justify-center text-blue-500 hover:underline">
+            <button type="button" onClick={() => setShowLoginPopup(true)}>
+              Already have an account? Log in here.
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 

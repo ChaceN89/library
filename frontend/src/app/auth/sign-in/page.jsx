@@ -30,9 +30,7 @@ function LoginPage() {
       backgroundAttachment="fixed" // Fix the background during scrolling
       className="flex-grow flex flex-col justify-center items-center"
     >
-  
       <LoginForm/>
-      {/* <LoginForm isPopup={true}/> */}
     </BackgroundWrapper>
   );
 }

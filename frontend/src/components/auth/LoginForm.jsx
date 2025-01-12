@@ -34,7 +34,7 @@ import Link from 'next/link';  // Import Link for navigation
  * @param {string} reRouteTo - Route to redirect after successful login (default is `/`).
  * @returns {JSX.Element} A reusable login form component.
  */
-function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
+function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegisterLink=true }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false); // Error state
@@ -86,13 +86,13 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
   return (
     <div
       className={`h-full flex-grow ${
-        isPopup && "fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
+        isPopup && "fixed inset-0 bg-black dark:bg-white dark:bg-opacity-50 bg-opacity-50 z-50 flex justify-center items-center"
       }`}
     >
       <form
         onSubmit={handleLogin}
         className={`flex flex-col gap-4 card-background w-80 md:w-96 ${
-          isPopup && "relative border-2" 
+          isPopup && "relative border-2 " 
         }`}
       >
         <h2 className="font-bold text-center">Login</h2>
@@ -123,14 +123,18 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
         {/* Google Sign-In */}
         <GoogleSignIn successLogin={SuccessfulLogin} loginFailure={LoginFailure} />
         
-        <hr className="border-2 my-1" />
 
-        <Link 
-         href="/auth/sign-up"
-          className="w-full flex justify-center text-blue-500 hover:underline"
-        >
-          New here? Sign up to get started!
-        </Link>
+        {showRegisterLink && (
+          <>
+            <hr className="border-2 my-1" />
+            <Link 
+            href="/auth/sign-up"
+            className="w-full flex justify-center text-blue-500 hover:underline"
+            >
+              New here? Sign up to get started!
+            </Link>
+          </>
+        )}
 
         {/* Image/Error/Loading */}
         <div className="flex justify-center mt-4 h-40">
@@ -153,7 +157,7 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-200"
+            className="absolute top-2 right-2 text-gray-500 dark:text-gray-100  hover:text-gray-700 dark:hover:text-gray-700"
           >
             <FaTimes size={24}/>
           </button>
