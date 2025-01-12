@@ -28,7 +28,7 @@
  * 
  * @author Chace Nielson
  * @created 2025-01-08
- * @updated 2025-01-08
+ * @updated 2025-01-11
  */
 
 import React from 'react';
@@ -85,7 +85,7 @@ function BookCard({ book, loading }) {
       </div>
 
       <div
-        className="flex flex-col flex-grow gap-2 md:w-2/3"
+        className="flex flex-col flex-grow gap-1 md:w-2/3"
         onClick={(e) => e.stopPropagation()}
       >
         <BookCardTitle
@@ -94,13 +94,22 @@ function BookCard({ book, loading }) {
           showOnSmallScreens={false}
           showOnLargeScreens={true}
         />
-        <p>{loading ? '...' : book.author}</p>
-        <p>{loading ? '...' : `Views: ${book.views}`}</p>
-        <p>{loading ? '...' : `Downloads: ${book.downloads}`}</p>
         <p>
-          {loading
-            ? '...'
-            : `Last updated: ${new Date(book.updated_at).toLocaleDateString()}`}
+          <span className="font-semibold">Author:</span> {loading ? "Loading..." : book.author}
+        </p>
+        <p>
+          <span className="font-semibold">Genre:</span> {loading ? "Loading..." : book.genre}
+        </p>
+        <p>
+          <span className="font-semibold">language:</span> {loading ? "Loading..." : book.language}
+        </p>
+        <p className='space-x-2'>
+          <span className="font-semibold">Views:</span> {loading ? "Loading..." : book.views}
+          <span className="font-semibold">Downloads:</span> {loading ? "Loading..." : book.downloads}
+        </p>
+        <p>
+          <span className="font-semibold">Last Updated:</span>{" "}
+          {loading ? "Loading..." : new Date(book.updated_at).toLocaleDateString()}
         </p>
       </div>
     </li>
