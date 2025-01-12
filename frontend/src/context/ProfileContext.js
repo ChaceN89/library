@@ -6,8 +6,6 @@
  * Description:
  *   Provides a context for managing user profile data, including authentication tokens 
  *   and user information. It enables profile updates and handles logout functionality.
- *   Not ideal for rendering components based on login state due to potential state change
- *   flashes before reloading the profile data.
  * Dependencies:
  *   - React: For creating the context and managing state.
  *   - "@/API/authAPI": API module for handling logout functionality.
@@ -31,16 +29,25 @@ export const ProfileProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
 
   // Load tokens and user data from localStorage when the component mounts
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("accessToken");
-    const storedRefreshToken = localStorage.getItem("refreshToken");
-    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    const fetchProfileData = () => {
+      setIsLoading(true); // Start loading
 
-    if (storedAccessToken) setAccessToken(storedAccessToken);
-    if (storedRefreshToken) setRefreshToken(storedRefreshToken);
-    if (storedUserData) setUserData(storedUserData);
+      const storedAccessToken = localStorage.getItem("accessToken");
+      const storedRefreshToken = localStorage.getItem("refreshToken");
+      const storedUserData = JSON.parse(localStorage.getItem("user"));
+
+      if (storedAccessToken) setAccessToken(storedAccessToken);
+      if (storedRefreshToken) setRefreshToken(storedRefreshToken);
+      if (storedUserData) setUserData(storedUserData);
+
+      setIsLoading(false); // Stop loading after fetching data
+    };
+
+    fetchProfileData();
   }, [shouldReloadProfile]); // Triggered when `shouldReloadProfile` changes
 
   /**
@@ -81,6 +88,7 @@ export const ProfileProvider = ({ children }) => {
         setUserData,               // Function to update user data
         isLoggedIn,                // Boolean flag for login status
         handleLogout,              // Function to handle logout
+        isLoading,                 // Loading state for UI
       }}
     >
       {children}

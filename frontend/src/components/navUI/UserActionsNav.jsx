@@ -13,18 +13,17 @@
 
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import React from "react";
+import { useRouter } from "next/navigation";
 import NavDropdown from "./NavDropdown";
 import NavButton from "./NavButton";
-import UserProfileNav from "./UserProfileNav"; // Handles user profile display
+import UserProfileNav from "./UserProfileNav";
 import { useProfileContext } from "@/context/ProfileContext"; // Access ProfileContext
 import { navData } from "@/data/navData";
 
 const UserActionsNav = ({ popUp = false }) => {
-  const { handleLogout, triggerProfileReload } = useProfileContext(); // Access logout and profile reload functions
-  const router = useRouter(); // Initialize the Next.js router for navigation
-  const [userData, setUserData] = useState(null); // State for user data
+  const { handleLogout, userData, isLoading } = useProfileContext(); // Access logout, userData, and loading state
+  const router = useRouter();
 
   /**
    * Logout Function:
@@ -35,12 +34,6 @@ const UserActionsNav = ({ popUp = false }) => {
     router.push(navData.logoLink); // Redirect to the home page
   };
 
-  // Fetch user data from localStorage when component mounts or profile reload is triggered
-  useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem("user"));
-    setUserData(storedUserData); // Set user data if available
-  }, [triggerProfileReload]);
-
   /**
    * Update dropdown items:
    * - Adds a logout action to the dropdown item if `logoutAction` is true.
@@ -48,6 +41,11 @@ const UserActionsNav = ({ popUp = false }) => {
   const updatedDropdownItems = navData.userDropdownItems.map((item) =>
     item.logoutAction ? { ...item, action: navLogout } : item
   );
+
+  // Render a placeholder or nothing while user data is loading
+  if (isLoading) {
+    return null
+  }
 
   return (
     <div className={`nav-actions ${popUp && "lg:hidden"}`}>
