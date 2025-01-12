@@ -4,7 +4,6 @@ import Image from 'next/image';
 import BookCardTitle from './BookCardTitle';
 import { bookCardData } from '@/data/bookCardData';
 import LoadingWheel from '../loading/LoadingWheel';
-import Link from 'next/link';
 
 function BookInfoCard({ book, loading }) {
   const bookLink = loading
@@ -21,12 +20,7 @@ function BookInfoCard({ book, loading }) {
         passHref
         className="flex flex-col md:flex-row gap-4 cursor-pointer"
       >
-        <BookCardTitle
-          book={book}
-          loading={loading}
-          showOnSmallScreens={true}
-          showOnLargeScreens={false}
-        />
+        <div>{book.title}</div>
 
         <div className="w-full h-full md:w-1/3 aspect-[3/4] bg-gray-300 rounded-lg overflow-hidden relative flex-shrink-0 flex items-center justify-center">
           {loading ? (

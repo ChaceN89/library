@@ -27,16 +27,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-/**
- * SubmitButton Component
- * 
- * Renders a styled button for form submissions with optional disabled state.
- * Provides distinct visual feedback for enabled and disabled states.
- * 
- * @param {string} label - The text displayed on the button.
- * @param {boolean} [disabled=false] - Indicates whether the button is disabled.
- * @returns {JSX.Element} A submit button component.
- */
 function SubmitButton({ label, disabled = false }) {
   return (
     <button

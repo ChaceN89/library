@@ -40,19 +40,25 @@ import PropTypes from "prop-types";
  * @param {function} successLogin - Function to handle successful login actions.
  * @param {function} loginFailure - Function to handle login failure actions.
  */
-export default function GoogleSignIn({ successLogin, loginFailure }) {
+export default function GoogleSignIn({ setLoading, successLogin, loginFailure }) {
   const handleLoginSuccess = async (credentialResponse) => {
     console.log("Login Success:", credentialResponse);
+
+    setLoading(true); // Start loading
 
     try {
       // Pass the credential to your backend API for authentication
       await loginWithGoogle(credentialResponse.credential);
 
       // Trigger success login actions
-      successLogin();
+      await successLogin();
     } catch (error) {
       console.error("Google login failed:", error.message);
-      loginFailure(error); // Pass the error to the failure handler
+
+      // Pass the error to the failure handler
+      await loginFailure(error);
+    } finally {
+      setLoading(false); // Stop loading in all cases
     }
   };
 
@@ -70,8 +76,3 @@ export default function GoogleSignIn({ successLogin, loginFailure }) {
     </div>
   );
 }
-
-GoogleSignIn.propTypes = {
-  successLogin: PropTypes.func.isRequired, // Function called on successful login
-  loginFailure: PropTypes.func.isRequired, // Function called on login failure
-};

@@ -8,7 +8,7 @@
  * 
  * @author Chace Nielson
  * @created 2025-01-10
- * @updated 2025-01-11
+ * @updated 2025-01-12
  */
 
 /* Tailwind CSS Layers */
@@ -33,9 +33,16 @@
 .card-background {
   @apply bg-accent dark:bg-accent-dark 
          bg-opacity-10 dark:bg-opacity-70 
-         backdrop-blur-2xl dark:backdrop-blur-md shadow-lg rounded-lg
-         border border-gray-800 dark:border-gray-400
-         border-opacity-50;
+         backdrop-blur-2xl dark:backdrop-blur-md rounded-lg
+         border-2 border-secondary dark:border-primary
+         border-opacity-50
+         shadow-md shadow-secondary dark:shadow-primary 
+         ;
+}
+
+.card-background-hover{
+  @apply  hover:scale-105
+
 }
 
 /* Styling for item boxes (e.g., tags or labels) */

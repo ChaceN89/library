@@ -1,12 +1,12 @@
 /**
- * Filename: ProfileContext.js
- * Author: Chace Nielson
- * Date Created: January 11, 2025
- * Last Updated: January 11, 2025
- * Description:
+ * @file: ProfileContext.js
+ * @author Chace Nielson
+ * @created 2025-01-10
+ * @updated 2025-01-11
+ * @description:
  *   Provides a context for managing user profile data, including authentication tokens 
  *   and user information. It enables profile updates and handles logout functionality.
- * Dependencies:
+ * @dependencies:
  *   - React: For creating the context and managing state.
  *   - "@/API/authAPI": API module for handling logout functionality.
  * Usage:

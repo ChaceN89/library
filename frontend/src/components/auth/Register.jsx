@@ -1,4 +1,3 @@
-"use client";
 
 /**
  * @file Register.jsx
@@ -20,6 +19,7 @@
  * @requires LoginForm from "@/components/auth/LoginForm"
  * @requires ErrorLoading from "@/components/loading/ErrorLoading"
  */
+"use client";
 
 import React, { useState } from "react";
 import InputField from "@/components/auth/InputField";
