@@ -55,7 +55,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="mt-6 flex items-center justify-between p-4 card-background shadow-md rounded-lg">
+    <div className="mt-6 flex items-center justify-between p-4 card-background shadow-md rounded-lg gap-16">
       {/* Previous Page Button */}
       <button
         onClick={goToPreviousPage}

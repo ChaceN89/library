@@ -86,7 +86,7 @@ function BrowseBooks() {
       {/* Books List */}
       {!error && (
         <>
-          <ul className="gap-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid-book-display xl:grid-cols-4 2xl:grid-cols-5">
             {(loading ? Array.from({ length: pageSize }) : books).map(
               (book, index) => (
                 <BookCard
@@ -99,14 +99,17 @@ function BrowseBooks() {
           </ul>
 
           {/* Pagination Controls */}
-          <Pagination
-            page={page} // Current page
-            totalPages={totalPages} // Total number of pages
-            pageSize={pageSize} // Books per page
-            setPageSize={setPageSize} // Function to update page size
-            goToPreviousPage={goToPreviousPage} // Go to previous page
-            goToNextPage={goToNextPage} // Go to next page
-          />
+          <div className="flex w-full justify-center">
+
+            <Pagination
+              page={page} // Current page
+              totalPages={totalPages} // Total number of pages
+              pageSize={pageSize} // Books per page
+              setPageSize={setPageSize} // Function to update page size
+              goToPreviousPage={goToPreviousPage} // Go to previous page
+              goToNextPage={goToNextPage} // Go to next page
+            />
+          </div>
         </>
       )}
     </div>

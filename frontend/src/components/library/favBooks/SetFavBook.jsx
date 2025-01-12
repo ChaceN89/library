@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { addFavoriteBook, removeFavoriteBook } from '@/API/favBooksAPI'; // Import the API functions
-import { toast } from 'react-hot-toast'; // For notifications
-import { useFavBooks } from '@/context/FavBooksContext';  // Import the context
+import { FaStar, FaRegStar } from 'react-icons/fa'; // Import star icons
+import { addFavoriteBook, removeFavoriteBook } from '@/API/favBooksAPI';
+import { toast } from 'react-hot-toast';
+import { useFavBooks } from '@/context/FavBooksContext';
 
-function SetFavBook({ id, title }) {
-  const { favBooks } = useFavBooks();  // Get the context for favorite books
-  const [isLocalFav, setIsLocalFav] = useState(false);  // Local state for favorite status
+function SetFavBook({ id }) {
+  const { favBooks } = useFavBooks();
+  const [isLocalFav, setIsLocalFav] = useState(false);
 
-  // Check if the book is in the favorite books list on initial load
   useEffect(() => {
-    const isFav = favBooks.some((book) => book.id === id);  // Compare book IDs
+    const isFav = favBooks.some((book) => book.id === id);
     setIsLocalFav(isFav);
-  }, [favBooks, id]);  // Trigger check when favBooks or id changes
+  }, [favBooks, id]);
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = async (e) => {
+    e.stopPropagation(); // Prevent the click from triggering parent actions
     try {
       if (isLocalFav) {
-        // Remove from favorites
         await removeFavoriteBook(id);
-        setIsLocalFav(false);  // Update the star to unfilled
+        setIsLocalFav(false);
+        toast.success('Removed from favorites');
       } else {
-        // Add to favorites
         await addFavoriteBook(id);
-        setIsLocalFav(true);  // Update the star to filled
+        setIsLocalFav(true);
+        toast.success('Added to favorites');
       }
     } catch (error) {
       toast.error(error.message || 'Error updating favorites');
@@ -30,13 +31,17 @@ function SetFavBook({ id, title }) {
   };
 
   return (
-    <div onClick={toggleFavorite} className="cursor-pointer">
+    <button
+      onClick={toggleFavorite}
+      className="text-2xl focus:outline-none bg-accent p-0.5 rounded-full bg-opacity-80"
+      aria-label={isLocalFav ? 'Remove from favorites' : 'Add to favorites'}
+    >
       {isLocalFav ? (
-        <span className="text-yellow-500 text-2xl">⭐ </span>
+        <FaStar className="text-yellow-500" /> // Gold filled star
       ) : (
-        <span className="text-gray-500 text-2xl">☆ </span>
+        <FaRegStar className="text-white" /> // White outlined star
       )}
-    </div>
+    </button>
   );
 }
 

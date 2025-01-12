@@ -46,7 +46,7 @@ function SiteStatistics() {
    * @param {Array} [list] - Optional list of items to display.
    */
   const StatBox = ({ title, data, subtext, list = [] }) => (
-    <div className="card-background">
+    <div className="card-background p-2">
       <h4 className="text-lg font-semibold pb-1.5">{title}</h4>
       <div className="flex justify-between gap-2 items-center">
         {data && <h6 className="item-box"><span className="px-2">{data}</span></h6>}
@@ -68,7 +68,7 @@ function SiteStatistics() {
   );
 
   return (
-    <section className="mt-8">
+    <section className="pt-6">
       <h2 className="pb-2 text-2xl font-bold">Site Statistics</h2>
       {loading ? (
         <div className="flex flex-col items-center justify-center">
@@ -108,15 +108,15 @@ function SiteStatistics() {
 
           <div className="flex flex-col gap-6 mt-6">
             <StatBox
-              title="Books Per Language"
-              list={siteStats.books_per_language.map(
-                (lang) => `${lang.language}: ${lang.count} books`
-              )}
-            />
-            <StatBox
               title="Genres"
               list={Object.entries(siteStats.genres).map(
                 ([genre, count]) => `${genre}: ${count} books`
+              )}
+            />
+            <StatBox
+              title="Books Per Language"
+              list={siteStats.books_per_language.map(
+                (lang) => `${lang.language}: ${lang.count} books`
               )}
             />
           </div>

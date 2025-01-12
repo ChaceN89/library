@@ -36,15 +36,32 @@ import React from 'react';
 import SetFavBook from '../library/favBooks/SetFavBook';
 
 function BookCardTitle({ book, loading, showOnSmallScreens = true, showOnLargeScreens = true }) {
+  // Helper function to truncate the title and add ellipsis
+  const truncateTitle = (title, maxLength = 20) => {
+    return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
+  };
+
+  // Dynamically determine text size based on title length
+  const textSize = loading
+    ? '' // No size adjustment while loading
+    : book.title.length > 20
+    ? 'text-xl'
+    : book.title.length > 10
+    ? 'text-lg'
+    : 'text-3xl';
+
   return (
     <div
       className={`flex justify-between items-start ${
         !showOnSmallScreens ? 'hidden md:flex' : ''
       } ${!showOnLargeScreens ? 'md:hidden' : ''}`}
     >
-      <h3 className="hover:underline cursor-pointer flex-grow">
-        {loading ? "..." : book.title}
-      </h3>
+      <div
+        className={`underline cursor-pointer flex-grow font-bold  ${textSize}`}
+        title={!loading ? book.title : ''}
+      >
+        {loading ? "..." : truncateTitle(book.title, 38)}
+      </div>
       {!loading && <SetFavBook id={book.id} />}
     </div>
   );

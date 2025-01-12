@@ -38,7 +38,7 @@ const SearchInput = () => {
       rows={2} // Default visible rows in the text area
       value={searchQuery} // Bind the value to the searchQuery state
       onChange={handleSearch} // Update the state whenever user types
-      className="nav-search border-2 w-full p-2 min-h-10 max-h-20 card-background"
+      className="nav-search border-2 w-full p-2 min-h-10 max-h-20 card-background "
     />
   );
 };
