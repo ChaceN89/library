@@ -39,6 +39,7 @@ function Register() {
   const [profileImage, setProfileImage] = useState(null);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null); // Error message state
+  const [loading, setLoading] = useState(false); // Loading state for disabling the button
 
   /**
    * Handle profile image change and set the selected file.
@@ -62,7 +63,7 @@ function Register() {
           .slice(1, -1) // Remove the surrounding brackets
           .split(",") // Split by commas
           .map((err) => err.trim().replace(/^['"]|['"]$/g, "")); // Trim spaces and remove quotes
-  
+
         return (
           <div className="text-left">
             <ul className="list-disc pl-5 text-red-600 text-left">
@@ -73,14 +74,13 @@ function Register() {
           </div>
         );
       }
-  
+
       // Handle single error message as a string
       return <p className="text-red-600">{error}</p>;
     }
-  
+
     return null; // Default to null if no valid error
   };
-  
 
   /**
    * Handle form submission, including form validation and error handling.
@@ -88,6 +88,7 @@ function Register() {
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
     const data = new FormData();
     data.append("username", username);
@@ -106,6 +107,8 @@ function Register() {
     } catch (error) {
       const errorResponse = error.response?.data?.errors || error.message;
       setErrorMessage(formatErrorMessage(errorResponse)); // Set formatted error message
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -170,7 +173,10 @@ function Register() {
             onChange={handleImageChange}
           />
 
-          <SubmitButton label="Create Account" />
+          <SubmitButton 
+            label={loading ? "Creating Account..." : "Create Account"} 
+            disabled={loading} 
+          />
 
           {errorMessage && <ErrorLoading message={errorMessage} />}
 

@@ -116,7 +116,10 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
         />
 
         {/* Submit Button */}
-        <SubmitButton label="Login" disabled={loading} />
+        <SubmitButton 
+          label={loading ? "logging In..." : "Login"} 
+          disabled={loading} 
+        />
 
         <hr className="border-2 my-1" />
 
