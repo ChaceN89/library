@@ -8,6 +8,7 @@
  *   It allows users to enter details such as username, name, email, password, and an optional profile image.
  *   The form validates required fields and supports image previews for the profile image.
  *   Additionally, it includes a popup login form for users who already have an account.
+ *   Errors during form submission are handled and displayed using the ErrorLoading component.
  *
  * @requires react
  * @requires useState from React
@@ -17,24 +18,7 @@
  * @requires createAccount from "@/API/authAPI"
  * @requires toast from "react-hot-toast"
  * @requires LoginForm from "@/components/auth/LoginForm"
- *
- * @example
- * // Example usage of the Register component:
- * import Register from "@/components/auth/Register";
- * 
- * export default function RegisterPage() {
- *   return <Register />;
- * }
- *
- * @notes
- * - Form submissions are handled via `handleSubmit`, which sends the data to the backend.
- * - Image uploads are managed using the `ImageInputField` component, which supports previewing the selected image.
- * - The "Already have an account?" button triggers the `LoginForm` component as a popup modal.
- * - Error and success messages are displayed using `react-hot-toast`.
- *
- * @author Chace Nielson
- * @created 2025-01-11
- * @updated 2025-01-11
+ * @requires ErrorLoading from "@/components/loading/ErrorLoading"
  */
 
 import React, { useState } from "react";
@@ -44,6 +28,7 @@ import ImageInputField from "@/components/auth/ImageInputField";
 import { createAccount } from "@/API/authAPI";
 import { toast } from "react-hot-toast";
 import LoginForm from "@/components/auth/LoginForm";
+import ErrorLoading from "@/components/loading/ErrorLoading";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -53,11 +38,54 @@ function Register() {
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null); // Error message state
 
+  /**
+   * Handle profile image change and set the selected file.
+   * @param {Event} e - File input change event.
+   */
   const handleImageChange = (e) => {
     setProfileImage(e.target.files[0]);
   };
 
+  /**
+   * Handle error messages from the server and format them as HTML.
+   * @param {string | string[]} error - Error message from the server.
+   * @returns {JSX.Element} - Formatted error message for display.
+   */
+  const formatErrorMessage = (error) => {
+    if (typeof error === "string") {
+      // Check if the string is formatted as an array-like error
+      if (error.startsWith("[") && error.endsWith("]")) {
+        // Remove the brackets and split by commas
+        const errorList = error
+          .slice(1, -1) // Remove the surrounding brackets
+          .split(",") // Split by commas
+          .map((err) => err.trim().replace(/^['"]|['"]$/g, "")); // Trim spaces and remove quotes
+  
+        return (
+          <div className="text-left">
+            <ul className="list-disc pl-5 text-red-600 text-left">
+              {errorList.map((err, index) => (
+                <li key={index}>{err}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+  
+      // Handle single error message as a string
+      return <p className="text-red-600">{error}</p>;
+    }
+  
+    return null; // Default to null if no valid error
+  };
+  
+
+  /**
+   * Handle form submission, including form validation and error handling.
+   * @param {Event} e - Form submit event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,8 +102,10 @@ function Register() {
     try {
       await createAccount(data);
       toast.success("Account created successfully!");
+      setErrorMessage(null); // Clear any previous error messages
     } catch (error) {
-      toast.error(error.message);
+      const errorResponse = error.response?.data?.errors || error.message;
+      setErrorMessage(formatErrorMessage(errorResponse)); // Set formatted error message
     }
   };
 
@@ -141,6 +171,8 @@ function Register() {
           />
 
           <SubmitButton label="Create Account" />
+
+          {errorMessage && <ErrorLoading message={errorMessage} />}
 
           <div className="w-full flex justify-center text-blue-500 hover:underline">
             <button type="button" onClick={() => setShowLoginPopup(true)}>
