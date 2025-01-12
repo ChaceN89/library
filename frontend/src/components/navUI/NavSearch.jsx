@@ -64,7 +64,7 @@ const NavSearch = () => {
   };
 
   return (
-    <div className="w-full flex flex-col lg:flex-row lg:items-center gap-1 bg-secondary dark:bg-primary rounded-lg p-0.5 shadow-md">
+    <div className="w-full flex flex-col lg:flex-row lg:items-center gap-1 bg-secondary dark:bg-primary rounded-xl p-0.5 shadow-md px-0.5">
       {/* Search input field */}
       <input
         type="text"
