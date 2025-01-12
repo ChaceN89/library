@@ -45,7 +45,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import BookCard from "@/components/bookCard/BookCard";
-import LoadingWheel from "../loading/LoadingWheel";
 import ErrorLoading from "../loading/ErrorLoading";
 
 function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {

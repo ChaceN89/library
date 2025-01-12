@@ -69,3 +69,12 @@
 .dropdown-item {
   @apply w-full text-left flex gap-2 items-center whitespace-nowrap text-inherit;
 }
+
+
+.nav-search{
+  @apply flex-1 px-2 py-1 rounded-lg bg-primary dark:bg-secondary text-secondary dark:text-primary border border-secondary dark:border-primary focus:outline-none focus:ring-2 focus:ring-accent-dark transition;
+}
+
+.pagination-btn{
+  @apply px-4 py-2 bg-accent text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-accent-dark disabled:hover:bg-accent disabled:hover:text-white;
+}

@@ -72,7 +72,7 @@ const NavSearch = () => {
         value={localQuery} // Bind to local state
         onChange={handleInputChange} // Handle input changes
         onKeyDown={handleKeyDown} // Trigger navigation on "Enter"
-        className="flex-1 px-2 py-1 rounded-lg bg-primary dark:bg-secondary text-secondary dark:text-primary border border-secondary dark:border-primary focus:outline-none focus:ring-2 focus:ring-accent-dark transition"
+        className="nav-search"
       />
       {/* Search button */}
       <button

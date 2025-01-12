@@ -7,12 +7,13 @@ const SearchInput = () => {
   const { searchQuery, handleSearch } = useSearch();
 
   return (
-    <input
+    <textarea
       type="text"
-      placeholder="Search by title or author..."
-      value={searchQuery}
-      onChange={handleSearch}
-      className="border p-2 rounded mb-4 w-full"
+      placeholder="Type to Search for Books..."
+      rows={2} // Sets it to display 2 lines by default
+      value={searchQuery} // Bind to local state
+      onChange={handleSearch} // Handle input changes
+      className="nav-search border-2 w-full p-2 min-h-10 max-h-24 card-background"
     />
   );
 };

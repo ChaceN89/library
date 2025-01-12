@@ -1,74 +1,30 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { fetchBooks } from '@/API/booksAPI';
-import BookCard from '@/components/bookCard/BookCard';
-import SearchBar from '@/components/library/browse/SearchBar';  // Import the SearchBar component
-import Pagination from '@/components/library/browse/Pagination'; // Import the Pagination component
-import { useSearch } from '@/context/SearchContext';  // Import useSearch from context
 
-function BrowseBooks() {
-  const { searchQuery, filters } = useSearch();  // Get search context
-  const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
+import React from "react";
+import BackgroundWrapper from "@/components/wrappers/BackgroundWrapper";
+import { browsePageData } from "@/data/browsePageData";
+import SearchInput from "@/components/library/browse/SearchInput";
+import Filters from "@/components/library/browse/Filters";
+import BrowseBooks from "@/components/library/browse/BrowseBooks";
 
-  // Fetch books on load and whenever page, searchQuery, or filters change
-  useEffect(() => {
-    setLoading(true);  // Immediately set loading to true, so the "Loading..." appears
-  
-    const debounceFetch = setTimeout(() => {
-      const loadBooks = async () => {
-        const data = await fetchBooks(page, searchQuery, filters);  // Fetch with searchQuery and filters from context
-        if (data) {
-          setBooks(data.results);
-          setTotalPages(data.num_pages);
-        }
-        setLoading(false);  // Set loading to false after data is fetched
-      };
-      loadBooks();
-    }, 400);  // Delay the fetch by 400ms (adjust as needed)
-  
-    // Clean up the timeout if user is still typing or page/filters change
-    return () => clearTimeout(debounceFetch);
-  }, [page, searchQuery, filters]);  // Trigger fetch on page, searchQuery, or filters change
-
-  // Pagination control
-  const goToNextPage = () => {
-    if (page < totalPages) setPage(page + 1);
-  };
-
-  const goToPreviousPage = () => {
-    if (page > 1) setPage(page - 1);
-  };
-
+function BrowsePage() {
   return (
-    <div>
-      <SearchBar />
+    <BackgroundWrapper
+      src={browsePageData.background}
+      bgOpacity={60}
+      backgroundAttachment={"fixed"}
+      className="min-h-screen"
+    >
+      <div className="flex flex-col lg:flex-row min-h-screen p-2 gap-4">
+        <div className="flex flex-col-reverse lg:flex-col gap-2 w-full lg:w-1/5 lg:border-r-2 lg:pr-4 lg:border-secondary dark:border-primary">
+          <SearchInput/>
+          <Filters/>
+        </div>
+        <BrowseBooks/>
+      </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {/* Book List */}
-          <ul className="gap-4 grid grid-cols-3">
-            {books.length > 0 ? (
-              books.map((book) => <BookCard key={book.id} book={book} />)
-            ) : (
-              <p>No books found</p>
-            )}
-          </ul>
-
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            goToPreviousPage={goToPreviousPage}
-            goToNextPage={goToNextPage}
-          />
-        </>
-      )}
-    </div>
+    </BackgroundWrapper>
   );
 }
 
-export default BrowseBooks;
+export default BrowsePage;
