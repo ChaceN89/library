@@ -46,7 +46,7 @@ function SectionWrapper({ children, title, subtitle }) {
     <div className='py-4 section-container space-y-2'>
       <h1 className='font-bold'>{title}</h1>
       <p className='text-darken'>{subtitle}</p>
-      <div className='space-y-4'>
+      <div className='space-y-4 px-2'>
         {children}
       </div>
     </div>

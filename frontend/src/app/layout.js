@@ -73,7 +73,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={` antialiased h-full flex flex-col`}>
+      <body className="antialiased">
         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
           <ProfileProvider>
             <FavBooksProvider>
@@ -81,11 +81,11 @@ export default function RootLayout({ children }) {
                 <Toaster position="top-center" reverseOrder={false} />
                 <DarkModeTestingToggle/>
                 <TailwindBreakPoints />
-                <Navbar />
-                <main className="flex-grow">
-                  {children}
-                </main>
-                <Footer className="mt-auto" />
+                <div className="flex flex-col min-h-screen">
+                  <Navbar />                
+                  <main className="flex-grow flex flex-col">{children}</main>
+                  <Footer className="mt-auto" />
+                </div>
               </SearchProvider>
             </FavBooksProvider>
           </ProfileProvider>

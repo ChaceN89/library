@@ -23,6 +23,7 @@ import InputField from "@/components/auth/InputField"; // Reusable input field
 import SubmitButton from "@/components/auth/SubmitButton"; // Reusable submit button
 import ErrorLoading from "@/components/loading/ErrorLoading"; // Error display component
 import LoadingWheel from "@/components/loading/LoadingWheel"; // Loading wheel component
+import { FaTimes } from "react-icons/fa";
 
 /**
  * LoginForm Component
@@ -82,14 +83,14 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
 
   return (
     <div
-      className={`flex items-center justify-center ${
-        isPopup ? "fixed inset-0 bg-black bg-opacity-50 z-50" : "min-h-screen"
+      className={`h-full flex-grow ${
+        isPopup && "fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
       }`}
     >
       <form
         onSubmit={handleLogin}
         className={`flex flex-col gap-4 card-background w-80 md:w-96 ${
-          isPopup ? "relative p-6 rounded-lg shadow-lg" : ""
+          isPopup && "relative border-2" 
         }`}
       >
         <h2 className="font-bold text-center">Login</h2>
@@ -141,9 +142,9 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-200"
           >
-            &times;
+            <FaTimes size={24}/>
           </button>
         )}
       </form>

@@ -22,14 +22,17 @@ import LoginForm from "@/components/auth/LoginForm"; // Login form component
  * @returns {JSX.Element} Renders the login page with a styled background and login form.
  */
 function LoginPage() {
+
   return (
     <BackgroundWrapper
       src={authData.background} // Background image
       bgOpacity={60} // Set background opacity
       backgroundAttachment="fixed" // Fix the background during scrolling
-      className="flex flex-col items-center justify-center" // Full-screen styling
+      className="flex-grow flex flex-col justify-center items-center"
     >
+  
       <LoginForm/>
+      {/* <LoginForm isPopup={true}/> */}
     </BackgroundWrapper>
   );
 }

@@ -9,7 +9,7 @@
  * @updated 2025-01-11
  */
 
-import { IMAGE_PREFIX } from "@/globals";
+import { IMAGE_PREFIX, MAIN_BACKGROUND } from "@/globals";
 
 /**
  * Authentication-related data
@@ -18,6 +18,6 @@ import { IMAGE_PREFIX } from "@/globals";
  * @property {string} authImg - URL for the mascot image displayed on login forms.
  */
 export const authData = {
-  background: `${IMAGE_PREFIX}/frontendAssets/whiteGeoMetric2.png`,
+  background: MAIN_BACKGROUND,
   authImg: `${IMAGE_PREFIX}/frontendAssets/foxMascot.png`
 };

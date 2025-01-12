@@ -1,4 +1,4 @@
-import { IMAGE_PREFIX, DEFAULT_PAGE_SIZE } from "@/globals";
+import { IMAGE_PREFIX, DEFAULT_PAGE_SIZE, MAIN_BACKGROUND } from "@/globals";
 
 /**
  * @file browsePageData.js
@@ -25,7 +25,7 @@ export const browsePageData = {
   /**
    * Background image for the Browse Page.
    */
-  background: `${IMAGE_PREFIX}/frontendAssets/whiteGeoMetric2.png`,
+  background: MAIN_BACKGROUND,
 
   /**
    * Page size options for pagination.

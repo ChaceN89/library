@@ -143,7 +143,7 @@ function BackgroundWrapper({
         }}
       />
       {/* Content wrapper */}
-      <div className={`${className} relative z-10`}>
+      <div className={`relative z-10`}>
         {children}
       </div>
     </div>

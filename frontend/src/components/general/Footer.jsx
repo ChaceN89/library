@@ -18,8 +18,8 @@ import LogoLink from "./LogoLink"; // Logo link for navigation
 
 function Footer() {
   return (
-    <footer className="bg-accent flex relative bottom-0">
-      <div className="container mx-auto flex justify-between items-center p-1 sm:p-2">
+    <footer className="bg-accent flex relative section-container py-4">
+      <div className="w-full flex justify-between">
         {/* Link back to the top with the logo */}
         <LogoLink />
 
