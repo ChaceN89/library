@@ -24,6 +24,8 @@ import SubmitButton from "@/components/auth/SubmitButton"; // Reusable submit bu
 import ErrorLoading from "@/components/loading/ErrorLoading"; // Error display component
 import LoadingWheel from "@/components/loading/LoadingWheel"; // Loading wheel component
 import { FaTimes } from "react-icons/fa";
+import Link from 'next/link';  // Import Link for navigation
+
 
 /**
  * LoginForm Component
@@ -116,10 +118,19 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/" }) {
         {/* Submit Button */}
         <SubmitButton label="Login" disabled={loading} />
 
-        <hr className="border-2 my-2" />
+        <hr className="border-2 my-1" />
 
         {/* Google Sign-In */}
         <GoogleSignIn successLogin={SuccessfulLogin} loginFailure={LoginFailure} />
+        
+        <hr className="border-2 my-1" />
+
+        <Link 
+         href="/auth/sign-up"
+          className="w-full flex justify-center text-blue-500 hover:underline"
+        >
+          New here? Sign up to get started!
+        </Link>
 
         {/* Image/Error/Loading */}
         <div className="flex justify-center mt-4 h-40">
