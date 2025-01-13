@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { uploadBook } from '@/API/uploadAPI';  // Import the upload API
 import { toast } from 'react-hot-toast';  // For notifications
 import { useRouter } from 'next/navigation';  // To handle navigation
+import { ACCEPTED_FILES } from '@/globals';
 
 function Upload() {
   const [formData, setFormData] = useState({
@@ -132,7 +133,7 @@ function Upload() {
           name="content"
           onChange={handleFileChange}
           className="border p-2 mb-4 w-full"
-          accept=".txt"
+          accept={ACCEPTED_FILES}
           required
         />
 
@@ -144,6 +145,7 @@ function Upload() {
           onChange={handleFileChange}
           className="border p-2 mb-4 w-full"
           accept="image/png, image/jpeg"
+
         />
 
         {/* Submit Button */}

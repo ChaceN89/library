@@ -1,37 +1,45 @@
-"use client";  // Add this directive to make it a Client Component
+/**
+ * @file BookPage.jsx
+ * @module BookPage
+ * @description
+ *   Provides a wrapper for the `Book` component with a background and layout. 
+ *   Delegates book fetching and error handling to the `Book` component.
+ * 
+ * @requires react
+ * @requires next/navigation
+ * @requires BackgroundWrapper from "@/components/wrappers/BackgroundWrapper"
+ * @requires Book from "@/components/library/book/Book"
+ * 
+ * @example
+ * <BookPage />
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-12
+ * @updated 2025-01-12
+ */
 
-import { useRouter, useParams } from 'next/navigation';
-import React, { useEffect } from 'react';
-import BookDisplayPage from '@/components/library/book/Book';
-import { fetchBookById } from '@/API/booksAPI';
+"use client";
+
+import React from "react";
+import { useParams } from "next/navigation";
+import { browsePageData } from "@/data/browsePageData";
+import BackgroundWrapper from "@/components/wrappers/BackgroundWrapper";
+import Book from "@/components/library/book/Book";
 
 function BookPage() {
   const params = useParams();
   const { id, title } = params;
-  const router = useRouter();
 
-  const [book, setBook] = React.useState(null);
-
-  useEffect(() => {
-    const loadBook = async () => {
-      const bookData = await fetchBookById(id);
-      if (bookData) {
-        setBook(bookData);
-
-        // Redirect to correct URL if title in URL doesn't match the fetched book title
-        if (bookData.title.toLowerCase() !== title.toLowerCase()) {
-          router.replace(`/book/${id}/${bookData.title.toLowerCase()}`);
-        }
-      }
-    };
-    loadBook();
-  }, [id, title, router]);
-
-  if (!id || !book) {
-    return <p>Loading... Book might not eixist - need to dispaly the 404 component here</p>;
-  }
-
-  return <BookDisplayPage id={id} />;
+  return (
+    <BackgroundWrapper
+      src={browsePageData.background} // Background image
+      bgOpacity={60} // Set background opacity
+      backgroundAttachment="fixed" // Fix the background during scrolling
+      className="flex-grow flex flex-col section-container pt-4"
+    >
+      <Book id={id} title={title} />
+    </BackgroundWrapper>
+  );
 }
 
 export default BookPage;
