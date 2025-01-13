@@ -1,11 +1,54 @@
+/**
+ * @file BookContext.js
+ * @module BookContext
+ * @description 
+ *   Context provider for managing book-related state, including content, file types, and reader settings. 
+ *   Handles fetching book data, managing pagination, and storing reader preferences.
+ *
+ * @requires React
+ * @requires @data/bookData - Contains default reader settings and MIME type mappings.
+ * @requires @API/booksAPI - API functions for fetching book data and updating view counts.
+ * @requires @utils/replaceURL - Utility function for formatting book titles in URLs.
+ * @requires next/navigation - Next.js router for navigation and redirection.
+ * 
+ * @context BookContext
+ * @component BookProvider
+ * @hook useBookContext
+ *
+ * @example
+ * // Wrap your application with the provider:
+ * import { BookProvider } from '@/context/BookContext';
+ * 
+ * function App() {
+ *   return (
+ *     <BookProvider>
+ *       <YourApp />
+ *     </BookProvider>
+ *   );
+ * }
+ * 
+ * @example
+ * // Access context in a component:
+ * import { useBookContext } from '@/context/BookContext';
+ * 
+ * function BookComponent() {
+ *   const { book, fetchBook } = useBookContext();
+ *   // Use book data or fetch a book
+ * }
+ * 
+ * @exports BookProvider
+ * @exports useBookContext
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-13
+ * @updated 2025-01-13
+ */
 "use client";
-
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { bookReaderData, mimeToFileType } from "@/data/bookData"; // Import default lines per page and MIME types
 import { fetchBookById, incrementViews } from "@/API/booksAPI";
 import { formatURL } from "@/utils/replaceURL";
 import { useRouter } from "next/navigation";
-
 
 // Create the BookContext
 const BookContext = createContext();
@@ -28,7 +71,7 @@ export const BookProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(0); // Current page
   const [linesPerPage, setLinesPerPage] = useState(bookReaderData.defaultLinesPerPage); // Lines per page with default
   const [pages, setPages] = useState([]); // Split content into pages
-
+  const [readerError, setReaderError] = useState(false); // Current page
 
   // Fetch book data and update state
   const fetchBook = async (id, title) => {
@@ -59,9 +102,6 @@ export const BookProvider = ({ children }) => {
     }
   };
   
-
-
-
   // Fetch book content
   const fetchContent = async (bookData) => {
     if (!bookData?.content_url){
@@ -83,10 +123,10 @@ export const BookProvider = ({ children }) => {
       setFileType(type)
       setFileTypeDisplay(displayInfo)
       splitContent(text, linesPerPage); // Split content into pages
-
+      setReaderError(false)
     } catch (err) {
       console.error("Error fetching book content:", err);
-      setContent("Error loading content.");
+      setReaderError(true)
     }
   };
 
@@ -129,16 +169,18 @@ useEffect(() => {
         error,
         fetchBook,
         
-        // 
+        // reader settings
         currentPage,
         setCurrentPage,
         linesPerPage,
         setLinesPerPage,
         pages,
 
+        //content and file types
         fileType,
         fileTypeDisplay,
         content,
+        readerError
       }}
     >
       {children}

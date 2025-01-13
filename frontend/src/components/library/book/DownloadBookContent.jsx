@@ -1,3 +1,26 @@
+/**
+ * @file DownloadBookContent.jsx
+ * @module DownloadBookContent
+ * @description
+ * A React component for downloading the book content file.
+ * It integrates with the `BookContext` to fetch and display relevant data about the book.
+ * Displays a dynamic button to handle file downloads, showing appropriate states (loading, error, or ready).
+ *
+ * @requires react
+ * @requires react-icons/fa - For rendering the download icon.
+ * @requires incrementDownloads - API function to increment the book's download count.
+ * @requires useBookContext - Context to access book-related data and states.
+ *
+ * @example
+ * <DownloadBookContent />
+ *
+ * @exports DownloadBookContent
+ *
+ * @author Chace Nielson
+ * @created 2025-01-13
+ * @updated 2025-01-13
+ */
+
 import React, { useState } from "react";
 import { FaDownload } from "react-icons/fa"; // Import the download icon
 import { incrementDownloads } from "@/API/booksAPI"; // Increment download count API
@@ -43,7 +66,6 @@ function DownloadBookContent() {
     : fileType && !loading
     ? `Download "${title}" (${fileTypeDisplay.extension})` // File info when ready
     : "Loading..."; // Show loading text otherwise
-
 
   return (
     <button

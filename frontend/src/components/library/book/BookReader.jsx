@@ -2,7 +2,7 @@ import React from "react";
 import { useBookContext } from "@/context/BookContext";
 
 function BookReader() {
-  const { pages, currentPage, setCurrentPage, error, loading } = useBookContext();
+  const { pages, currentPage, setCurrentPage, error, readerError, loading } = useBookContext();
 
   // Navigation handlers
   const nextPage = () => {
@@ -23,15 +23,17 @@ function BookReader() {
             <div className="h-8 bg-gray-300 rounded w-3/4"></div>
             <div className="h-8 bg-gray-300 rounded w-5/6"></div>
             <div className="h-8 bg-gray-300 rounded w-2/3"></div>
+            <div className="h-8 bg-gray-300 rounded w-full"></div>
+            <div className="h-8 bg-gray-300 rounded w-2/5"></div>
           </div>
-        ) : error ? (
+        ) : error || readerError ? (
           // Error state
-          <p className="text-red-500 text-center">{error}</p>
+          <p className="text-red-500 font-bold text-center">{error || "Book Content Cannot be fetched"} </p>
         ) : (
           // Render book content
           <>
             <div
-              className="content border p-4 rounded bg-gray-100 overflow-y-auto max-h-[60vh]"
+              className="content border p-4 rounded bg-gray-100 overflow-y-auto max-h-[75vh]"
               style={{
                 whiteSpace: "pre-wrap",
                 fontFamily: "monospace",
