@@ -5,6 +5,8 @@ import BookCardTitle from './BookCardTitle';
 import { bookCardData } from '@/data/bookCardData';
 import LoadingWheel from '../loading/LoadingWheel';
 
+// An old component for examples with more infoamtion that i will use for the my Books Section 
+
 function BookInfoCard({ book, loading }) {
   const bookLink = loading
     ? "#"

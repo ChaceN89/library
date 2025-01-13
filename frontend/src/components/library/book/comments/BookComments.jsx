@@ -24,7 +24,7 @@ function BookComments({ bookId }) {
   }
 
   return (
-    <div className="my-4">
+    <div className="">
       <h3 className="text-xl font-semibold">Comments</h3>
       <ul className="space-y-2">
         {comments.map((comment) => (

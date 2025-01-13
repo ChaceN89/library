@@ -23,12 +23,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchBookById, incrementViews, incrementDownloads } from "@/API/booksAPI";
+import { fetchBookById, incrementViews } from "@/API/booksAPI";
 import ErrorLoading from "@/components/loading/ErrorLoading";
 import LoadingWheel from "@/components/loading/LoadingWheel";
 import BookInfomationDisplay from "./BookInfomationDisplay";
 import BookComments from "./comments/BookComments";
 import BookReader from "./BookReader";
+import { formatURL } from "@/utils/replaceURL";
 
 function Book({ id, title }) {
   const router = useRouter();
@@ -43,13 +44,15 @@ function Book({ id, title }) {
 
       try {
         const bookData = await fetchBookById(id);
-
         if (bookData) {
-          setBook(bookData);
-          await incrementViews(id);
+          
+          setBook(bookData); // set the books data 
+          await incrementViews(id);// Increament this books views
+
           // Redirect to correct URL if title in URL doesn't match the fetched book title
-          if (bookData.title.toLowerCase() !== title.toLowerCase()) {
-            router.replace(`/book/${id}/${bookData.title.toLowerCase()}`);
+          // compare the URl to the actual data
+          if (formatURL(bookData.title) !== title.toLowerCase()) {
+            router.replace(`/book/${id}/${formatURL(bookData.title)}`);            
           }
         } else {
           setError(true); // No book found
@@ -65,8 +68,6 @@ function Book({ id, title }) {
     loadBook();
   }, [id, title, router]);
 
-
-
   if (error) {
     return (
       <ErrorLoading
@@ -80,20 +81,8 @@ function Book({ id, title }) {
     <div className="">
       <BookInfomationDisplay book={book} loading={loading}/>
 
-      {book &&(
-        <div>
-      <h1>{book.title}</h1>
-      <a 
-        href={book.content_url} 
-        download 
-        onClick={() => incrementDownloads(book.id)}
-        >
-        Download Content
-      </a>
-      <BookReader contentUrl={book.content_url} />
-      </div>
-      )}
-
+      <BookReader book={book} />
+ 
       {loading ?(
         <LoadingWheel/>
       ):(

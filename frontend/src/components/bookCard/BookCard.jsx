@@ -36,9 +36,11 @@ import LoadingWheel from '../loading/LoadingWheel';
 import Link from 'next/link';
 import SetFavBook from '../library/favBooks/SetFavBook';
 import { bookCardData } from '@/data/bookCardData';
+import { formatURL } from '@/utils/replaceURL';
 
 function BookCard({ book, loading }) {
-  const bookLink = `/book/${book.id}/${book.title?.toLowerCase()}`;
+  const bookLink = `/book/${book.id}/${formatURL(book.title)}`; // Use the utility function
+
 
   return (
     <div className="card-background card-background-hover overflow-hidden border border-gray-200 rounded-md shadow-sm hover:shadow-lg transition-shadow">
@@ -56,6 +58,9 @@ function BookCard({ book, loading }) {
                 className="object-cover w-full h-full"
                 width={300}
                 height={400}
+                priority
+                placeholder="blur"
+                blurDataURL={bookCardData.blurURL}
               />
             )}
             {!loading && (

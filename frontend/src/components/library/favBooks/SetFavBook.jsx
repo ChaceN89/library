@@ -39,7 +39,7 @@ import { toast } from 'react-hot-toast';
 import { useFavBooks } from '@/context/FavBooksContext';
 import { useProfileContext } from '@/context/ProfileContext';
 
-function SetFavBook({ id, bookTitle = null }) {
+function SetFavBook({ id, bookTitle = null, large=false }) {
   const { isLoggedIn } = useProfileContext(); // Access user authentication context
 
   // Format the book title for notifications
@@ -83,13 +83,13 @@ function SetFavBook({ id, bookTitle = null }) {
   return (
     <button
       onClick={toggleFavorite}
-      className="text-2xl focus:outline-none bg-accent p-0.5 rounded-full bg-opacity-80"
+      className="text-2xl focus:outline-none bg-black p-0.5 rounded-full bg-opacity-60"
       aria-label={isLocalFav ? 'Remove from favorites' : 'Add to favorites'}
     >
       {isLocalFav ? (
-        <FaStar className="text-yellow-500" /> // Gold filled star
+        <FaStar className={`text-yellow-500 ${large ? "text-4xl" : "text-2xl"}`} />
       ) : (
-        <FaRegStar className="text-white" /> // White outlined star
+        <FaStar className={`text-white ${large ? "text-4xl" : "text-2xl"}`} />
       )}
     </button>
   );
