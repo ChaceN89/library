@@ -37,6 +37,7 @@ import Link from 'next/link';
 import SetFavBook from '../library/favBooks/SetFavBook';
 import { bookCardData } from '@/data/bookCardData';
 import { formatURL } from '@/utils/replaceURL';
+import PlaceHolderText from '../general/PlaceHolderText';
 
 function BookCard({ book, loading }) {
   const bookLink = `/book/${book.id}/${formatURL(book.title)}`; // Use the utility function
@@ -48,7 +49,7 @@ function BookCard({ book, loading }) {
       <Link href={loading ? "#" : bookLink} passHref>
         <div className="cursor-pointer">
           {/* Book Cover */}
-          <div className="relative w-full aspect-[3/4] bg-gray-300 overflow-hidden flex items-center justify-center">
+          <div className="relative w-full aspect-[3/4] bg-accent  bg-opacity-15 overflow-hidden flex items-center justify-center">
             {loading ? (
               <LoadingWheel className="h-12 w-12" />
             ) : (
@@ -71,13 +72,9 @@ function BookCard({ book, loading }) {
           </div>
 
           {/* Book Title and Author */}
-          <div className="p-2 text-left overflow-hidden">
-            <h5 className="truncate">
-              {loading ? 'Title...' : book.title || 'Unknown Title'}
-            </h5>
-            <p className="truncate">
-              {loading ? 'Author...' : book.author || 'Unknown Author'}
-            </p>
+          <div className="p-2 space-y-1 text-left overflow-hidden">
+            <PlaceHolderText loading={loading} ><h5>{book?.title || "Unknown Title"}</h5></PlaceHolderText>  
+            <PlaceHolderText loading={loading} ><h5>{book?.author || "Unknown Author"}</h5></PlaceHolderText>  
           </div>
         </div>
       </Link>

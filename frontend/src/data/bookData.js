@@ -11,3 +11,8 @@ export const mimeToFileType = {
   "application/msword": { fileName: "Word Document", extension: "doc" },
   "text/plain": { fileName: "Text File", extension: "txt" },
 };
+
+export const bookReaderData={
+  defaultLinesPerPage:100
+
+}

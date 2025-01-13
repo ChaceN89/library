@@ -1,32 +1,39 @@
+import React from "react";
+
 /**
  * PlaceHolderText Component
  * A reusable component for displaying placeholder text or loading states.
-*
-* @param {boolean} loading - Determines whether to show loading state.
-* @param {React.Element} placeholder - A custom React element to show as placeholder (e.g., `<div>` or `<span>`).
-* @param {string} loadingText - Optional text to display when loading (e.g., "Loading...").
-* @param {string} className - Additional CSS classes for styling.
-* @param {React.Element} children - The actual content to display when not loading.
-*
-* @example
-* <PlaceHolderText
-*   loading={true}
-*   placeholder={<div className="bg-gray-300 w-24 h-6 rounded-md"></div>}
-*   loadingText="Loading..."
-* >
-*   <h3>Actual Content</h3>
-* </PlaceHolderText>
-*/
-import React from "react";
+ *
+ * @param {boolean} loading - Determines whether to show loading state.
+ * @param {React.Element} placeholder - Optional custom React element to show as a placeholder.
+ * @param {string} className - Additional classes for the placeholder.
+ * @param {React.Element} children - The actual content to display when not loading.
+ *
+ * @example
+ * <PlaceHolderText loading={true}>
+ *   <h3>This is a heading</h3>
+ * </PlaceHolderText>
+ */
+function PlaceHolderText({ 
+  loading, 
+  placeholder = null, 
+  children 
+}) {
+  // Get the tag name of the child element, if available
+  const tagName = React.isValidElement(children) ? children.type : "div";
 
-function PlaceHolderText({ loading, placeholder, loadingText, className, children }) {
-  if (loading) {
-    if (placeholder) {
-      return <div className={className}>{placeholder}</div>;
-    }
-    return <div className={className}>{loadingText || "Loading..."}</div>;
-  }
-  return <>{children}</>;
+  // Generate a default placeholder based on the tag
+  const defaultPlaceholder = React.createElement(
+    tagName,
+    {
+      className: `w-inherit bg-gray-300 rounded-md dark:bg-gray-700 animate-pulse "
+      }`,
+    },
+    "\u00A0" // Non-breaking space to ensure the element has height
+  );
+
+  // Show placeholder when loading, otherwise render children
+  return loading ? (placeholder || defaultPlaceholder) : <>{children}</>;
 }
 
 export default PlaceHolderText;

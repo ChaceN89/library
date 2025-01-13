@@ -1,12 +1,8 @@
 import { navData } from "@/data/navData";
 import React from "react";
 
-function BookOwner({ book }) {
-  // Destructure with defaults to handle missing or null properties
-  const {
-    owner_profile_pic = navData.defaultImg, // Fallback to a default image
-    owner_username = "Unknown Owner", // Fallback to a default username
-  } = book || {}; // Use an empty object if `book` is null
+
+function BookOwner({ owner_profile_pic = navData.defaultImg, owner_username = "Unknown Owner" }) {
 
   return (
     <div className="flex items-center gap-1">

@@ -59,6 +59,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SearchProvider } from '@/context/SearchContext';  // Import the SearchProvider
 import { ProfileProvider } from "@/context/ProfileContext";
 import { FavBooksProvider } from "@/context/FavBooksContext";
+import { BookProvider } from "@/context/BookContext";
+
 
 import { Toaster } from 'react-hot-toast';
 
@@ -70,6 +72,7 @@ export const metadata = {
   },
 };
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -78,14 +81,16 @@ export default function RootLayout({ children }) {
           <ProfileProvider>
             <FavBooksProvider>
               <SearchProvider>
-                <Toaster position="top-center" reverseOrder={false} />
-                <DarkModeTestingToggle/>
-                <TailwindBreakPoints />
-                <div className="flex flex-col min-h-screen">
-                  <Navbar />                
-                  <main className="flex-grow flex flex-col">{children}</main>
-                  <Footer className="mt-auto" />
-                </div>
+                <BookProvider> {/* Add BookProvider */}
+                  <Toaster position="top-center" reverseOrder={false} />
+                  <DarkModeTestingToggle />
+                  <TailwindBreakPoints />
+                  <div className="flex flex-col min-h-screen">
+                    <Navbar />
+                    <main className="flex-grow flex flex-col">{children}</main>
+                    <Footer className="mt-auto" />
+                  </div>
+                </BookProvider>
               </SearchProvider>
             </FavBooksProvider>
           </ProfileProvider>
@@ -94,3 +99,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
