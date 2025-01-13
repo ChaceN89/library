@@ -88,6 +88,9 @@ export const BookProvider = ({ children }) => {
         if (formatURL(bookData.title) !== title.toLowerCase()) {
           router.replace(`/book/${id}/${formatURL(bookData.title)}`);
         }
+
+        // Set the saved State
+        await setSavedState(bookData)
   
         // Fetch file type and content only if book data is valid
         await fetchContent(bookData)
@@ -101,6 +104,19 @@ export const BookProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+
+  const setSavedState = async (bookData)=>{
+    // Load book state from localStorage
+    const storedDataDict = JSON.parse(localStorage.getItem("bookStates")) || {};
+    const savedState = storedDataDict[bookData.id];
+    if (savedState) {
+      setCurrentPage(savedState.currentPage || 0);
+      setLinesPerPage(savedState.linesPerPage || bookReaderData.defaultLinesPerPage);
+    } else {
+      setCurrentPage(0); // Default to the first page
+    }
+  }
   
   // Fetch book content
   const fetchContent = async (bookData) => {
@@ -133,31 +149,64 @@ export const BookProvider = ({ children }) => {
 
 
  // Split content into pages
- const splitContent = (text, lines) => {
-  const splitPages = text
-    .split("\n")
-    .reduce((acc, line, idx) => {
-      const pageIndex = Math.floor(idx / lines);
-      acc[pageIndex] = (acc[pageIndex] || "") + `${line}\n`;
-      return acc;
-    }, []);
-  setPages(splitPages);
-};
+  const splitContent = (text, lines) => {
+    const splitPages = text
+      .split("\n")
+      .reduce((acc, line, idx) => {
+        const pageIndex = Math.floor(idx / lines);
+        acc[pageIndex] = (acc[pageIndex] || "") + `${line}\n`;
+        return acc;
+      }, []);
+    setPages(splitPages);
+  };
 
-useEffect(() => {
-  if (content) {
-    splitContent(content, linesPerPage);
-  }
-}, [content, linesPerPage]);
+  useEffect(() => {
+    if (content) {
+      splitContent(content, linesPerPage);
+    }
+  }, [content, linesPerPage]);
 
-// Save current page and linesPerPage to localStorage
-useEffect(() => {
-  if (book?.id) {
-    const storedData = JSON.parse(localStorage.getItem("bookState")) || {};
-    storedData[book.id] = { currentPage, linesPerPage };
-    localStorage.setItem("bookState", JSON.stringify(storedData));
-  }
-}, [currentPage, linesPerPage, book]);
+  // Save current page and linesPerPage to localStorage
+  useEffect(() => {
+    if (book?.id) {
+      // Retrieve the stored book states from localStorage or initialize an empty dictionary
+      const storedDataDict = JSON.parse(localStorage.getItem("bookStates")) || {};
+
+      // Prepare the new data object to store
+      const newData = {
+        currentPage: currentPage,
+        linesPerPage: linesPerPage,
+        name: book?.title,
+        timeStamp: new Date().toISOString(), // Save the current timestamp
+      };
+
+      // Check if the book is already in the dictionary
+      if (storedDataDict[book.id]) {
+        // Overwrite the existing entry for this book
+        storedDataDict[book.id] = newData;
+      } else {
+        // If the book is not already saved and the dictionary exceeds the maxSavedBooks limit
+        if (Object.keys(storedDataDict).length >= bookReaderData.maxSavedBooks) {
+          // Find the oldest entry by timestamp
+          const oldestEntryKey = Object.keys(storedDataDict).reduce((oldestKey, key) => {
+            return new Date(storedDataDict[key].timeStamp) < new Date(storedDataDict[oldestKey].timeStamp)
+              ? key
+              : oldestKey;
+          });
+
+          // Remove the oldest entry
+          delete storedDataDict[oldestEntryKey];
+        }
+
+        // Add the new book state to the dictionary
+        storedDataDict[book.id] = newData;
+      }
+
+      // Save the updated dictionary back to localStorage
+      localStorage.setItem("bookStates", JSON.stringify(storedDataDict));
+    }
+  }, [currentPage, linesPerPage]);
+
 
 
   return (

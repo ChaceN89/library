@@ -43,4 +43,13 @@ export const mimeToFileType = {
 // Configuration for the book reader
 export const bookReaderData = {
   defaultLinesPerPage: 80, // Default number of lines per page for the book reader
+  linepPerPageOptions: [
+    80,
+    100,
+    150,
+    200,
+    400
+  ],
+  maxSavedBooks:3
+
 };
