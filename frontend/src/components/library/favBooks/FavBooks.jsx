@@ -22,21 +22,30 @@
  * @created 2025-01-14
  * @updated 2025-01-14
  */
-
+'use client'
 import React, { useState, useEffect } from 'react';
 import BookCard from '../../bookCard/BookCard';
 import { useFavBooks } from '@/context/FavBooksContext';
 import SortingDropdown from './SortingDropdown';
 import LoadingWheel from '@/components/loading/LoadingWheel';
 import ErrorLoading from '@/components/loading/ErrorLoading';
+import { useRouter } from "next/navigation";
+import { useProfileContext } from '@/context/ProfileContext';
+import LoginForm from '@/components/auth/LoginForm';
 
 function FavBooks() {
-  const { favBooks, loading, error } = useFavBooks();
+  const { favBooks, loading, error, loadFavBooks } = useFavBooks();
   const [localFavBooks, setLocalFavBooks] = useState([]);
   const [sortedBooks, setSortedBooks] = useState([]);
   const [sortOption, setSortOption] = useState('');
 
+  const { isLoggedIn } = useProfileContext();
+    const router = useRouter();
+  
+  
+
   useEffect(() => {
+
     setLocalFavBooks(favBooks);
   }, [favBooks]);
 
@@ -54,6 +63,18 @@ function FavBooks() {
     setSortOption(e.target.value);
   };
 
+  if (!isLoggedIn && !loading){
+    return(
+      <LoginForm
+        isPopup
+        onClose={()=> router.push("/")}
+        reRouteTo={null}
+        onSuccess={()=> loadFavBooks()}
+      />
+    )
+  }
+
+
   if(error){
     return(
       <ErrorLoading
@@ -64,6 +85,7 @@ function FavBooks() {
 
   return (
     <div>
+      {/* <LoginCredentialsCheck/> */}
       {/* Pass props to SortingDropdown */}
       <SortingDropdown sortOption={sortOption} handleSort={handleSort} />
 
@@ -82,6 +104,7 @@ function FavBooks() {
           )}
         </ul>
       )}
+
     </div>
   );
 }

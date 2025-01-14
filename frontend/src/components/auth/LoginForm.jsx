@@ -32,7 +32,7 @@ import Link from 'next/link';  // Import Link for navigation
  * @param {string} reRouteTo - Route to redirect after successful login (default is `/`).
  * @returns {JSX.Element} A reusable login form component.
  */
-function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegisterLink = true }) {
+function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegisterLink = true, onSuccess=null }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -61,6 +61,7 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
     try {
       await getLoginCredentials(username, password);
       triggerProfileReload();
+      onSuccess()
     } catch (err) {
       setError(true);
       setErrorMsg(err.message || "An unknown error occurred. Please try again.");
