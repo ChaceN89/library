@@ -71,6 +71,11 @@ function BookReader() {
     if (currentPage + 1 > pages.length) {
       setCurrentPage(pages.length - 1);
     }
+    
+    if(currentPage <0){
+      setCurrentPage(0);
+    }
+
   }, [linesPerPage, pages.length, currentPage, setCurrentPage]);
 
   return (
