@@ -51,6 +51,7 @@ export const bookReaderData = {
     400
   ],
   maxSavedBooks:6,
-  maxCommentDepth:3,
-  maxCommentDepthSmallScreen:2
+  maxCommentDepthLg:4, // on larger scren the comments jsut keep coming
+  maxCommentDepthLgBeforeModal:8, // eventaully if you get past this on a large screen it becomes a modal again
+  maxCommentDepthSmBeforeModal:2 // for small screen its alwasya  modal
 };

@@ -5,6 +5,7 @@ import BookOwner from "../BookOwner";
 import { FaComment } from "react-icons/fa";
 import { bookReaderData } from "@/data/bookData";
 import Modal from "@/components/general/Modal";
+
 /**
  * Renders a single comment and its nested replies, along with options for replying and deleting.
  *
@@ -18,6 +19,7 @@ import Modal from "@/components/general/Modal";
 function Comment({ comment, bookId, loading, depth = 0 }) {
   const [commentContent, setCommentContent] = useState(comment.content);
   const [modalChildComment, setModalChildComment] = useState(false);
+  const [showRepliesInline, setShowRepliesInline] = useState(false);
 
   const onCommentDeleted = () => {
     setCommentContent("[Your comment has been deleted.]");
@@ -26,8 +28,8 @@ function Comment({ comment, bookId, loading, depth = 0 }) {
   // Determine the max depth based on screen size
   const smallScreen = window.innerWidth <= 768;
   const maxDepth = smallScreen
-    ? bookReaderData.maxCommentDepthSmallScreen
-    : bookReaderData.maxCommentDepth;
+    ? bookReaderData.maxCommentDepthSmBeforeModal
+    : bookReaderData.maxCommentDepthLg;
 
   return (
     <li className="p-4 bg-gray-100 dark:bg-slate-600 bg-opacity-50 border border-black dark:border-white border-opacity-30 shadow-lg rounded-md dark:border-opacity-30 overflow-auto">
@@ -69,38 +71,56 @@ function Comment({ comment, bookId, loading, depth = 0 }) {
               ))}
             </ul>
           ) : (
+            <>
+              {!showRepliesInline && (
+                <button
+                  onClick={() =>
+                    smallScreen ||depth > bookReaderData.maxCommentDepthLgBeforeModal  
+                      ? setModalChildComment(true)
+                      : setShowRepliesInline(true)
+                  }
+                  className="text-blue-500 hover:text-blue-700 underline text-sm mt-2"
+                >
+                  View {comment.replies.length} more replies
+                </button>
+              )}
 
+              {/* Open modal if small screen of depth is really high*/}
+              {(smallScreen || depth > bookReaderData.maxCommentDepthLgBeforeModal ) && modalChildComment &&  (
+                <Modal onClose={() => setModalChildComment(false)}>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Replies to "{commentContent.slice(0, 20)}..."
+                  </h3>
+                  <ul className="space-y-4">
+                    {comment.replies.map((reply) => (
+                      <Comment
+                        key={reply.id}
+                        comment={reply}
+                        bookId={bookId}
+                        loading={loading}
+                        depth={depth + 1}
+                      />
+                    ))}
+                  </ul>
+                </Modal>
+              )}
 
-            <button
-              onClick={() => setModalChildComment(true)}
-              className="text-blue-500 hover:text-blue-700 underline text-sm mt-2"
-            >
-              View {comment.replies.length} more replies
-            </button>
+              {/* Inline replies (large screens) */}
+              {!smallScreen && showRepliesInline && depth <= bookReaderData.maxCommentDepthLgBeforeModal && (
+                <ul className="ml-4 border-l-2 border-gray-300 dark:border-gray-500 pl-4 mt-4 space-y-4">
+                  {comment.replies.map((reply) => (
+                    <Comment
+                      key={reply.id}
+                      comment={reply}
+                      bookId={bookId}
+                      loading={loading}
+                      depth={depth + 1}
+                    />
+                  ))}
+                </ul>
+              )}
+            </>
           )}
-
-
-          {/* Modal for deeply nested replies */}
-          {modalChildComment && (
-            <Modal onClose={() => setModalChildComment(false)}>
-              <h3 className="text-lg font-semibold mb-4">
-                Replies to "{commentContent.slice(0, 20)}..."
-              </h3>
-              <ul className="space-y-4">
-                {comment.replies.map((reply) => (
-                  <Comment
-                    key={reply.id}
-                    comment={reply}
-                    bookId={bookId}
-                    loading={loading}
-                    depth={depth + 1}
-                  />
-                ))}
-              </ul>
-            </Modal>
-          )}
-
-
         </>
       )}
     </li>
