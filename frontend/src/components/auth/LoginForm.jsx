@@ -7,11 +7,10 @@
  *
  * @author Chace
  * @created 2025-01-11
- * @updated 2025-01-12
+ * @updated 2025-01-13
  */
 
 "use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Next.js router for navigation
 import GoogleSignIn from "@/components/auth/GoogleSignIn"; // Google Sign-In component
@@ -25,7 +24,6 @@ import ErrorLoading from "@/components/loading/ErrorLoading"; // Error display c
 import LoadingWheel from "@/components/loading/LoadingWheel"; // Loading wheel component
 import { FaTimes } from "react-icons/fa";
 import Link from 'next/link';  // Import Link for navigation
-
 
 /**
  * LoginForm Component
@@ -44,8 +42,13 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
   const router = useRouter();
   const { triggerProfileReload, isLoggedIn } = useProfileContext();
 
-  if (isLoggedIn) {
-    router.push(reRouteTo);
+  if (isLoggedIn ) {
+
+    if (reRouteTo != null){
+      router.push(reRouteTo);
+    }else if(isPopup){
+      onClose()
+    }
     return null;
   }
 
@@ -58,7 +61,6 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
     try {
       await getLoginCredentials(username, password);
       triggerProfileReload();
-      router.push(reRouteTo);
     } catch (err) {
       setError(true);
       setErrorMsg(err.message || "An unknown error occurred. Please try again.");
@@ -110,7 +112,6 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
           setLoading={setLoading}
           successLogin={() => {
             triggerProfileReload();
-            router.push(reRouteTo);
           }}
           loginFailure={(error) => {
             setError(true);
@@ -123,7 +124,7 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
             <hr className="border-2 my-1" />
             <Link
               href="/auth/sign-up"
-              className="w-full flex justify-center text-blue-500 hover:underline"
+              className="w-full flex justify-center text-blue-800 hover:underline"
             >
               New here? Sign up to get started!
             </Link>

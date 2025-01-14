@@ -33,6 +33,8 @@ import { navData } from "@/data/navData";
 
 function BookOwner({
   loading,
+  smallPic=false,
+  subtitle=null,
   owner_profile_pic = navData.defaultImg,
   owner_username = "Unknown Owner",
 }) {
@@ -52,8 +54,17 @@ function BookOwner({
         className="rounded-full border border-gray-300"
       />
 
-      {/* Owner username */}
-      <h5 className="text-gray-600">{owner_username}</h5>
+      {/* Owner username and sub title if passed in */}
+      <div>
+        {smallPic ?(
+          <h6 >{owner_username}</h6>
+          
+        ):(
+          <h5 >{owner_username}</h5>
+
+        )}
+        <div className="text-gray-400 text-xs">{subtitle}</div>
+      </div>
     </div>
   );
 }

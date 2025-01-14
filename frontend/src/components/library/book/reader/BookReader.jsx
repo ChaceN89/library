@@ -29,11 +29,11 @@
  * @created 2025-01-13
  * @updated 2025-01-13
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useBookContext } from "@/context/BookContext";
 import { bookReaderData } from "@/data/bookData";
 import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
-import BookReadPagination from "../BookReadPagination";
+import BookReadPagination from "./BookReadPagination";
 
 function BookReader() {
   

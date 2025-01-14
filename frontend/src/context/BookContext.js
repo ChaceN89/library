@@ -49,6 +49,7 @@ import { bookReaderData, mimeToFileType } from "@/data/bookData"; // Import defa
 import { fetchBookById, incrementViews } from "@/API/booksAPI";
 import { formatURL } from "@/utils/replaceURL";
 import { useRouter } from "next/navigation";
+import { fetchCommentsByBookId } from "@/API/commentsAPI";
 
 // Create the BookContext
 const BookContext = createContext();
@@ -77,6 +78,10 @@ export const BookProvider = ({ children }) => {
   
   const fetchSaveState = !loading; // Flag to determine if saving state should be allowed
 
+  // Comments
+  const [comments, setComments] = useState([]);
+  
+
   /**
    * Fetches book data by ID and sets necessary state.
    * @param {string} id - The book ID.
@@ -102,6 +107,8 @@ export const BookProvider = ({ children }) => {
   
         // Fetch file type and content only if book data is valid
         await fetchContent(bookData)
+
+        await loadComments(bookData)
       } else {
         throw new Error("Book data not found.");
       }
@@ -161,6 +168,20 @@ export const BookProvider = ({ children }) => {
     }
   };
 
+
+  /**
+   * loads and sets the comments
+   * @param {Object} bookData 
+   */
+  const loadComments = async (bookData) => {
+    setLoading(true);
+    const data = await fetchCommentsByBookId(bookData.id);
+    if (data) {
+      setComments(data); // Assuming the API returns an array of comments
+    }
+    setLoading(false);
+  };
+
   /**
    * Splits content into pages based on lines per page.
    * @param {string} text - The raw content of the book.
@@ -182,8 +203,6 @@ export const BookProvider = ({ children }) => {
       splitContent(content, linesPerPage);
     }
   }, [content, linesPerPage]);
-
-
 
 
   /**
@@ -257,7 +276,12 @@ export const BookProvider = ({ children }) => {
 
         // Full Screen State
         isFullScreen,
-        setIsFullScreen 
+        setIsFullScreen,
+
+        // Comments
+        comments,
+        setComments,
+        loadComments
       }}
     >
       {children}

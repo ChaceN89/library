@@ -57,7 +57,7 @@ function Book({ id, title }) {
     <div>
       <BookInformationDisplay />
       <BookReader />
-      {/* <BookComments/> */}
+      <BookComments/>
     </div>
   );
 }
