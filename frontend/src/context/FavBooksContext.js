@@ -47,6 +47,7 @@ const FavBooksContext = createContext();
 export const FavBooksProvider = ({ children }) => {
   const [favBooks, setFavBooks] = useState([]); // List of favorite books
   const [loading, setLoading] = useState(true); // Loading state for fetching favorites
+  const [error, setError] = useState(false); // Loading state for fetching favorites
 
   /**
    * Fetch and load the user's favorite books.
@@ -56,8 +57,10 @@ export const FavBooksProvider = ({ children }) => {
       setLoading(true); // Set loading state to true
       const books = await fetchFavBooks(); // Fetch all favorite books
       setFavBooks(books); // Update the list of favorite books
+      setError(false)
     } catch (error) {
       console.error("Failed to fetch favorite books:", error); // Log errors to the console
+      setError(true)
     } finally {
       setLoading(false); // Set loading state to false
     }
@@ -69,7 +72,7 @@ export const FavBooksProvider = ({ children }) => {
   }, []);
 
   return (
-    <FavBooksContext.Provider value={{ favBooks, loading, loadFavBooks }}>
+    <FavBooksContext.Provider value={{ favBooks, loading, loadFavBooks, error }}>
       {children}
     </FavBooksContext.Provider>
   );
