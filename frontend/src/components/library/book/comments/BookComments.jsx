@@ -63,8 +63,8 @@ function BookComments() {
           />
         ))}
       </ul>
-      <div className="mt-6">
-        <MakeComment />
+      <div className="mt-4">
+        <MakeComment large={true}/>
       </div>
     </div>
   );

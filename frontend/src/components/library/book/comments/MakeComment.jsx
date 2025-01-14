@@ -41,7 +41,7 @@ import { addNestedComment } from '@/utils/comments';
 import LoginForm from '@/components/auth/LoginForm';
 import { FaReplyAll } from 'react-icons/fa';
 
-function MakeComment({ parentCommentId = null }) {
+function MakeComment({ parentCommentId = null, large=false }) {
   const { book, setComments, loading } = useBookContext();
   const { isLoggedIn } = useProfileContext();
   const [commentContent, setCommentContent] = useState('');
@@ -86,10 +86,10 @@ function MakeComment({ parentCommentId = null }) {
       {!isReplying && (
         <button
           onClick={openReplyBox}
-          className="text-sm text-gray-300 hover:text-gray-700 focus:outline-none"
+          className="text-sm focus:outline-none"
         >
-          <div className="flex gap-2 items-center">
-            <FaReplyAll /> Reply
+          <div className={`flex gap-1 items-center text-gray-300 hover:text-gray-700 ${large && "text-lg text-gray-400"}`}>
+            <FaReplyAll size={16}/> Reply
           </div>
         </button>
       )}

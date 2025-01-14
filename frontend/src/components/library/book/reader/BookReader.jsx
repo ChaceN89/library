@@ -29,11 +29,12 @@
  * @created 2025-01-13
  * @updated 2025-01-13
  */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useBookContext } from "@/context/BookContext";
 import { bookReaderData } from "@/data/bookData";
 import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
 import BookReadPagination from "./BookReadPagination";
+import BookContent from "./BookContent";
 
 function BookReader() {
   
@@ -48,8 +49,12 @@ function BookReader() {
     readerError,
     loading,
     isFullScreen,
-    setIsFullScreen
+    setIsFullScreen,
+    fileType,
+    fileTypeDisplay
   } = useBookContext();
+
+  const [showPagination, setShowPagination] = useState(true)
 
 
   const toggleFullScreen = () => {
@@ -142,28 +147,27 @@ function BookReader() {
         ) : (
           // Render book content
           <>
-            <div
-              className={`content border p-4 rounded bg-gray-100 font-semibold dark:bg-secondary overflow-y-auto flex-grow ${isFullScreen ? "max-h-[90vh]" : "max-h-[65vh]"}`}
-              style={{
-                whiteSpace: "pre-wrap",
-                fontFamily: "monospace",
-              }}
-            >
-              {pages[currentPage] || "No content available for this page."}
-            </div>
-            <BookReadPagination
-              prevPage={prevPage}
-              nextPage={nextPage}
-              currentPage={currentPage}
-              pages={pages}
-              linesPerPage={linesPerPage}
-              handleLinesPerPageChange={handleLinesPerPageChange}
-              bookReaderData={bookReaderData}
+            <BookContent
+              content={pages[currentPage] || "No content available for this page."}
+              fileType={fileType}
+              isFullScreen={isFullScreen}
+              fileTypeDisplay={fileTypeDisplay}
+              setShowPagination={setShowPagination}
             />
+            {showPagination &&
+              <BookReadPagination
+                prevPage={prevPage}
+                nextPage={nextPage}
+                currentPage={currentPage}
+                pages={pages}
+                linesPerPage={linesPerPage}
+                handleLinesPerPageChange={handleLinesPerPageChange}
+                bookReaderData={bookReaderData}
+              />
+          }
           </>
         )}
       </div>
-
     </div>
   );
 }
