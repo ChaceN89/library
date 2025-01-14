@@ -49,7 +49,7 @@ function BookComments() {
   }
 
   return (
-    <div className="my-6 px-4">
+    <div className="my-6 px-4 relative">
       <h3 className="text-xl font-semibold mb-4">Comments</h3>
       <ul className="space-y-4">
         {comments.map((comment) => (
@@ -59,6 +59,7 @@ function BookComments() {
             comment={comment}
             bookId={book?.id}
             loading={loading}
+            depth={1}
           />
         ))}
       </ul>
