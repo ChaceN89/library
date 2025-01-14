@@ -34,7 +34,7 @@ import React, { useEffect } from "react";
 import { useBookContext } from "@/context/BookContext";
 import ErrorLoading from "@/components/loading/ErrorLoading";
 import BookInformationDisplay from "./BookInfomationDisplay";
-import BookReader from "./BookReader";
+import BookReader from "./reader/BookReader";
 import BookComments from "./comments/BookComments";
 
 function Book({ id, title }) {

@@ -29,13 +29,11 @@
  * @created 2025-01-13
  * @updated 2025-01-13
  */
-
 import React, { useEffect, useState } from "react";
 import { useBookContext } from "@/context/BookContext";
 import { bookReaderData } from "@/data/bookData";
 import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
-import BookReadPagination from "./BookReadPagination";
-
+import BookReadPagination from "../BookReadPagination";
 
 function BookReader() {
   
@@ -115,56 +113,56 @@ function BookReader() {
     <div className="my-6">
       <h3 className="text-xl font-semibold">Book Content</h3>
       <div
-  className={`${
-    isFullScreen
-      ? "fixed inset-0 z-50 bg-white dark:bg-gray-800 p-6 max-h-screen flex flex-col"
-      : "relative border p-4 rounded-lg bg-white dark:bg-gray-400 shadow-md flex flex-col"
-  }`}
->
-  <button
-    onClick={toggleFullScreen}
-    className="absolute hover:text-black top-2 right-2 bg-gray-700  text-white  p-2 rounded-full hover:bg-gray-600"
-  >
-    {isFullScreen ? <BsFullscreenExit /> : <BsFullscreen />}
-  </button>
-  {loading ? (
-    // Loading state
-    <div className="animate-pulse space-y-4 flex-grow">
-      <div className="h-8 bg-gray-300 rounded w-3/4"></div>
-      <div className="h-8 bg-gray-300 rounded w-5/6"></div>
-      <div className="h-8 bg-gray-300 rounded w-2/3"></div>
-      <div className="h-8 bg-gray-300 rounded w-full"></div>
-      <div className="h-8 bg-gray-300 rounded w-2/5"></div>
-    </div>
-  ) : error || readerError ? (
-    // Error state
-    <p className="text-red-500 font-bold text-center flex-grow">
-      {error || "Book Content Cannot be fetched"}
-    </p>
-  ) : (
-    // Render book content
-    <>
-      <div
-        className={`content border p-4 rounded bg-gray-100 font-semibold dark:bg-secondary overflow-y-auto flex-grow ${isFullScreen ? "max-h-[90vh]" : "max-h-[65vh]"}`}
-        style={{
-          whiteSpace: "pre-wrap",
-          fontFamily: "monospace",
-        }}
+        className={`${
+          isFullScreen
+            ? "fixed inset-0 z-50 bg-white dark:bg-gray-800 p-6 max-h-screen flex flex-col"
+            : "relative border p-4 rounded-lg bg-white dark:bg-gray-400 shadow-md flex flex-col"
+        }`}
       >
-        {pages[currentPage] || "No content available for this page."}
+        <button
+          onClick={toggleFullScreen}
+          className="absolute hover:text-black top-2 right-2 bg-gray-700  text-white  p-2 rounded-full hover:bg-gray-600"
+        >
+          {isFullScreen ? <BsFullscreenExit /> : <BsFullscreen />}
+        </button>
+        {loading ? (
+          // Loading state
+          <div className="animate-pulse space-y-4 flex-grow">
+            <div className="h-8 bg-gray-300 rounded w-3/4"></div>
+            <div className="h-8 bg-gray-300 rounded w-5/6"></div>
+            <div className="h-8 bg-gray-300 rounded w-2/3"></div>
+            <div className="h-8 bg-gray-300 rounded w-full"></div>
+            <div className="h-8 bg-gray-300 rounded w-2/5"></div>
+          </div>
+        ) : error || readerError ? (
+          // Error state
+          <p className="text-red-500 font-bold text-center flex-grow">
+            {error || "Book Content Cannot be fetched"}
+          </p>
+        ) : (
+          // Render book content
+          <>
+            <div
+              className={`content border p-4 rounded bg-gray-100 font-semibold dark:bg-secondary overflow-y-auto flex-grow ${isFullScreen ? "max-h-[90vh]" : "max-h-[65vh]"}`}
+              style={{
+                whiteSpace: "pre-wrap",
+                fontFamily: "monospace",
+              }}
+            >
+              {pages[currentPage] || "No content available for this page."}
+            </div>
+            <BookReadPagination
+              prevPage={prevPage}
+              nextPage={nextPage}
+              currentPage={currentPage}
+              pages={pages}
+              linesPerPage={linesPerPage}
+              handleLinesPerPageChange={handleLinesPerPageChange}
+              bookReaderData={bookReaderData}
+            />
+          </>
+        )}
       </div>
-      <BookReadPagination
-        prevPage={prevPage}
-        nextPage={nextPage}
-        currentPage={currentPage}
-        pages={pages}
-        linesPerPage={linesPerPage}
-        handleLinesPerPageChange={handleLinesPerPageChange}
-        bookReaderData={bookReaderData}
-      />
-    </>
-  )}
-</div>
 
     </div>
   );
