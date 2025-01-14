@@ -30,11 +30,16 @@
  * @updated 2025-01-13
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useBookContext } from "@/context/BookContext";
 import { bookReaderData } from "@/data/bookData";
+import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
+import BookReadPagination from "./BookReadPagination";
+
 
 function BookReader() {
+  
+  // get info from the context
   const {
     pages,
     currentPage,
@@ -44,7 +49,14 @@ function BookReader() {
     error,
     readerError,
     loading,
+    isFullScreen,
+    setIsFullScreen
   } = useBookContext();
+
+
+  const toggleFullScreen = () => {
+    setIsFullScreen((prev) => !prev);
+  };
 
   // Navigation handlers
   const nextPage = () => {
@@ -76,80 +88,84 @@ function BookReader() {
       setCurrentPage(0);
     }
 
+    return () => {
+      setIsFullScreen(false);
+    };
+
   }, [linesPerPage, pages.length, currentPage, setCurrentPage]);
+
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && isFullScreen) {
+        setIsFullScreen(false);
+      }
+    };
+  
+    // Attach the event listener when the component mounts
+    document.addEventListener("keydown", handleKeyDown);
+  
+    // Cleanup the event listener when the component unmounts or when isFullScreen changes
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isFullScreen, setIsFullScreen]);
 
   return (
     <div className="my-6">
       <h3 className="text-xl font-semibold">Book Content</h3>
-      <div className="book-reader border p-4 rounded-lg bg-white dark:bg-gray-400 shadow-md">
-        {loading ? (
-          // Loading state
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-300 rounded w-3/4"></div>
-            <div className="h-8 bg-gray-300 rounded w-5/6"></div>
-            <div className="h-8 bg-gray-300 rounded w-2/3"></div>
-            <div className="h-8 bg-gray-300 rounded w-full"></div>
-            <div className="h-8 bg-gray-300 rounded w-2/5"></div>
-          </div>
-        ) : error || readerError ? (
-          // Error state
-          <p className="text-red-500 font-bold text-center">
-            {error || "Book Content Cannot be fetched"}
-          </p>
-        ) : (
-          // Render book content
-          <>
-            <p
-              className="content border p-4 rounded bg-gray-100 font-semibold dark:bg-secondary overflow-y-auto max-h-[65vh]"
-              style={{
-                whiteSpace: "pre-wrap",
-                fontFamily: "monospace",
-              }}
-            >
-              {pages[currentPage] || "No content available for this page."}
-            </p>
-            <div className="navigation flex justify-between items-center mt-4">
-              <button
-                onClick={prevPage}
-                disabled={currentPage === 0}
-                className={`px-4 py-2 rounded ${
-                  currentPage > 0
-                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                    : "bg-gray-300 cursor-not-allowed"
-                }`}
-              >
-                Previous
-              </button>
-              <h6 className="px-4 py-2">
-                Page {currentPage + 1} of {pages.length}
-              </h6>
-              <select
-                id="linesPerPage"
-                value={linesPerPage}
-                onChange={handleLinesPerPageChange}
-                className="border rounded p-2"
-              >
-                {bookReaderData.linepPerPageOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option} Lines
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={nextPage}
-                disabled={currentPage >= pages.length - 1}
-                className={`px-4 py-2 rounded ${
-                  currentPage < pages.length - 1
-                    ? "bg-blue-500 hover:bg-blue-600 text-white"
-                    : "bg-gray-300 cursor-not-allowed"
-                }`}
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
+      <div
+  className={`${
+    isFullScreen
+      ? "fixed inset-0 z-50 bg-white dark:bg-gray-800 p-6 max-h-screen flex flex-col"
+      : "relative border p-4 rounded-lg bg-white dark:bg-gray-400 shadow-md flex flex-col"
+  }`}
+>
+  <button
+    onClick={toggleFullScreen}
+    className="absolute hover:text-black top-2 right-2 bg-gray-700  text-white  p-2 rounded-full hover:bg-gray-600"
+  >
+    {isFullScreen ? <BsFullscreenExit /> : <BsFullscreen />}
+  </button>
+  {loading ? (
+    // Loading state
+    <div className="animate-pulse space-y-4 flex-grow">
+      <div className="h-8 bg-gray-300 rounded w-3/4"></div>
+      <div className="h-8 bg-gray-300 rounded w-5/6"></div>
+      <div className="h-8 bg-gray-300 rounded w-2/3"></div>
+      <div className="h-8 bg-gray-300 rounded w-full"></div>
+      <div className="h-8 bg-gray-300 rounded w-2/5"></div>
+    </div>
+  ) : error || readerError ? (
+    // Error state
+    <p className="text-red-500 font-bold text-center flex-grow">
+      {error || "Book Content Cannot be fetched"}
+    </p>
+  ) : (
+    // Render book content
+    <>
+      <div
+        className={`content border p-4 rounded bg-gray-100 font-semibold dark:bg-secondary overflow-y-auto flex-grow ${isFullScreen ? "max-h-[90vh]" : "max-h-[65vh]"}`}
+        style={{
+          whiteSpace: "pre-wrap",
+          fontFamily: "monospace",
+        }}
+      >
+        {pages[currentPage] || "No content available for this page."}
       </div>
+      <BookReadPagination
+        prevPage={prevPage}
+        nextPage={nextPage}
+        currentPage={currentPage}
+        pages={pages}
+        linesPerPage={linesPerPage}
+        handleLinesPerPageChange={handleLinesPerPageChange}
+        bookReaderData={bookReaderData}
+      />
+    </>
+  )}
+</div>
+
     </div>
   );
 }

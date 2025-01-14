@@ -4,6 +4,8 @@
  * @description 
  *   A responsive navigation bar with a hamburger menu for smaller screens and a fixed layout for larger screens. 
  *   Includes left-side navigation links and user actions on the right, with animated transitions and keyboard accessibility.
+ * 
+ *  * truns off when full screen is activated by the bookContext
  *
  * @author Chace Nielson
  * @created 2025-01-10
@@ -13,12 +15,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FaBars } from "react-icons/fa";
 import { useProfileContext } from "@/context/ProfileContext";
 import { navData } from "@/data/navData";
 import FixedNavItems from "./FixedNavItems";
 import UserActionsNav from "./UserActionsNav";
 import SideMenu from "./SideMenu";
+import { useBookContext } from "@/context/BookContext";
 
 const NavBar = () => {
   // State to track the menu open/close state
@@ -26,6 +28,7 @@ const NavBar = () => {
 
   // Access user authentication and logout logic from ProfileContext
   const { isLoggedIn, handleLogout } = useProfileContext();
+  const { isFullScreen } = useBookContext();
 
   // Toggle menu state
   const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -56,6 +59,11 @@ const NavBar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [menuOpen]);
+
+
+  if (isFullScreen){
+    return null
+  }
 
   return (
     <nav className="w-full bg-accent py-4 sticky top-0 z-50 shadow-lg section-container">

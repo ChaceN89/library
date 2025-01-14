@@ -57,6 +57,8 @@ const BookContext = createContext();
 export const BookProvider = ({ children }) => {
   const router = useRouter();
 
+  const [isFullScreen, setIsFullScreen] = useState(false)
+
   // Book with its error and laoding state
   const [book, setBook] = useState(null); // Book data
   const [loading, setLoading] = useState(true); // Loading state
@@ -251,7 +253,11 @@ export const BookProvider = ({ children }) => {
         fileType,
         fileTypeDisplay,
         content,
-        readerError
+        readerError,
+
+        // Full Screen State
+        isFullScreen,
+        setIsFullScreen 
       }}
     >
       {children}

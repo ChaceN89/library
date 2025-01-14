@@ -4,6 +4,8 @@
  * @description 
  *   A simple footer component for the application. Includes a logo link to navigate back to the top of the page 
  *   and a reference to the author's website for contact.
+ * 
+ *  * truns off when full screen is activated by the bookContext
  *
  * @example
  *   <Footer />
@@ -13,10 +15,17 @@
  * @updated 2025-01-11
  */
 
+"use client"
 import React from "react";
 import LogoLink from "./LogoLink"; // Logo link for navigation
+import { useBookContext } from "@/context/BookContext";
 
 function Footer() {
+
+  const { isFullScreen } = useBookContext();
+  
+  if (isFullScreen){return null}
+
   return (
     <footer className="bg-accent flex relative section-container py-4">
       <div className="w-full flex justify-between">
