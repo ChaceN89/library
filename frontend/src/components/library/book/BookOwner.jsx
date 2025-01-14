@@ -44,7 +44,7 @@ function BookOwner({
   }
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1.5 overflow-hidden">
       {/* Owner profile picture */}
       <Image
         src={owner_profile_pic}

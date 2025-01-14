@@ -32,36 +32,36 @@
  * @created 2025-01-13
  * @updated 2025-01-14
  */
-
-import React, { useState } from "react";
-import { useProfileContext } from "@/context/ProfileContext";
-import { createComment } from "@/API/commentsAPI";
-import { toast } from "react-hot-toast";
-import { useBookContext } from "@/context/BookContext";
-import { addNestedComment } from "@/utils/comments";
-import LoginForm from "@/components/auth/LoginForm";
-import { FaReplyAll } from "react-icons/fa";
+import React, { useState } from 'react';
+import { useProfileContext } from '@/context/ProfileContext';
+import { createComment } from '@/API/commentsAPI';
+import { toast } from 'react-hot-toast';
+import { useBookContext } from '@/context/BookContext';
+import { addNestedComment } from '@/utils/comments';
+import LoginForm from '@/components/auth/LoginForm';
+import { FaReplyAll } from 'react-icons/fa';
 
 function MakeComment({ parentCommentId = null }) {
   const { book, setComments, loading } = useBookContext();
   const { isLoggedIn } = useProfileContext();
-  const [commentContent, setCommentContent] = useState("");
+  const [commentContent, setCommentContent] = useState('');
   const [isReplying, setIsReplying] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleCommentSubmit = async () => {
     if (commentContent.trim().length === 0) {
-      toast.error("Comment cannot be empty.");
+      toast.error('Comment cannot be empty.');
       return;
     }
 
     try {
       const newComment = await createComment(commentContent, book.id, parentCommentId);
       setComments((prevComments) => addNestedComment(prevComments, newComment));
-      setCommentContent(""); // Clear the input
-      setIsReplying(false); // Reset reply state
+      setCommentContent('');
+      setIsReplying(false);
     } catch (error) {
-      const errorMessage = error.response?.data?.detail || error.message || "Unknown error occurred";
+      const errorMessage =
+        error.response?.data?.detail || error.message || 'Unknown error occurred';
       toast.error(`Failed to post comment: ${errorMessage}`);
     }
   };
@@ -95,7 +95,7 @@ function MakeComment({ parentCommentId = null }) {
       )}
 
       {isReplying && (
-        <div className="mt-2 flex gap-2 items-center">
+        <div className="mt-2 flex flex-col md:flex-row items-start md:items-center gap-2">
           <textarea
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}

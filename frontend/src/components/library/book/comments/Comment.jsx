@@ -38,12 +38,11 @@
  * @created 2025-01-14
  * @updated 2025-01-14
  */
-
 import React, { useState } from 'react';
 import MakeComment from './MakeComment';
 import DeleteComment from './DeleteComment';
 import BookOwner from '../BookOwner';
-import { FaComment } from "react-icons/fa";
+import { FaComment } from 'react-icons/fa';
 
 /**
  * Renders a single comment and its nested replies, along with options for replying and deleting.
@@ -57,16 +56,13 @@ import { FaComment } from "react-icons/fa";
 function Comment({ comment, bookId, loading }) {
   const [commentContent, setCommentContent] = useState(comment.content);
 
-  /**
-   * Handles comment deletion by setting the content to a placeholder.
-   */
   const onCommentDeleted = () => {
-    setCommentContent("[Your comment has been deleted.]");
+    setCommentContent('[Your comment has been deleted.]');
   };
 
   return (
-    <li className="p-3 bg-gray-100 dark:bg-slate-600 bg-opacity-50 border border-black dark:border-white border-opacity-30 shadow-lg rounded-md dark:border-opacity-30 overflow-auto">
-      <div className="flex items-center gap-3 justify-between">
+    <li className="p-4 bg-gray-100 dark:bg-slate-600 bg-opacity-50 border border-black dark:border-white border-opacity-30 shadow-lg rounded-md dark:border-opacity-30 overflow-auto">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 justify-between">
         <BookOwner
           loading={loading}
           owner_profile_pic={comment.user_profile_pic}
@@ -81,7 +77,7 @@ function Comment({ comment, bookId, loading }) {
           content={commentContent}
         />
       </div>
-      <p className="font-semibold p-2 flex gap-2">
+      <p className="font-semibold mt-2 flex gap-2 items-start text-sm md:text-base">
         <span>
           <FaComment />
         </span>
@@ -90,7 +86,7 @@ function Comment({ comment, bookId, loading }) {
       <MakeComment parentCommentId={comment.id} />
 
       {comment.replies && comment.replies.length > 0 && (
-        <ul className="ml-4 border-l-2 border-gray-300 dark:border-gray-500 pl-4 mt-2 space-y-2">
+        <ul className="ml-4 border-l-2 border-gray-300 dark:border-gray-500 pl-4 mt-4 space-y-4">
           {comment.replies.map((reply) => (
             <Comment
               key={reply.id}

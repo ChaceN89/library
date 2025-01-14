@@ -31,7 +31,6 @@
  * @created 2025-01-14
  * @updated 2025-01-14
  */
-
 import React from 'react';
 import Comment from './Comment';
 import MakeComment from './MakeComment';
@@ -39,7 +38,6 @@ import { useBookContext } from '@/context/BookContext';
 
 /**
  * Renders the comments section for a book, including a list of comments and a form for adding new comments.
- * Uses `BookContext` to fetch the current book and its associated comments.
  *
  * @returns {JSX.Element} The comments section for a book.
  */
@@ -51,9 +49,9 @@ function BookComments() {
   }
 
   return (
-    <div className="my-6">
-      <h3 className="text-xl font-semibold">Comments</h3>
-      <ul className="space-y-2">
+    <div className="my-6 px-4">
+      <h3 className="text-xl font-semibold mb-4">Comments</h3>
+      <ul className="space-y-4">
         {comments.map((comment) => (
           <Comment
             key={comment.id}
@@ -64,7 +62,9 @@ function BookComments() {
           />
         ))}
       </ul>
-      <MakeComment />
+      <div className="mt-6">
+        <MakeComment />
+      </div>
     </div>
   );
 }
