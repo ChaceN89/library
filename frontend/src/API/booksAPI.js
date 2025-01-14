@@ -64,7 +64,6 @@ export const incrementViews = async (bookId) => {
     }
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error('Error incrementing views:', error);
@@ -84,7 +83,6 @@ export const incrementDownloads = async (bookId) => {
     }
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error('Error incrementing downloads:', error);

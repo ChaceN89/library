@@ -50,6 +50,6 @@ export const bookReaderData = {
     200,
     400
   ],
-  maxSavedBooks:3
+  maxSavedBooks:6
 
 };

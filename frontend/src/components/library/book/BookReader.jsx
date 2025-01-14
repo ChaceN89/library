@@ -1,9 +1,50 @@
-import React from "react";
+/**
+ * @file BookReader.jsx
+ * @module BookReader
+ * @description 
+ *   Component for rendering the book reader interface. Displays book content split into pages,
+ *   provides navigation controls, and allows the user to adjust the number of lines displayed per page.
+ *
+ * @requires React
+ * @requires @context/BookContext - Provides book-related state and actions.
+ * @requires @data/bookData - Contains default reader settings such as line options.
+ *
+ * @component BookReader
+ *
+ * @example
+ * // Import and use the BookReader component in your application:
+ * import BookReader from '@/components/BookReader';
+ * 
+ * function App() {
+ *   return (
+ *     <div>
+ *       <BookReader />
+ *     </div>
+ *   );
+ * }
+ * 
+ * @exports BookReader
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-13
+ * @updated 2025-01-13
+ */
+
+import React, { useEffect } from "react";
 import { useBookContext } from "@/context/BookContext";
 import { bookReaderData } from "@/data/bookData";
 
 function BookReader() {
-  const { pages, currentPage, linesPerPage, setCurrentPage, error, readerError, loading } = useBookContext();
+  const {
+    pages,
+    currentPage,
+    linesPerPage,
+    setLinesPerPage,
+    setCurrentPage,
+    error,
+    readerError,
+    loading,
+  } = useBookContext();
 
   // Navigation handlers
   const nextPage = () => {
@@ -14,27 +55,28 @@ function BookReader() {
     if (currentPage > 0) setCurrentPage(currentPage - 1);
   };
 
+  /**
+   * Handles changes to the number of lines per page.
+   * @param {Event} e - The change event from the select input.
+   */
+  const handleLinesPerPageChange = (e) => {
+    const newLinesPerPage = parseInt(e.target.value, 10);
+    setLinesPerPage(newLinesPerPage); // Update context
+  };
+
+  /**
+   * Ensures the current page is within the valid range when lines per page changes.
+   */
+  useEffect(() => {
+    if (currentPage + 1 > pages.length) {
+      setCurrentPage(pages.length - 1);
+    }
+  }, [linesPerPage, pages.length, currentPage, setCurrentPage]);
+
   return (
     <div className="my-6">
-  
-  <div>
-  {(() => {
-    const bookStates = JSON.parse(localStorage.getItem("bookStates") || "{}"); // Parse the stored data or fallback to an empty object
-    return (
-      <pre className="text-sm bg-gray-100 p-2 rounded">
-        {JSON.stringify(bookStates, null, 2)} {/* Pretty-print the object */}
-      </pre>
-    );
-  })()}
-</div>
-
-<div>currentPage {currentPage}</div>
-<div>linesPerPage {linesPerPage}</div>
-
-
-
       <h3 className="text-xl font-semibold">Book Content</h3>
-      <div className="book-reader border p-4 rounded-lg bg-white shadow-md">
+      <div className="book-reader border p-4 rounded-lg bg-white dark:bg-gray-400 shadow-md">
         {loading ? (
           // Loading state
           <div className="animate-pulse space-y-4">
@@ -46,19 +88,21 @@ function BookReader() {
           </div>
         ) : error || readerError ? (
           // Error state
-          <p className="text-red-500 font-bold text-center">{error || "Book Content Cannot be fetched"} </p>
+          <p className="text-red-500 font-bold text-center">
+            {error || "Book Content Cannot be fetched"}
+          </p>
         ) : (
           // Render book content
           <>
-            <div
-              className="content border p-4 rounded bg-gray-100 overflow-y-auto max-h-[40vh]"
+            <p
+              className="content border p-4 rounded bg-gray-100 font-semibold dark:bg-secondary overflow-y-auto max-h-[65vh]"
               style={{
                 whiteSpace: "pre-wrap",
                 fontFamily: "monospace",
               }}
             >
               {pages[currentPage] || "No content available for this page."}
-            </div>
+            </p>
             <div className="navigation flex justify-between items-center mt-4">
               <button
                 onClick={prevPage}
@@ -71,12 +115,21 @@ function BookReader() {
               >
                 Previous
               </button>
-              <span className="px-4 py-2 text-gray-600">
+              <h6 className="px-4 py-2">
                 Page {currentPage + 1} of {pages.length}
-              </span>
-              <span className="px-4 py-2 text-gray-600">
-                {JSON.stringify(bookReaderData.linepPerPageOptions)}
-              </span>
+              </h6>
+              <select
+                id="linesPerPage"
+                value={linesPerPage}
+                onChange={handleLinesPerPageChange}
+                className="border rounded p-2"
+              >
+                {bookReaderData.linepPerPageOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option} Lines
+                  </option>
+                ))}
+              </select>
               <button
                 onClick={nextPage}
                 disabled={currentPage >= pages.length - 1}

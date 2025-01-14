@@ -72,8 +72,14 @@ export const BookProvider = ({ children }) => {
   const [linesPerPage, setLinesPerPage] = useState(bookReaderData.defaultLinesPerPage); // Lines per page with default
   const [pages, setPages] = useState([]); // Split content into pages
   const [readerError, setReaderError] = useState(false); // Current page
+  
+  const fetchSaveState = !loading; // Flag to determine if saving state should be allowed
 
-  // Fetch book data and update state
+  /**
+   * Fetches book data by ID and sets necessary state.
+   * @param {string} id - The book ID.
+   * @param {string} title - The book title.
+   */  
   const fetchBook = async (id, title) => {
     try {
       setLoading(true);
@@ -105,7 +111,10 @@ export const BookProvider = ({ children }) => {
     }
   };
 
-
+  /**
+   * Restores the saved state for the book, if available.
+   * @param {Object} bookData - The book data object.
+   */
   const setSavedState = async (bookData)=>{
     // Load book state from localStorage
     const storedDataDict = JSON.parse(localStorage.getItem("bookStates")) || {};
@@ -115,10 +124,14 @@ export const BookProvider = ({ children }) => {
       setLinesPerPage(savedState.linesPerPage || bookReaderData.defaultLinesPerPage);
     } else {
       setCurrentPage(0); // Default to the first page
+      setLinesPerPage(bookReaderData.defaultLinesPerPage); // Default lines per page
     }
   }
   
-  // Fetch book content
+  /**
+   * Fetches book content and processes it.
+   * @param {Object} bookData - The book data object.
+   */
   const fetchContent = async (bookData) => {
     if (!bookData?.content_url){
       console.log("The whole this is for nothign and nothng anthong ")
@@ -146,9 +159,11 @@ export const BookProvider = ({ children }) => {
     }
   };
 
-
-
- // Split content into pages
+  /**
+   * Splits content into pages based on lines per page.
+   * @param {string} text - The raw content of the book.
+   * @param {number} lines - Number of lines per page.
+   */
   const splitContent = (text, lines) => {
     const splitPages = text
       .split("\n")
@@ -166,47 +181,54 @@ export const BookProvider = ({ children }) => {
     }
   }, [content, linesPerPage]);
 
-  // Save current page and linesPerPage to localStorage
+
+
+
+  /**
+   * Saves the current page and lines per page settings to localStorage.
+   */  
   useEffect(() => {
-    if (book?.id) {
-      // Retrieve the stored book states from localStorage or initialize an empty dictionary
-      const storedDataDict = JSON.parse(localStorage.getItem("bookStates")) || {};
+    // If the book itsn't here yet or the id isn't found(book isn't loaded yet)
+    // fetchSaveState prevents the old data from the last beeok from being used and resetting the old book 
+    if (!fetchSaveState || !book?.id) return;
 
-      // Prepare the new data object to store
-      const newData = {
-        currentPage: currentPage,
-        linesPerPage: linesPerPage,
-        name: book?.title,
-        timeStamp: new Date().toISOString(), // Save the current timestamp
-      };
+    // Get the stored data from local storage 
+    const storedDataDict = JSON.parse(localStorage.getItem("bookStates")) || {};
 
-      // Check if the book is already in the dictionary
-      if (storedDataDict[book.id]) {
-        // Overwrite the existing entry for this book
-        storedDataDict[book.id] = newData;
-      } else {
-        // If the book is not already saved and the dictionary exceeds the maxSavedBooks limit
-        if (Object.keys(storedDataDict).length >= bookReaderData.maxSavedBooks) {
-          // Find the oldest entry by timestamp
-          const oldestEntryKey = Object.keys(storedDataDict).reduce((oldestKey, key) => {
-            return new Date(storedDataDict[key].timeStamp) < new Date(storedDataDict[oldestKey].timeStamp)
-              ? key
-              : oldestKey;
-          });
+    // Prepare the new data object to store
+    const newData = {
+      currentPage: currentPage,
+      linesPerPage: linesPerPage,
+      name: book?.title,
+      timeStamp: new Date().toISOString(), // Save the current timestamp
+    };
 
-          // Remove the oldest entry
-          delete storedDataDict[oldestEntryKey];
-        }
+    // Check if the book is already in the dictionary
+    if (storedDataDict[book.id]) {
+      // Overwrite the existing entry for this book
+      storedDataDict[book.id] = newData;
+    } else {
+      // If the book is not already saved and the dictionary exceeds the maxSavedBooks limit
+      if (Object.keys(storedDataDict).length >= bookReaderData.maxSavedBooks) {
+        // Find the oldest entry by timestamp
+        const oldestEntryKey = Object.keys(storedDataDict).reduce((oldestKey, key) => {
+          return new Date(storedDataDict[key].timeStamp) < new Date(storedDataDict[oldestKey].timeStamp)
+            ? key
+            : oldestKey;
+        });
 
-        // Add the new book state to the dictionary
-        storedDataDict[book.id] = newData;
+        // Remove the oldest entry
+        delete storedDataDict[oldestEntryKey];
       }
 
-      // Save the updated dictionary back to localStorage
-      localStorage.setItem("bookStates", JSON.stringify(storedDataDict));
+      // Add the new book state to the dictionary
+      storedDataDict[book.id] = newData;
     }
-  }, [currentPage, linesPerPage]);
 
+    // Save the updated dictionary back to localStorage
+    localStorage.setItem("bookStates", JSON.stringify(storedDataDict));
+
+  }, [book, currentPage, linesPerPage, fetchSaveState]);
 
 
   return (

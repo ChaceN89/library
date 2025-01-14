@@ -73,7 +73,7 @@ function BookCard({ book, loading }) {
 
           {/* Book Title and Author */}
           <div className="p-2 space-y-1 text-left overflow-hidden">
-            <PlaceHolderText loading={loading} ><h5>{book?.title || "Unknown Title"}</h5></PlaceHolderText>  
+            <PlaceHolderText loading={loading} ><h3>{book?.title || "Unknown Title"}</h3></PlaceHolderText>  
             <PlaceHolderText loading={loading} ><h5>{book?.author || "Unknown Author"}</h5></PlaceHolderText>  
           </div>
         </div>

@@ -51,6 +51,7 @@ import SiteStatistics from "@/components/home/SiteStatistics";
 // Fetch functions and gloabls
 import { fetchMostViewedBooks, fetchMostRecentBooks } from "@/API/homePageAPI";
 import { welcomePageData } from "@/data/welcomePageData";
+import RecentlyRead from "@/components/home/RecentlyRead";
 
 function WelcomePage() {
 
@@ -64,6 +65,7 @@ function WelcomePage() {
         title={welcomePageData.title}
         subtitle={welcomePageData.subTitle}
       >
+        <RecentlyRead/>
         <DisplayTopBooks
           fetchFunction={fetchMostViewedBooks}
           title={`Top ${welcomePageData.TopBooksToDisplay} Most Viewed Books`}
