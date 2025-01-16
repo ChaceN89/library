@@ -1,76 +1,108 @@
+/**
+ * @file BookInfoCard.jsx
+ * @module BookInfoCard
+ * @description 
+ *   A reusable component for displaying detailed information about a book. Includes cover art, 
+ *   metadata (e.g., title, author, genre, views, downloads), and links for viewing or editing the book.
+ * 
+ * @requires React
+ * @requires next/image - For optimized image rendering.
+ * @requires bookCardData - Default data for book cards, including fallback images.
+ * @requires LoadingWheel - Component for displaying a loading spinner.
+ * @requires Link from "next/link" - For navigation to other pages.
+ * 
+ * @component BookInfoCard
+ * 
+ * @param {Object} book - The book object containing its details (e.g., title, author, cover image URL).
+ * @param {boolean} loading - Indicates whether the data is currently loading.
+ * 
+ * @example
+ * // Usage in a book list
+ * import BookInfoCard from "@/components/book/bookCard/BookInfoCard";
+ * 
+ * export default function MyBooks() {
+ *   return <BookInfoCard book={bookData} loading={false} />;
+ * }
+ * 
+ * @author Chace Nielson
+ * @created 2025-01-16
+ * @updated 2025-01-16
+ */
 
 import React from 'react';
 import Image from 'next/image';
-import BookCardTitle from './BookCardTitle';
 import { bookCardData } from '@/data/bookCardData';
-import LoadingWheel from '../loading/LoadingWheel';
-
-// An old component for examples with more infoamtion that i will use for the my Books Section 
+import LoadingWheel from '@/components/loading/LoadingWheel';
+import Link from 'next/link';
 
 function BookInfoCard({ book, loading }) {
   const bookLink = loading
     ? "#"
-    : `/book/${book.id}/${book.title?.toLowerCase()}`;
+    : `/book/${book.id}/${book.title?.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <li
       key={book.id}
-      className="card-background hover:shadow-accent dark:hover:shadow-primary-dark transition-shadow"
+      className="flex gap-4 p-4 card-background border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
     >
-      <div
-        href={bookLink}
-        passHref
-        className="flex flex-col md:flex-row gap-4 cursor-pointer"
-      >
-        <div>{book.title}</div>
+      {/* Book Cover */}
+      <div className="relative w-36 h-48 bg-gray-300 rounded-lg overflow-hidden flex-shrink-0">
+        {loading ? (
+          <LoadingWheel className="h-12 w-12" />
+        ) : (
+          <Image
+            src={book.cover_art_url || bookCardData.defaultImg}
+            alt={`Cover art for ${book.title || 'Default Cover'}`}
+            className="object-cover w-full h-full"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 25vw, 20vw"
+            priority
+            placeholder="blur"
+            blurDataURL={bookCardData.blurURL}
+          />
+        )}
+      </div>
 
-        <div className="w-full h-full md:w-1/3 aspect-[3/4] bg-gray-300 rounded-lg overflow-hidden relative flex-shrink-0 flex items-center justify-center">
-          {loading ? (
-            <LoadingWheel className="h-12 w-12" />
-          ) : (
-            <Image
-              src={book.cover_art_url || bookCardData.defaultImg}
-              alt={`Cover art for ${book.title || 'Default Cover'}`}
-              className="rounded-lg object-cover w-full h-full border border-dashed border-black border-opacity-10"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-              priority
-              placeholder="blur"
-              blurDataURL={bookCardData.blurURL}
-            />
-          )}
+      {/* Book Info */}
+      <div className="flex flex-col justify-between flex-grow">
+        {/* Book Title */}
+        <h5 className='underline'>{loading ? "Loading..." : book.title || "Unknown Title"}</h5>
+
+        {/* Metadata */}
+        <div className="text-sm space-y-1">
+          <p>
+            <span className="font-semibold">Author:</span> {loading ? "Loading..." : book.author || "Unknown Author"}
+          </p>
+          <p>
+            <span className="font-semibold">Genre:</span> {loading ? "Loading..." : book.genre || "Not Specified"}
+          </p>
+          <p>
+            <span className="font-semibold">Language:</span> {loading ? "Loading..." : book.language || "Not Specified"}
+          </p>
+          <p>
+            <span className="font-semibold">Views:</span> {loading ? "Loading..." : book.views || 0}
+          </p>
+          <p>
+            <span className="font-semibold">Downloads:</span> {loading ? "Loading..." : book.downloads || 0}
+          </p>
+          <p>
+            <span className="font-semibold">Last Updated:</span> {loading ? "Loading..." : new Date(book.updated_at).toLocaleDateString()}
+          </p>
         </div>
 
-        <div
-          className="flex flex-col flex-grow gap-1 md:w-2/3 justify-around "
-          onClick={(e) => e.stopPropagation()}
-        >
-          <BookCardTitle
-            book={book}
-            loading={loading}
-            showOnSmallScreens={false}
-            showOnLargeScreens={true}
-          />
-          <div >
-
-            <p>
-              <span className="font-semibold">Author:</span> {loading ? "Loading..." : book.author}
-            </p>
-            <p>
-              <span className="font-semibold">Genre:</span> {loading ? "Loading..." : book.genre}
-            </p>
-            <p>
-              <span className="font-semibold">Language:</span> {loading ? "Loading..." : book.language}
-            </p>
-            <p className="space-x-2">
-              <span className="font-semibold">Views:</span> {loading ? "Loading..." : book.views}
-              <span className="font-semibold">Downloads:</span> {loading ? "Loading..." : book.downloads}
-            </p>
-            <p>
-              <span className="font-semibold">Last Updated:</span>{" "}
-              {loading ? "Loading..." : new Date(book.updated_at).toLocaleDateString()}
-            </p>
-          </div>
+        {/* Actions (Optional) */}
+        <div className="mt-2">
+          {!loading && (
+            <div className='flex items-center gap-2'>
+              <Link href={bookLink} passHref>
+                <div className="text-blue-500 hover:underline">View Details</div>
+              </Link>
+              |
+              <Link href={`/my-books/edit/${book.id}`} passHref>
+                <div className="text-blue-500 hover:underline">Edit Book</div>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </li>

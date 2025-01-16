@@ -43,7 +43,6 @@ function FavBooks() {
     const router = useRouter();
   
   
-
   useEffect(() => {
 
     setLocalFavBooks(favBooks);

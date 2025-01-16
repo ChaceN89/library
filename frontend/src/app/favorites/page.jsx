@@ -32,11 +32,11 @@ import { favPageData } from '@/data/favPageData';
 function FavoritesPage() {
   return (
     <BackgroundWrapper
-    src={favPageData.background} // Background image for the page
-    bgOpacity={60}                 // Background opacity level
-    backgroundAttachment="fixed"   // Fixes the background during scroll
-    className="min-h-screen py-4"       // Ensures the background spans the full viewport height
-  >
+      src={favPageData.background} // Background image for the page
+      bgOpacity={60}                 // Background opacity level
+      backgroundAttachment="fixed"   // Fixes the background during scroll
+      className="min-h-screen py-4"       // Ensures the background spans the full viewport height
+    >
     <SectionWrapper
       title={favPageData.title}
       subtitle={favPageData.subTitle}
