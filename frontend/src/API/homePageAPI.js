@@ -1,3 +1,24 @@
+/**
+ * @file homepageAPI.js
+ * @module homepageAPI
+ * @description 
+ *   API functions for fetching homepage data, including most-viewed books, 
+ *   most-recent books, and general site statistics.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ *
+ * @function fetchMostViewedBooks - Fetch the top N most-viewed books.
+ * @function fetchMostRecentBooks - Fetch the top N most-recently added books.
+ * @function fetchSiteStatistics - Fetch site-wide statistics.
+ *
+ * @exports fetchMostViewedBooks
+ * @exports fetchMostRecentBooks
+ * @exports fetchSiteStatistics
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL } from '../globals';
 
 // Function to fetch the top N most-viewed books

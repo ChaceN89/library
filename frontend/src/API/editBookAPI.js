@@ -1,3 +1,27 @@
+/**
+ * @file editBookAPI.js
+ * @module editBookAPI
+ * @description 
+ *   API functions for managing book details, including fetching, updating metadata, 
+ *   uploading content, and deleting books.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ * @requires checkAndRefreshAccessToken - Utility function for handling token refresh.
+ *
+ * @function fetchBookDetails - Fetch the details of a specific book.
+ * @function updateBookDetails - Update metadata for a specific book.
+ * @function UpdateBookContent - Update the content or cover art of a book.
+ * @function deleteBook - Delete a specific book.
+ *
+ * @exports fetchBookDetails
+ * @exports updateBookDetails
+ * @exports UpdateBookContent
+ * @exports deleteBook
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';
 

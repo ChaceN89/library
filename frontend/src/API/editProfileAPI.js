@@ -1,3 +1,25 @@
+/**
+ * @file editProfileAPI.js
+ * @module editProfileAPI
+ * @description 
+ *   API functions for managing user profiles, including updating profile fields, 
+ *   changing passwords, and editing profile pictures.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ * @requires checkAndRefreshAccessToken - Utility function for handling token refresh.
+ *
+ * @function editProfilePicture - Update the user's profile picture.
+ * @function updateProfileField - Update specific profile fields (e.g., username, email).
+ * @function updatePassword - Change the user's password.
+ *
+ * @exports editProfilePicture
+ * @exports updateProfileField
+ * @exports updatePassword
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';
 

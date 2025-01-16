@@ -1,4 +1,36 @@
-// src/API/books.js
+/**
+ * @file booksAPI.js
+ * @module booksAPI
+ * @description 
+ *   API functions for managing books, including fetching, updating, deleting, 
+ *   and incrementing views/downloads.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ * @requires DEFAULT_PAGE_SIZE - Default number of books per page.
+ * @requires checkAndRefreshAccessToken - Utility function for handling token refresh.
+ *
+ * @function fetchBooks - Fetch a list of books with pagination, search, and filters.
+ * @function fetchBookById - Fetch details of a single book by ID.
+ * @function incrementViews - Increment the view count of a book.
+ * @function incrementDownloads - Increment the download count of a book.
+ * @function fetchBookDetails - Fetch detailed book information (admin only).
+ * @function updateBookDetails - Update metadata of a specific book (admin only).
+ * @function updateBookContent - Update the content or cover art of a book (admin only).
+ * @function deleteBook - Delete a specific book (admin only).
+ *
+ * @exports fetchBooks
+ * @exports fetchBookById
+ * @exports incrementViews
+ * @exports incrementDownloads
+ * @exports fetchBookDetails
+ * @exports updateBookDetails
+ * @exports updateBookContent
+ * @exports deleteBook
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL, DEFAULT_PAGE_SIZE } from '../globals';
 
 export const fetchBooks = async (page = 1, searchQuery = '', filters = {}, pageSize = DEFAULT_PAGE_SIZE) => {

@@ -1,3 +1,20 @@
+/**
+ * @file googleAPI.js
+ * @module googleAPI
+ * @description 
+ *   API function for logging in using Google OAuth. Manages token validation and 
+ *   user data storage upon successful login.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ *
+ * @function loginWithGoogle - Log in using a Google OAuth token.
+ *
+ * @exports loginWithGoogle
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL } from '../globals';
 
 export const loginWithGoogle = async (token) => {

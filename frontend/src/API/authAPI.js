@@ -1,5 +1,25 @@
-import { API_BASE_URL } from '../globals';
+/**
+ * @file authAPI.js
+ * @module authAPI
+ * @description 
+ *   API functions for handling user authentication, including login, logout, 
+ *   and account creation.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ *
+ * @function getLoginCredentials - Log in with username and password.
+ * @function createAccount - Create a new account with optional profile image.
+ * @function logout - Log out the user and clear tokens.
+ *
+ * @exports getLoginCredentials
+ * @exports createAccount
+ * @exports logout
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
 
+import { API_BASE_URL } from '../globals';
 
 // Function to log in and store tokens
 export const getLoginCredentials = async (username, password) => {

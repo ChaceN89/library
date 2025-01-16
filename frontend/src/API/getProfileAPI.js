@@ -1,6 +1,23 @@
+/**
+ * @file getProfileAPI.js
+ * @module getProfileAPI
+ * @description 
+ *   API functions for fetching and managing user profile data. Includes methods 
+ *   to update and store user profiles in local storage.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ * @requires checkAndRefreshAccessToken - Utility function for handling token refresh.
+ *
+ * @function getUserProfileForLocalStorage - Fetch the user's profile and update local storage.
+ *
+ * @exports getUserProfileForLocalStorage
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';
-
 
 // Function to get user profile from the API and update local storage - this needs to be called when a change is made to the user profile as stored in the local storage
 export const getUserProfileForLocalStorage = async () => {

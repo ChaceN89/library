@@ -1,3 +1,28 @@
+/**
+ * @file adminAPI.js
+ * @module adminAPI
+ * @description 
+ *   API functions for managing user accounts, including fetching, editing, deleting, 
+ *   and updating user details, specifically for admin use cases.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ * @requires checkAndRefreshAccessToken - Utility function for handling token refresh.
+ *
+ * @function fetchAllUsers - Fetch all users (admin only).
+ * @function editUser - Edit details of a specific user (admin only).
+ * @function deleteUser - Delete a specific user (admin only).
+ * @function updateUserPassword - Update a user's password (admin only).
+ *
+ * @exports fetchAllUsers
+ * @exports editUser
+ * @exports deleteUser
+ * @exports updateUserPassword
+ *
+ * @author Chace Nielson
+ * @created 2025-01-16
+ */
+
+
 import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';
 
