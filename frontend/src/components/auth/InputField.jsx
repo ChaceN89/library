@@ -27,16 +27,17 @@
  * 
  * @author Chace Nielson
  * @created 2025-01-11
- * @updated 2025-01-11
+ * @updated 2025-01-16
  */
 
 import React from "react";
 import PropTypes from "prop-types";
 
-function InputField({ type, placeholder, value, onChange, required = false }) {
+function InputField({ type, placeholder, value, onChange, required = false, name }) {
   return (
     <input
       type={type}
+      name={name} // Ensure the name attribute is passed
       placeholder={placeholder}
       value={value}
       onChange={onChange}
@@ -48,6 +49,7 @@ function InputField({ type, placeholder, value, onChange, required = false }) {
 
 InputField.propTypes = {
   type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired, // Add name to prop validation
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

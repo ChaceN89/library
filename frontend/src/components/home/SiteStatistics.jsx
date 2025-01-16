@@ -110,13 +110,13 @@ function SiteStatistics() {
             <StatBox
               title="Genres"
               list={Object.entries(siteStats.genres).map(
-                ([genre, count]) => `${genre}: ${count} books`
+                ([genre, count]) => `${genre}: ${count} book${count > 1 ? "s" : ""}`
               )}
             />
             <StatBox
               title="Books Per Language"
               list={siteStats.books_per_language.map(
-                (lang) => `${lang.language}: ${lang.count} books`
+                (lang) => `${lang.language}: ${lang.count} book${lang.count > 1 ? "s" : ""}`
               )}
             />
           </div>

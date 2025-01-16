@@ -23,15 +23,14 @@
  *
  * @author Chace Nielson
  * @created 2025-01-11
- * @updated 2025-01-11
+ * @updated 2025-01-16
  */
-
 "use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
 
-function ImageInputField({ label, onChange, name }) {
+function ImageInputField({ label, onChange, name, accepted_files, rounded="rounded-full" }) {
   const [preview, setPreview] = useState(null); // State to manage image preview
 
   /**
@@ -60,20 +59,20 @@ function ImageInputField({ label, onChange, name }) {
           type="file"
           id={name}
           name={name}
-          accept="image/*"
+          accept={accepted_files}
           onChange={handleImageChange}
           className="mt-2 block w-full text-sm text-gray-900 dark:text-gray-400 border border-gray-300 rounded-md shadow-sm"
         />
       </div>
 
       {/* Image Preview */}
-      <div className="w-24 h-24 rounded-full overflow-hidden border border-gray-300 bg-black flex items-center justify-center">
+      <div className={`w-28 h-28 ${rounded} overflow-hidden border border-gray-300 bg-black flex items-center justify-center`}>
         {preview ? (
           <Image
             src={preview}
             alt="Profile preview"
-            width={96}
-            height={96}
+            width={112} // Matches 7rem for w-28 and h-28
+            height={112}
             className="object-cover"
           />
         ) : (
