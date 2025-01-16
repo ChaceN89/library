@@ -24,7 +24,7 @@
  */
 'use client'
 import React, { useState, useEffect } from 'react';
-import BookCard from '../../bookCard/BookCard';
+import BookCard from '../book/bookCard/BookCard';
 import { useFavBooks } from '@/context/FavBooksContext';
 import SortingDropdown from './SortingDropdown';
 import LoadingWheel from '@/components/loading/LoadingWheel';

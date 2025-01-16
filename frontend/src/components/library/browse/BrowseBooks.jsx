@@ -23,7 +23,7 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchBooks } from "@/API/booksAPI";
-import BookCard from "@/components/bookCard/BookCard";
+import BookCard from "../book/bookCard/BookCard";
 import Pagination from "@/components/library/browse/Pagination";
 import { useSearch } from "@/context/SearchContext";
 import ErrorLoading from "@/components/loading/ErrorLoading";

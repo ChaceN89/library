@@ -30,9 +30,9 @@ import { useRouter } from "next/navigation";
 import { ACCEPTED_FILES } from "@/globals";
 import { useProfileContext } from "@/context/ProfileContext";
 import LoginForm from "@/components/auth/LoginForm";
-import InputField from "@/components/auth/InputField";
-import SubmitButton from "@/components/auth/SubmitButton";
-import ImageInputField from "@/components/auth/ImageInputField";
+import InputField from "@/components/general/inputs/InputField";
+import SubmitButton from "@/components/general/inputs/SubmitButton";
+import ImageInputField from "@/components/general/inputs/ImageInputField";
 
 function Upload() {
   const { isLoggedIn } = useProfileContext();

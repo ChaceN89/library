@@ -32,12 +32,12 @@
 
 import React from 'react';
 import Image from 'next/image';
-import LoadingWheel from '../loading/LoadingWheel';
+import LoadingWheel from '@/components/loading/LoadingWheel';
 import Link from 'next/link';
-import SetFavBook from '../library/favBooks/SetFavBook';
+import SetFavBook from '../../favBooks/SetFavBook';
 import { bookCardData } from '@/data/bookCardData';
 import { formatURL } from '@/utils/replaceURL';
-import PlaceHolderText from '../general/PlaceHolderText';
+import PlaceHolderText from '@/components/general/PlaceHolderText';
 
 function BookCard({ book, loading }) {
   const bookLink = `/book/${book.id}/${formatURL(book.title)}`; // Use the utility function

@@ -22,9 +22,9 @@
 "use client";
 
 import React, { useState } from "react";
-import InputField from "@/components/auth/InputField";
-import SubmitButton from "@/components/auth/SubmitButton";
-import ImageInputField from "@/components/auth/ImageInputField";
+import InputField from "@/components/general/inputs/InputField";
+import SubmitButton from "@/components/general/inputs/SubmitButton";
+import ImageInputField from "@/components/general/inputs/ImageInputField";
 import { createAccount } from "@/API/authAPI";
 import { toast } from "react-hot-toast";
 import LoginForm from "@/components/auth/LoginForm";

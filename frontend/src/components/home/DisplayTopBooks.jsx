@@ -44,7 +44,7 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import BookCard from "@/components/bookCard/BookCard";
+import BookCard from "../library/book/bookCard/BookCard";
 import ErrorLoading from "../loading/ErrorLoading";
 
 function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {

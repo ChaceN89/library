@@ -18,8 +18,8 @@ import { getLoginCredentials } from "@/API/authAPI"; // Login API
 import { useProfileContext } from "@/context/ProfileContext"; // Profile context for user data
 import Image from "next/image"; // Optimized image component
 import { authData } from "@/data/authData"; // Authentication-related static assets
-import InputField from "@/components/auth/InputField"; // Reusable input field
-import SubmitButton from "@/components/auth/SubmitButton"; // Reusable submit button
+import InputField from "@/components/general/inputs/InputField"; // Reusable input field
+import SubmitButton from "@/components/general/inputs/SubmitButton"; // Reusable submit button
 import ErrorLoading from "@/components/loading/ErrorLoading"; // Error display component
 import LoadingWheel from "@/components/loading/LoadingWheel"; // Loading wheel component
 import { FaTimes } from "react-icons/fa";
