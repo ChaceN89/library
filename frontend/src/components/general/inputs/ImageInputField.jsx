@@ -30,8 +30,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-function ImageInputField({ label, onChange, name, accepted_files, rounded="rounded-full" }) {
-  const [preview, setPreview] = useState(null); // State to manage image preview
+function ImageInputField({ label, onChange, name, accepted_files, rounded="rounded-full", previewImg }) {
+  const [preview, setPreview] = useState(previewImg||null); // State to manage image preview
 
   /**
    * Handle changes to the file input and update the preview.
@@ -46,7 +46,7 @@ function ImageInputField({ label, onChange, name, accepted_files, rounded="round
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-14">
+    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
       {/* File Input */}
       <div className="flex flex-col">
         <label
@@ -66,7 +66,7 @@ function ImageInputField({ label, onChange, name, accepted_files, rounded="round
       </div>
 
       {/* Image Preview */}
-      <div className={`w-28 h-28 ${rounded} overflow-hidden border border-gray-300 bg-black flex items-center justify-center`}>
+      <div className={`min-w-26 min-h-26 ${rounded} overflow-hidden ${!preview && "bg-black border border-gray-300 p-5"} flex items-center justify-center`}>
         {preview ? (
           <Image
             src={preview}
@@ -76,7 +76,7 @@ function ImageInputField({ label, onChange, name, accepted_files, rounded="round
             className="object-cover"
           />
         ) : (
-          <div className="text-sm text-white">No Image</div>
+          <div className="text-sm text-white text-center">No Preview</div>
         )}
       </div>
     </div>

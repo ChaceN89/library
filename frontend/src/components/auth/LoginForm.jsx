@@ -138,12 +138,15 @@ function LoginForm({ isPopup = false, onClose = null, reRouteTo = "/", showRegis
           ) : error ? (
             <ErrorLoading message={errorMsg} />
           ) : (
-            <Image
-              src={authData.authImg}
-              alt="Library Fox Mascot"
-              width={120}
-              height={150}
-            />
+            <div className="relative w-32 h-40">
+              <Image
+                src={authData.authImg}
+                alt="Library Fox Mascot"
+                fill // Use the fill layout
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: "contain" }} // Use CSS for object fit
+              />
+            </div>
           )}
         </div>
 

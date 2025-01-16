@@ -1,3 +1,25 @@
+/**
+ * @file deleteAccountAPI.js
+ * @module deleteAccountAPI
+ * @description 
+ *   API function for deleting a user account. Validates access tokens, performs the 
+ *   deletion request, and handles errors gracefully.
+ *
+ * @requires API_BASE_URL - Base URL for API requests.
+ * @requires checkAndRefreshAccessToken - Utility function to ensure a valid access token.
+ *
+ * @function deleteAccount
+ * @param {string} id - Unique identifier of the user to delete.
+ * @returns {boolean} - Returns true if the account was deleted successfully.
+ * @throws {Error} - Throws an error if the deletion request fails.
+ *
+ * @example
+ * const success = await deleteAccount("123");
+ * 
+ * @exports deleteAccount
+ * @created 2025-01-16
+ */
+
 import { API_BASE_URL } from '../globals';
 import { checkAndRefreshAccessToken } from './tokenFetchAPI';
 export const deleteAccount = async (id) => {

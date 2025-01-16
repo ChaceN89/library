@@ -21,7 +21,7 @@ export const fetchFavBooks = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching favorite books:', error);
+    // console.error('Error fetching favorite books:', error);
     throw error;
   }
 };

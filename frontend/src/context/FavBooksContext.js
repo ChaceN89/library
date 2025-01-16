@@ -59,7 +59,7 @@ export const FavBooksProvider = ({ children }) => {
       setFavBooks(books); // Update the list of favorite books
       setError(false)
     } catch (error) {
-      console.error("Failed to fetch favorite books:", error); // Log errors to the console
+      // console.error("Failed to fetch favorite books:", error); // Log errors to the console
       setError(true)
     } finally {
       setLoading(false); // Set loading state to false

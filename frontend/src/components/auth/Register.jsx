@@ -166,11 +166,11 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-
           <ImageInputField
             label="Profile Image (Optional):"
             name="profile_image"
             onChange={handleImageChange}
+            accepted_files={"image/png, image/jpeg"}
           />
 
           <SubmitButton 

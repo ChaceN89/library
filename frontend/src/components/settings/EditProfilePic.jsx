@@ -95,6 +95,7 @@ function EditProfilePic({ profileImageUrl }) {
         onChange={handleFileChange}
         accepted_files="image/*"
         rounded="rounded-full"
+        previewImg={profileImageUrl}
       />
 
       {/* Confirmation Buttons */}

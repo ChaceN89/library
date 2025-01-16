@@ -10,7 +10,7 @@ export const checkAndRefreshAccessToken = async () => {
 
     if (!accessToken || !refreshToken) {
       // If either token is missing, log out the user and throw an error
-      console.error('Access or refresh token missing from localStorage.');
+      // console.error('Access or refresh token missing from localStorage.');
       // logout();
       throw new Error('Please sign in again.');
     }
