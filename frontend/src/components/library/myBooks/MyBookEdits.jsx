@@ -3,18 +3,27 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link'; // Import Link for navigation
 import { fetchBookDetails } from '@/API/editBookAPI'; // API call to get book details
-import EditBook from './EditBookFields';
+import EditBookFields from './EditBookFields';
 import DeleteBook from './DeleteBook';
 import ChangeBookContent from './ChangeBookContent';
 import { toast } from 'react-hot-toast';
 import Image from 'next/image'; // Ensure you import the Next.js Image component
+import { useRouter } from "next/navigation";
+import { useProfileContext } from '@/context/ProfileContext';
 
+import LoadingWheel from '@/components/loading/LoadingWheel';
+import ErrorLoading from '@/components/loading/ErrorLoading';
+
+ 
 
 function MyBookEdits() {
   const params = useParams(); // Using useParams hook to get the route params
   const { id } = params; // Extract the 'id' from the params
   const [book, setBook] = useState(null); // State to hold the book details
   const [loading, setLoading] = useState(true); // State to track loading
+
+  const { isLoggedIn, isLoading } = useProfileContext();
+  const router = useRouter();
 
   // Function to refresh book details (after edits)
   const fetchBook = async () => {
@@ -28,27 +37,32 @@ function MyBookEdits() {
     }
   };
 
+
+// Need a redirect to the "/ page if not signed "
+
+
   // Fetch book details on component mount
   useEffect(() => {
     if (id) {
       fetchBook();
     }
-  }, [id]);
+  }, [id]); // fetch should also change when I make edits to the book
 
   if (loading) {
+    // loading wheel with mt-6 so its a bit lower
     return <p>Loading...</p>;
   }
 
   if (!book) {
+    // replace with the errorLoading (message is a param)
     return <p>No book found with the given ID</p>;
   }
 
   return (
     <div>
-      <h1>Edit Book</h1>
 
       {/* Components to edit, delete, and change book content */}
-      <EditBook book={book} triggerRefresh={fetchBook} />
+      <EditBookFields book={book} triggerRefresh={fetchBook} />
       <hr className='my-4'/>
 
       <ChangeBookContent bookId={book.id} triggerRefresh={fetchBook} />

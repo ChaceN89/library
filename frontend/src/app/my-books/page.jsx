@@ -42,13 +42,13 @@ function MyBooksPage() {
       backgroundAttachment="fixed"   // Fixes the background during scroll
       className="min-h-screen py-4"       // Ensures the background spans the full viewport height
     >
-    <SectionWrapper
-      title={myBooksData.title}
-      subtitle={myBooksData.subTitle}
-    >
-      <MyBooks />
-    </SectionWrapper>
-  </BackgroundWrapper>
+      <SectionWrapper
+        title={myBooksData.title}
+        subtitle={myBooksData.subTitle}
+      >
+        <MyBooks />
+      </SectionWrapper>
+    </BackgroundWrapper>
   )
 }
 

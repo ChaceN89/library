@@ -35,5 +35,8 @@ export const myBooksData={
      * Background image for the Browse Page.
      */
     background: MAIN_BACKGROUND,
+
+    editTitle:"Edit Book",
+    editSubTitle:"Make changes to your book."
   
 }
