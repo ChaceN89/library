@@ -170,7 +170,7 @@ function Upload() {
               type="file"
               name="content"
               onChange={handleFileChange}
-              className="border p-2 rounded-md w-full text-secondary"
+              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200"
               accept={ACCEPTED_FILES}
               required
             />

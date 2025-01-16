@@ -27,10 +27,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function SubmitButton({ label, disabled = false }) {
+function SubmitButton({ label, disabled = false, onClick=null }) {
   return (
     <button
       type="submit"
+      onClick={onClick}
       disabled={disabled} // Dynamically disable the button if needed
       className={`p-2 rounded-md w-full ${
         disabled

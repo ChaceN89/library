@@ -61,7 +61,7 @@ function ImageInputField({ label, onChange, name, accepted_files, rounded="round
           name={name}
           accept={accepted_files}
           onChange={handleImageChange}
-          className="mt-2 block w-full text-sm text-gray-900 dark:text-gray-400 border border-gray-300 rounded-md shadow-sm"
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
         />
       </div>
 

@@ -1,12 +1,42 @@
-import React, { useState } from 'react';
-import { UpdateBookContent } from '@/API/editBookAPI'; // Placeholder for file upload function
-import { toast } from 'react-hot-toast';
+/**
+ * @file ChangeBookContent.jsx
+ * @module ChangeBookContent
+ * @description Component for uploading or replacing a book's cover art and content files.
+ * @requires React
+ * @requires UpdateBookContent - API function for uploading book files.
+ * @requires ImageInputField - Reusable input field for uploading images with preview support.
+ * @requires SubmitButton - Reusable button component for submitting forms.
+ * @requires Image - Next.js Image component for optimized image rendering.
+ * @requires useEffect - Hook for synchronizing the preview image with updated props.
+ * @requires toast - Library for showing user-friendly notifications.
+ */
 
-function ChangeBookContent({ bookId, triggerRefresh }) {
+import React, { useState, useEffect } from 'react';
+import { UpdateBookContent } from '@/API/editBookAPI';
+import { toast } from 'react-hot-toast';
+import ImageInputField from '@/components/general/inputs/ImageInputField';
+import SubmitButton from '@/components/general/inputs/SubmitButton';
+import Image from 'next/image';
+import { ACCEPTED_FILES } from '@/globals';
+
+function ChangeBookContent({ bookId, triggerRefresh, coverArt = null }) {
   const [newCoverArt, setNewCoverArt] = useState(null);
+  const [newCoverArtPreview, setNewCoverArtPreview] = useState(coverArt); // Preview image
   const [newContent, setNewContent] = useState(null);
 
-  const handleCoverArtChange = (e) => setNewCoverArt(e.target.files[0]);
+  // Update the preview when the `coverArt` prop changes
+  useEffect(() => {
+    setNewCoverArtPreview(coverArt);
+  }, [coverArt]);
+
+  const handleCoverArtChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewCoverArt(file);
+      setNewCoverArtPreview(URL.createObjectURL(file)); // Create a preview URL for the new file
+    }
+  };
+
   const handleContentChange = (e) => setNewContent(e.target.files[0]);
 
   const handleUpload = async () => {
@@ -17,8 +47,9 @@ function ChangeBookContent({ bookId, triggerRefresh }) {
         if (newContent) formData.append('content', newContent);
 
         await UpdateBookContent(bookId, formData); // API call to handle upload
-        toast.success('Book content updated successfully');
+        toast.success('Book content updated successfully. It might take some time for the changes to take effect');
         triggerRefresh();
+        if (newCoverArt) URL.revokeObjectURL(newCoverArtPreview); // Clean up the object URL
       } catch (error) {
         const errorMessage = error.response?.data?.detail || error.message || 'Unknown error occurred';
         toast.error(`Failed to update content: ${errorMessage}`);
@@ -30,16 +61,26 @@ function ChangeBookContent({ bookId, triggerRefresh }) {
 
   return (
     <div className="p-4 border rounded-lg shadow-md bg-white">
-      <h2 className="text-lg font-semibold mb-4">Update Book Files</h2>
+      <h3 className="text-lg font-semibold mb-4">Update Book Files</h3>
 
       {/* Cover Art Upload */}
       <div className="mb-4">
-        <label className="block font-medium text-gray-700 mb-1">Cover Art (Optional)</label>
-        <div className="flex items-center">
-          <input
-            type="file"
+        <label className="block font-medium text-gray-700 mb-2">Current Cover Art</label>
+        <div className="flex flex-col items-left space-y-4">
+          {/* Display the current or new cover art */}
+          <Image
+            src={newCoverArtPreview || '/placeholder.jpg'} // Fallback to a placeholder if no image is available
+            alt="Cover Art Preview"
+            width={200}
+            height={300}
+            className="rounded-lg border border-gray-300"
+          />
+          <ImageInputField
+            label="Select New Cover Art (Optional):"
+            name="cover_art"
+            accepted_files="image/png, image/jpeg"
             onChange={handleCoverArtChange}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+            rounded="rounded-lg"
           />
         </div>
         {newCoverArt && (
@@ -54,6 +95,8 @@ function ChangeBookContent({ bookId, triggerRefresh }) {
           <input
             type="file"
             onChange={handleContentChange}
+            accept={ACCEPTED_FILES}
+            
             className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200"
           />
         </div>
@@ -63,12 +106,7 @@ function ChangeBookContent({ bookId, triggerRefresh }) {
       </div>
 
       {/* Upload Button */}
-      <button
-        onClick={handleUpload}
-        className="w-full py-2 px-4 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-      >
-        Upload New Files
-      </button>
+      <SubmitButton label="Upload New Files" onClick={handleUpload} />
     </div>
   );
 }

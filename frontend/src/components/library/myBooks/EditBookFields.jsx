@@ -1,9 +1,20 @@
+/**
+ * @file EditBookFields.jsx
+ * @module EditBookFields
+ * @description Component for editing book metadata, such as title, description, author, genre, published date, and language.
+ * @requires React
+ * @requires updateBookDetails - API function to update book details.
+ * @requires InputField - Reusable input field component for handling user input.
+ * @requires toast - Library for user-friendly notifications.
+ */
+
 import React, { useState } from 'react';
-import { updateBookDetails } from '@/API/editBookAPI'; // Import the API function for updating book details
+import { updateBookDetails } from '@/API/editBookAPI';
 import { toast } from 'react-hot-toast';
+import InputField from '@/components/general/inputs/InputField';
 
 function EditBookFields({ book, triggerRefresh }) {
-  const [editField, setEditField] = useState(null);  // To track which field is being edited
+  const [editField, setEditField] = useState(null);
   const [formData, setFormData] = useState({
     title: book.title,
     description: book.description,
@@ -14,177 +25,68 @@ function EditBookFields({ book, triggerRefresh }) {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleUpdate = async (field) => {
-    console.log("The Update handler uses the field variable")
-    console.log(field + " formData[field] " + formData[field])
-
     try {
       await updateBookDetails(book.id, { [field]: formData[field] });
       toast.success(`${field} updated successfully`);
-      triggerRefresh();  // Refresh the book details after update
       setEditField(null);
+      triggerRefresh();
     } catch (error) {
-
-      const errorMessage = error.response?.data?.detail || error.message || 'Unknown error occurred';
-      toast.error(`Failed to update ${field}: ${errorMessage}`);    }
+      toast.error(`Failed to update ${field}: ${error.message}`);
+    }
   };
+
+  const renderEditableField = (label, field, type = "text") => (
+    <div className="mt-4">
+      <label className="block font-medium">{label}</label>
+      {editField === field ? (
+        <div className="space-y-2">
+          <InputField
+            type={type}
+            name={field}
+            value={formData[field]}
+            onChange={handleChange}
+          />
+          <div className="flex space-x-2">
+            <button
+              className="bg-blue-500 text-white px-4 py-2"
+              onClick={() => handleUpdate(field)}
+            >
+              Save
+            </button>
+            <button
+              className="bg-gray-500 text-white px-4 py-2"
+              onClick={() => setEditField(null)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-between items-center">
+          <p>{formData[field]}</p>
+          <button
+            className="text-blue-500"
+            onClick={() => setEditField(field)}
+          >
+            Edit
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div>
-      {/* Title Section */}
-      <div className="mt-4">
-        <label className="block font-medium">Title</label>
-        {editField === 'title' ? (
-          <div className="space-y-2">
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-4 py-2" onClick={() => handleUpdate('title')}>Save</button>
-              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between items-center">
-            <p>{book.title}</p>
-            <button className="text-blue-500" onClick={() => setEditField('title')}>Edit</button>
-          </div>
-        )}
-      </div>
-
-      {/* Description Section */}
-      <div className="mt-4">
-        <label className="block font-medium">Description</label>
-        {editField === 'description' ? (
-          <div className="space-y-2">
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-4 py-2" onClick={() => handleUpdate('description')}>Save</button>
-              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between items-center">
-            <p>{book.description}</p>
-            <button className="text-blue-500" onClick={() => setEditField('description')}>Edit</button>
-          </div>
-        )}
-      </div>
-
-      {/* Author Section */}
-      <div className="mt-4">
-        <label className="block font-medium">Author</label>
-        {editField === 'author' ? (
-          <div className="space-y-2">
-            <input
-              type="text"
-              name="author"
-              value={formData.author}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-4 py-2" onClick={() => handleUpdate('author')}>Save</button>
-              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between items-center">
-            <p>{book.author}</p>
-            <button className="text-blue-500" onClick={() => setEditField('author')}>Edit</button>
-          </div>
-        )}
-      </div>
-
-      {/* Genre Section */}
-      <div className="mt-4">
-        <label className="block font-medium">Genre</label>
-        {editField === 'genre' ? (
-          <div className="space-y-2">
-            <input
-              type="text"
-              name="genre"
-              value={formData.genre}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-4 py-2" onClick={() => handleUpdate('genre')}>Save</button>
-              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between items-center">
-            <p>{book.genre}</p>
-            <button className="text-blue-500" onClick={() => setEditField('genre')}>Edit</button>
-          </div>
-        )}
-      </div>
-
-      {/* Published Date Section */}
-      <div className="mt-4">
-        <label className="block font-medium">Published Date</label>
-        {editField === 'published_date' ? (
-          <div className="space-y-2">
-            <input
-              type="date"
-              name="published_date"
-              value={formData.published_date}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-4 py-2" onClick={() => handleUpdate('published_date')}>Save</button>
-              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between items-center">
-            <p>{book.published_date}</p>
-            <button className="text-blue-500" onClick={() => setEditField('published_date')}>Edit</button>
-          </div>
-        )}
-      </div>
-
-      {/* Language Section */}
-      <div className="mt-4">
-        <label className="block font-medium">Language</label>
-        {editField === 'language' ? (
-          <div className="space-y-2">
-            <input
-              type="text"
-              name="language"
-              value={formData.language}
-              onChange={handleChange}
-              className="border p-2 rounded w-full"
-            />
-            <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-4 py-2" onClick={() => handleUpdate('language')}>Save</button>
-              <button className="bg-gray-500 text-white px-4 py-2" onClick={() => setEditField(null)}>Cancel</button>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between items-center">
-            <p>{book.language}</p>
-            <button className="text-blue-500" onClick={() => setEditField('language')}>Edit</button>
-          </div>
-        )}
-      </div>
+      {renderEditableField("Title", "title")}
+      {renderEditableField("Description", "description", "textarea")}
+      {renderEditableField("Author", "author")}
+      {renderEditableField("Genre", "genre")}
+      {renderEditableField("Published Date", "published_date", "date")}
+      {renderEditableField("Language", "language")}
     </div>
   );
 }

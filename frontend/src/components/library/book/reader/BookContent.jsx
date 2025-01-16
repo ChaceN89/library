@@ -66,6 +66,8 @@ function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShow
         return <span className="text-blue-500">The "{fileTypeDisplay.fileName}" is not supported for inline display.</span>;
       case "text/plain":
       case "text/html":
+      case "application/rtf":
+      case "application/json":
         return <pre className="whitespace-pre-wrap">{content}</pre>;
       default:
         return <span className="text-gray-500">Unsupported file type.</span>;
