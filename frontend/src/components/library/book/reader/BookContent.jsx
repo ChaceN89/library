@@ -38,10 +38,21 @@
  * @created Jan 14 2025
  * @updated Jan 14 2025
  */
-
-import React from "react";
+import React, { useEffect } from "react";
 
 function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShowPagination }) {
+  /**
+   * Use an effect to handle the visibility of pagination based on the file type.
+   * This avoids triggering a state update during the render phase.
+   */
+  useEffect(() => {
+    if (fileType === "application/pdf" || fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || fileType === "application/msword") {
+      setShowPagination(false);
+    } else if (fileType === "text/plain" || fileType === "text/html") {
+      setShowPagination(true);
+    }
+  }, [fileType, setShowPagination]);
+
   // Function to render content based on fileType
   const renderContent = () => {
     if (!content) {
@@ -52,13 +63,12 @@ function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShow
       case "application/pdf":
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       case "application/msword":
-        setShowPagination(false)
         return <span className="text-blue-500">The "{fileTypeDisplay.fileName}" is not supported for inline display.</span>;
       case "text/plain":
       case "text/html":
-        setShowPagination(true)
         return <pre className="whitespace-pre-wrap">{content}</pre>;
-
+      default:
+        return <span className="text-gray-500">Unsupported file type.</span>;
     }
   };
 
