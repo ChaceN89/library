@@ -66,8 +66,8 @@ function AccountSettings() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Account Settings</h1>
+    <div className="my-2 p-2 card-background">
+      <div className="space-y-6 p-4">
 
       {/* Username Section */}
       <div>
@@ -206,6 +206,7 @@ function AccountSettings() {
           <div className="text-blue-500 hover:underline">← Back to Settings</div>
         </Link>
       </div>
+    </div>
     </div>
   );
 }

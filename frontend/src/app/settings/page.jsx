@@ -31,6 +31,7 @@ import React from 'react'
 import Settings from '@/components/settings/Settings'
 import BackgroundWrapper from '@/components/wrappers/BackgroundWrapper'
 import { authData } from '@/data/authData'
+import SectionWrapper from '@/components/wrappers/SectionWrapper'
 
 function SettingsPage() {
   return (
@@ -38,9 +39,14 @@ function SettingsPage() {
       src={authData.background} // Background image
       bgOpacity={60} // Set background opacity
       backgroundAttachment="fixed" // Fix the background during scrolling
-      className="flex-grow flex flex-col justify-center items-center section-container"
+      className="flex-grow flex flex-col "
     >
-      <Settings/>
+      <SectionWrapper
+        title={"Settings"}
+        subtitle={"Edit Account Settings"}
+      >
+        <Settings/>
+      </SectionWrapper>
     </BackgroundWrapper>
   )
 }

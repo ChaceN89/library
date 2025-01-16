@@ -18,7 +18,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import "./dark-mode.css"; // Import your CSS file for the toggle styles
 
 export default function DarkModeButton() {
   // State to track the dark mode status

@@ -59,8 +59,7 @@ function Settings() {
   // Render settings page if logged in
   return (
     <div className="my-2 p-2 card-background">
-      <h1 className="text-2xl font-bold text-center mb-6">Account Settings</h1>
-      <div className="space-y-6">
+      <div className="space-y-6 p-4">
         <AccountBanner />
         <DarkModeButton />
         <LinkToAdminPage />
