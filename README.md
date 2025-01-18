@@ -1,148 +1,226 @@
-# library
-A Full stack application so upload and share libary books 
+# PageFlow
 
-store .txt files containing the books 
+PageFlow is a full-stack library application designed to upload, manage, and share digital books. Users can store `.txt`, `.doc`, `.docx`, `.pdf`, and `.rtf` files, which may include books sourced from [Project Gutenberg](https://www.gutenberg.org/). The project leverages Next.js for the frontend, Django for the backend, AWS S3 for storage, and PostgreSQL for metadata management. This repository serves as a comprehensive guide to the application, including its structure, setup, and usage.
 
-use https://www.gutenberg.org/ for txt files
+---
 
+## Table of Contents
+1. [Features](#features)
+2. [Frontend](#frontend)
+3. [Backend](#backend)
+4. [Setup](#setup)
+5. [Running Commands](#running-commands)
+6. [API Documentation](#api-documentation)
+7. [Notes](#notes)
+8. [About](#about)
 
-nextJS 
+---
 
-AWS to store the texts in a s3 bucket 
+## Features
 
-Vue
-- upload books
-- see list of books
-- pull up a new page using router with multiple pages for a book
-Django
-- get all books
-- create new book
-- get page of book
-- get book infomaiton 
-Postgress
-- store book meta data (title, author etc)
-AWS
-- info URL for the actual book 
-- deployment of the full stack application 
+### Frontend (Next.js)
+- **Upload Books**: Interface for uploading `.txt`, `.doc`, `.docx`, `.pdf`, and `.rtf` files.
+- **Browse Books**: View a list of uploaded books by other users. You don't need an account to browse
+- **Paginated View**: Navigate through book content across multiple pages.
+- **Comment**: Add comments to any book.
+- **Download and Read**: Download files and read them within the web application.
+- **Dark Mode and Tailwind Screen Display**: Tailwind screen size display and a dark mode toggle are available during development.
 
+### Backend (Django)
+- **API Endpoints**:
+  - See the backend readme for more infomation.
+- **Storage**: Files are securely stored in an AWS S3 bucket.
+- **Development Database**: Uses SQLite when `ENV` is set to `development`.
 
+### Storage (AWS S3)
+- Stores the `.txt`, `.doc`, `.docx`, `.pdf`, and `.rtf` files of books.
+- URLs for book content are securely managed through AWS.
 
-run server 
+### Database (PostgreSQL)
+- Stores metadata such as title, author, and upload information.
 
-python manage.py runserver
+---
 
+## Frontend
 
-database
-make migrtions 
+### .env File Configuration
+The frontend `.env` file should include the following fields:
+```plaintext
+NEXT_PUBLIC_ENVIRONMENT
+NEXT_PUBLIC_API_BASE_URL
+NEXT_PUBLIC_BACKEND_URL
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+AWS_STORAGE_BUCKET_NAME
+AWS_S3_REGION_NAME
+```
+
+### Basic File Structure
+```plaintext
+frontend
+├── src
+│   ├── API
+│   ├── app
+│   ├── components
+│   ├── context
+│   ├── data
+│   ├── globals.js
+│   ├── styles
+│   └── utils
+├── public
+├── tailwind.config.js
+├── package.json
+└── next.config.mjs
+```
+
+---
+
+## Backend
+
+### .env File Configuration
+The backend `.env` file should include the following fields:
+```plaintext
+SECRET_KEY
+DEBUG
+ALLOWED_HOSTS
+TIME_ZONE
+ENV
+POSTGRES_DB
+POSTGRES_USER
+POSTGRES_PASSWORD
+POSTGRES_HOST
+POSTGRES_PORT
+AWS_STORAGE_BUCKET_NAME
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_S3_REGION_NAME
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+CORS_ALLOWED_ORIGINS
+APP_VERSION ="1.0.0"
+DUMMY_VAR = "Just a text string"
+SITE_ID = 1
+```
+
+### Basic File Structure
+```plaintext
+backend
+├── api
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── aws
+│   ├── migrations
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── manage.py
+├── requirements.txt
+└── django_debug.log
+```
+
+---
+
+## Setup
+
+### Prerequisites
+Ensure you have the following installed:
+- [Node.js 10.2.3](https://nodejs.org/)
+- [Python 3.10.14](https://www.python.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [AWS CLI](https://aws.amazon.com/cli/)
+
+Any virtual Python environment will work; the project has been developed using `conda`.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/PageFlow.git
+cd PageFlow
+```
+
+### 2. Frontend Setup
+Navigate to the `frontend` directory and install dependencies:
+```bash
+cd frontend
+npm install
+```
+Start the development server:
+```bash
+npm run dev
+```
+The frontend will be available at `http://localhost:3000`.
+
+### 3. Backend Setup
+Navigate to the `backend` directory and set up the environment:
+```bash
+cd backend
+python -m venv env
+source env/bin/activate  # On Windows: .\env\Scripts\activate
+pip install -r requirements.txt
+```
+
+Setup the database:
+```bash
 python manage.py makemigrations
-
-apply migrations 
 python manage.py migrate
+```
 
-
-Explanation
-makemigrations: This command looks at the changes you've made to your models and creates new migration files (if there are any changes).
-migrate: This command applies the migrations to the database, creating the necessary tables and schema based on your models and migration files.
-
-
-
-create a super user 
+(Optional) Create a superuser (This will act as an Admin that can update the site from the frontend):
+```bash
 python manage.py createsuperuser
+```
 
-
-
-
-to run backend 
-
-if you have made changes to he models or running for the fist time
-python manage.py migrate
-
-
-then to run the proejct 
+Run the development server:
+```bash
 python manage.py runserver
+```
+The backend will be available at `http://127.0.0.1:8000`.
 
-create super user 
-python manage.py createsuperuser
+### 4. AWS Configuration
+Ensure your AWS credentials are configured and S3 bucket access is set up:
+1. Log in to the AWS Management Console.
+2. Attach the `AmazonS3FullAccess` policy to the IAM user/role.
+3. Configure your bucket details in the Django settings.
 
+---
 
-GUi for the API
-pip install drf-yasg
+## Running Commands
 
-http://127.0.0.1:8000/swagger/
-http://127.0.0.1:8000/redoc/
+### Frontend Commands
+- **Start Development Server**: `npm run dev`
+- **Build for Production**: `npm run build`
+- **Lint Code**: `npm run lint`
 
+### Backend Commands
+- **Apply Migrations**: `python manage.py migrate`
+- **Run Server**: `python manage.py runserver`
+- **Create Superuser**: `python manage.py createsuperuser`
+- **Update Dependencies**: `pip freeze > requirements.txt`
 
+---
 
-signing in to swagger UI 
+## API Documentation
+The backend API is documented using `drf-yasg`.
+- **Swagger**: [http://127.0.0.1:8000/swagger/](http://127.0.0.1:8000/swagger/)
+- **ReDoc**: [http://127.0.0.1:8000/redoc/](http://127.0.0.1:8000/redoc/)
 
-Bearer token_string as the authorization value
+### Authentication
+- Use `Bearer <token>` as the authorization value.
 
+---
 
+## Notes
+- Ensure all `.env` files are properly configured for environment-specific settings.
+- Always secure your AWS credentials and tokens.
+- This project is a demonstration of full-stack development using modern technologies.
+- Infrastructure for deployment to AWS is detailed in the `infrastructure/README.md`.
 
-Granting AWS S3 Full Access to an IAM User or Role
-To allow your Django application to upload files to an S3 bucket, you need to attach the AmazonS3FullAccess policy to the IAM user or role that your application uses. Follow these steps to attach the policy:
+---
 
-Log in to AWS Management Console:
+## About
+**Author**: Chace Nielson  
+**Website**: [chacenielson.com](https://chacenielson.com)  
+**Email**: [chacenielson@gmail.com](mailto:chacenielson@gmail.com)
 
-Go to the AWS Management Console.
-Sign in with your credentials.
-Navigate to IAM (Identity and Access Management):
-
-In the AWS Management Console, search for "IAM" in the services search bar and click on it.
-Go to the Policies Section:
-
-In the IAM Dashboard, click on "Policies" from the left-hand sidebar.
-Search for the AmazonS3FullAccess Policy:
-
-In the search bar at the top, type "S3" to filter policies related to S3.
-Locate the AmazonS3FullAccess policy in the list.
-View the Policy Details:
-
-Click on the AmazonS3FullAccess policy name to view its details.
-Attach the Policy to an IAM User or Role:
-
-Click the "Attach" button under the "Entities attached" tab (if available).
-Use the search bar or scroll through the list to find the IAM user or role associated with your Django application.
-Select the IAM user or role by clicking the checkbox next to its name.
-Finalize the Attachment:
-
-Click "Next: Review" to review the policy attachment.
-Once reviewed, click "Attach policy" to grant the IAM user or role full access to S3.
-Verify the Attachment:
-
-After attaching the policy, verify that the AmazonS3FullAccess policy is now listed under the attached policies for the selected IAM user or role.
-By following these steps, the IAM user or role will have the necessary permissions to interact with S3 buckets, allowing your Django application to upload, manage, and retrieve files from AWS S3.
-
-
-
-
-
-front end code for text file 
-
-  const [textContent, setTextContent] = useState('');
-
-  useEffect(() => {
-    // Fetch the content of the text file from S3
-    fetch('https://library-app-data.s3.ca-west-1.amazonaws.com/content_Hamlet.txt')
-      .then(response => response.text())
-      .then(data => {
-        setTextContent(data);
-      })
-      .catch(error => {
-        console.error('Error fetching the text file:', error);
-        setTextContent('Failed to load content.');
-      });
-  }, []);
-
-
-  for img just use the url 
-
-
-
-
-
-
-
-Update   requriements .txt 
-
-  pip freeze > requirements.txt

@@ -1,9 +1,24 @@
-import React from 'react';
-import Link from 'next/link';  // Import Link for navigation
+'use client';
+import React, { useEffect } from 'react';
+import { useProfileContext } from '@/context/ProfileContext';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function AdminLayout({ children }) {
+  const { userData } = useProfileContext();
+  const router = useRouter();
 
-  // add redirect if user is not an admin
+  // Redirect if the user is not signed in or not an admin
+  useEffect(() => {
+    if (userData === undefined || !userData?.is_staff) {
+      router.push('/'); // Redirect to the homepage if not an admin
+    }
+  }, [userData, router]);
+
+  // Show a loading state while checking user data
+  if (userData === null) {
+    return <p className="p-10">Loading...</p>;
+  }
 
   return (
     <div>
@@ -22,9 +37,7 @@ function AdminLayout({ children }) {
       </nav>
 
       {/* Admin Content */}
-      <div className="p-6">
-        {children}  {/* This will render the respective child pages */}
-      </div>
+      <div className="p-6">{children}</div>
     </div>
   );
 }
