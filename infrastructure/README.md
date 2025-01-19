@@ -88,3 +88,22 @@ telnet librarydb.cjie8aiq8g61.us-east-1.rds.amazonaws.com 5432
 
 
 need to add a postgres Rule for you IPv4 adrress
+
+
+
+
+
+##Backend 
+
+set up the backend in AWS using EC2 instance 
+
+https://www.youtube.com/watch?v=uiPSnrE6uWE
+
+
+
+
+
+
+
+
+##frontend 
