@@ -8,6 +8,11 @@ terraform {
   }
 }
 
+# Use the workspace name for environment
+locals {
+  environment = terraform.workspace
+}
+
 # Configure the AWS provider with the region and credentials
 provider "aws" {
   region     = var.AWS_S3_REGION_NAME   # Set the AWS region (e.g., "ca-west-1")
@@ -48,12 +53,7 @@ resource "aws_s3_object" "misc_files" {
 }
 
 
-
+# in the future I could set up a system to use terraform for the following instead of manaul setup
 # Set up the database in postgresQL 
-
-
-
 # Set up the Frontend Nextjs project
-
-
 # Set UP the Django project
