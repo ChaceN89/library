@@ -25,7 +25,23 @@ SECRET_KEY = config('SECRET_KEY')
 
 
 # the ALLOWED_HOSTS variable is a list of strings representing the host/domain names that this Django site can serve
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS = [
+    "library-backend-thsg.onrender.com"
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://library-gold-three.vercel.app",
+    "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
+]
+
+# CORS settings
+# CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
+# CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
+
+# allow headers and credentials
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOW_HEADERS = [
     'content-type',
     'authorization',
@@ -215,13 +231,6 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,                 # Optionally rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,              # Blacklist old tokens after rotation
 }
-
-# CORS settings
-# CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
-
-# allow headers and credentials
-CORS_ALLOW_CREDENTIALS = True
 
 # Dummy variable
 DUMMY_VAR = config('DUMMY_VAR', default='default_dummy_value')
