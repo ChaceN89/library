@@ -23,11 +23,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-# the ALLOWED_HOSTS variable is a list of strings representing the host/domain names that this Django site can serve
+# Allowed hosts for the application
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
-CSRF_TRUSTED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 
+# Enable all origins temporarily for debugging (remove in production)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Allow credentials (cookies, authorization headers)
+CORS_ALLOW_CREDENTIALS = True
+
+# Explicit list of allowed origins (used when CORS_ALLOW_ALL_ORIGINS is False)
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
+
+# Regex pattern for allowed origins (optional, useful for subdomains)
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
+
+# Trusted origins for CSRF protection
+CSRF_TRUSTED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 # Application definition
 INSTALLED_APPS = [
     # Django default apps
