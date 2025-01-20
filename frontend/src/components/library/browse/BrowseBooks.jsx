@@ -83,6 +83,9 @@ function BrowseBooks() {
         />
       )}
 
+      {!loading && books.length === 0 && <p>No books available.</p>}
+
+
       {/* Books List */}
       {!error && (
         <>

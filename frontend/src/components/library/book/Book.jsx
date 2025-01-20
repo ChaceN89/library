@@ -38,11 +38,22 @@ import BookReader from "./reader/BookReader";
 import BookComments from "./comments/BookComments";
 
 function Book({ id, title }) {
-  const { error, fetchBook } = useBookContext();
+  const { error, fetchBook, book } = useBookContext();
 
   useEffect(() => {
     fetchBook(id, title); // Fetch book data on component mount or when `id` or `title` changes.
   }, [id, title]);
+
+  useEffect(() => {
+    // Set the tab title dynamically based on the book title
+    const originalTitle = document.title; // Save the current title
+    document.title = book?.title ? `PageFlow | ${book.title}` : "PageFlow";
+
+    // Cleanup function to reset the title when the component unmounts
+    return () => {
+      document.title = "PageFlow Library";
+    };
+  }, [book?.title]);
 
   if (error) {
     return (

@@ -78,6 +78,8 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
       <h2 className='pb-2'>{title}</h2>
       <div className="min-h-44">
 
+        {!loading && books.length === 0 && <p>No books available.</p>}
+
         {/* If Error display the Error Box else display loading or the actual books */}
         {error ?(
           <ErrorLoading className="pt-5"  message="Failed to load books. Please try again later." />
