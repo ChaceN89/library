@@ -23,30 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-
-# CORS settings
-# CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
-# CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = False  # Disable credentials temporarily
-
-
 # the ALLOWED_HOSTS variable is a list of strings representing the host/domain names that this Django site can serve
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-ALLOWED_HOSTS = [
-    "library-backend-thsg.onrender.com"
-]
-
-# CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
-CORS_ALLOWED_ORIGINS = [
-    "https://library-gold-three.vercel.app",
-    "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://library-gold-three.vercel.app",
-    "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
-]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
+CSRF_TRUSTED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -112,7 +92,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database configuration
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # Database configuration
-if config('ENV', default='development') == 'production':
+if config('ENV', default='production') == 'production':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -143,7 +123,6 @@ LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -160,7 +139,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
