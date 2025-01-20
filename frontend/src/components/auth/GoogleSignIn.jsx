@@ -17,7 +17,7 @@
  * />
  * 
  * @requires react
- * @requires @react-oauth/google
+ * @requires @react-oauth/google 
  * @requires @/API/googleAPI
  * @requires prop-types
  * 
