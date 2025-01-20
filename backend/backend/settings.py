@@ -213,12 +213,6 @@ SIMPLE_JWT = {
 # CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 
-# Allowed hosts - different than Cor_Allowed Origins 
-ALLOWED_HOSTS = [
-    config('APP_RUNNER_DOMAIN', default=''),
-    config('CUSTOM_DOMAIN', default=''),
-]
-
 # allow headers and credentials
 CORS_ALLOW_CREDENTIALS = True
 

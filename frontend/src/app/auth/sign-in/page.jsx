@@ -28,7 +28,7 @@ function LoginPage() {
       src={authData.background} // Background image
       bgOpacity={60} // Set background opacity
       backgroundAttachment="fixed" // Fix the background during scrolling
-      className="flex-grow flex flex-col justify-center items-center"
+      className="flex-grow flex flex-col justify-center items-center p-4"
     >
       <LoginForm/>
     </BackgroundWrapper>
