@@ -35,12 +35,17 @@ CORS_ALLOWED_ORIGINS = [
     "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
 ]
 
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://library-gold-three.vercel.app",
+#     "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
+# ]
+
 # CORS settings
 # CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
 # CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 
 # allow headers and credentials
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # CORS_ALLOW_HEADERS = ['*']
 
