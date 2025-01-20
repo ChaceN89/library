@@ -26,7 +26,10 @@ SECRET_KEY = config('SECRET_KEY')
 
 # CORS settings
 # CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = False  # Disable credentials temporarily
+
 
 # the ALLOWED_HOSTS variable is a list of strings representing the host/domain names that this Django site can serve
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
