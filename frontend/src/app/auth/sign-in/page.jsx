@@ -24,7 +24,7 @@ import LoginForm from "@/components/auth/LoginForm"; // Login form component
 function LoginPage() {
 
   return (
-    <BackgroundWrapper
+    <BackgroundWrapper 
       src={authData.background} // Background image
       bgOpacity={60} // Set background opacity
       backgroundAttachment="fixed" // Fix the background during scrolling
