@@ -65,7 +65,7 @@ function WelcomePage() {
         title={welcomePageData.title}
         subtitle={welcomePageData.subTitle}
       >
-        <RecentlyRead/>
+        <RecentlyRead/> 
         <DisplayTopBooks
           fetchFunction={fetchMostViewedBooks}
           title={`Top ${welcomePageData.TopBooksToDisplay} Most Viewed Books`}
