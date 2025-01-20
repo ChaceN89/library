@@ -30,6 +30,7 @@
  * @since 2.1
  */
 
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import { Blurhash } from 'react-blurhash';
 
@@ -57,7 +58,7 @@ const ImageComponent = ({ src, alt, className, blurHash = 'H2SigQ%M_3xu%Mt7xu?b%
         <>
           {lowResSrc ? (
             lowResLoaded && (
-              <img
+              <Image
                 className={`${className} w-full h-full object-cover opacity-60`}
                 src={lowResSrc}
                 alt={alt}
