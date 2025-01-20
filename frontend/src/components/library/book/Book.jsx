@@ -42,7 +42,7 @@ function Book({ id, title }) {
 
   useEffect(() => {
     fetchBook(id, title); // Fetch book data on component mount or when `id` or `title` changes.
-  }, [id, title, fetchBook]);
+  }, [id, title]);
 
   if (error) {
     return (

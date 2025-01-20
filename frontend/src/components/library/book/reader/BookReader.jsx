@@ -83,18 +83,19 @@ function BookReader() {
    * Ensures the current page is within the valid range when lines per page changes.
    */
   useEffect(() => {
+    // Adjust current page only if it's outside the valid range
     if (currentPage >= pages.length) {
       setCurrentPage(pages.length - 1);
     } else if (currentPage < 0) {
       setCurrentPage(0);
     }
   
+    // Ensure fullscreen is reset on unmount
     return () => {
       setIsFullScreen(false);
     };
-  }, [linesPerPage, pages.length, currentPage, setCurrentPage, setIsFullScreen]); // Remove `currentPage` from the dependency array.
+  }, [linesPerPage, pages.length, currentPage, setCurrentPage, setIsFullScreen]);
   
-
 
   useEffect(() => {
     const handleKeyDown = (event) => {
