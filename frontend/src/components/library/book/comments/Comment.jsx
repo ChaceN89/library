@@ -89,7 +89,7 @@ function Comment({ comment, bookId, loading, depth = 0 }) {
               {(smallScreen || depth > bookReaderData.maxCommentDepthLgBeforeModal ) && modalChildComment &&  (
                 <Modal onClose={() => setModalChildComment(false)}>
                   <h3 className="text-lg font-semibold mb-4">
-                    Replies to "{commentContent.slice(0, 20)}..."
+                    Replies to &quot;{commentContent.slice(0, 20)}...&quot;
                   </h3>
                   <ul className="space-y-4">
                     {comment.replies.map((reply) => (

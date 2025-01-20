@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AdminEditUser from './AdminEditUser';  // Import AdminEditUser component
 import AdminDeleteUser from './AdminDeleteUser';  // Import AdminDeleteUser component
 import AdminPasswordUpdate from './AdminPasswordUpdate';
+import Image from 'next/image';
 
 function UserAdminView({ user }) {
   const [showDetails, setShowDetails] = useState(false);  // Toggle visibility of user details
@@ -11,7 +12,7 @@ function UserAdminView({ user }) {
       <div className="flex justify-between items-center">
         <div className='flex gap-1 items-center'>
 
-          <img
+          <Image
             src={user.profile_image_url }  // Use a default image if profile_image_url is not available
             alt={`${user.username}'s profile picture`}
             className="w-12 h-12 rounded-full object-cover"  // Styling for a small, rounded image

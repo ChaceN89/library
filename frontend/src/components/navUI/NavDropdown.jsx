@@ -73,7 +73,7 @@ const NavDropdown = ({ items }) => {
       document.removeEventListener("mousemove", handleMouseLeave);
     }
     return () => document.removeEventListener("mousemove", handleMouseLeave);
-  }, [isOpen]);
+  }, [isOpen, handleMouseLeave]);
 
   return (
     <div className="relative w-full lg:w-auto">

@@ -71,7 +71,7 @@ function DisplayTopBooks({ fetchFunction, title, booksToFetch }) {
   // Use Effect to change the fetching of book
   useEffect(() => {
     loadBooks();
-  }, [fetchFunction, booksToFetch]);
+  }, [fetchFunction, booksToFetch, loadBooks]);
 
   return (
     <section className="pt-6">

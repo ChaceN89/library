@@ -63,7 +63,7 @@ function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShow
       case "application/pdf":
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       case "application/msword":
-        return <span className="text-blue-500">The "{fileTypeDisplay.fileName}" is not supported for inline display.</span>;
+        return <span className="text-blue-500">The &quot;{fileTypeDisplay.fileName}&quot; is not supported for inline display.</span>;
       case "text/plain":
       case "text/html":
       case "application/rtf":

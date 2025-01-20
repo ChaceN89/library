@@ -52,7 +52,7 @@ function MyBookEdits() {
 
   useEffect(() => {
     if (id) fetchBook();
-  }, [id]);
+  }, [id, fetchBook]);
 
   if (loading) {
     return <div className="mt-6"><LoadingWheel /></div>;

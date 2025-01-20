@@ -23,20 +23,15 @@
  * @created 2025-01-08
  * @updated 2025-01-08
  */
-
 "use client";
 import React, { useState, useEffect } from 'react';
 
 function DarkModeTestingToggle() {
-  // Check if the environment variable indicates development mode
-  const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
-
-  if (!isDevelopment) {
-    return null; // Do not render in production
-  }
-
   // State to track the dark mode status
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Check if the environment variable indicates development mode
+  const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'development';
 
   // Update the dark mode class on the HTML root element
   const toggleDarkMode = () => {
@@ -56,6 +51,11 @@ function DarkModeTestingToggle() {
       setIsDarkMode(true);
     }
   }, []);
+
+  // Early return if not in development mode
+  if (!isDevelopment) {
+    return null;
+  }
 
   return (
     <div

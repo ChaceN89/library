@@ -92,7 +92,7 @@ function BookReader() {
     return () => {
       setIsFullScreen(false);
     };
-  }, [linesPerPage, pages.length]); // Remove `currentPage` from the dependency array.
+  }, [linesPerPage, pages.length, currentPage, setCurrentPage, setIsFullScreen]); // Remove `currentPage` from the dependency array.
   
 
 
