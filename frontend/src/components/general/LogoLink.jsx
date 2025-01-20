@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';  // Use Next.js's Link component for navigation
 import Image from 'next/image';  // Use Next.js's Image component for optimized images
-import './logoLink.css';  // Import the styles from logo.css
+import './LogoLink.css';  // Import the styles from logo.css
 import { navData } from '@/data/navData';
 
 const LogoLink = () => {
