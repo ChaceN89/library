@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,10 +37,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://library-gold-three.vercel.app",
-#     "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://library-gold-three.vercel.app",
+    "https://library-63z8twsb3-chace-nielsons-projects.vercel.app",
+]
 
 # CORS settings
 # CORS_ALLOW_ALL_ORIGINS = True  # Allows all domains to make requests; adjust as needed for production
@@ -47,7 +49,7 @@ CORS_ALLOWED_ORIGINS = [
 # allow headers and credentials
 CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ALLOW_HEADERS = ['*']
+# CORS_ALLOW_HEADERS = default_headers + ("custom-headers",)
 
 
 # Application definition
@@ -71,6 +73,9 @@ INSTALLED_APPS = [
     'allauth.account',                  # Allauth accounts
     'allauth.socialaccount',            # Allauth social accounts
     'allauth.socialaccount.providers.google',  # Google provider for Allauth
+
+    # cor headers 
+    'corsheaders',  
 
     # Your apps
     'api',                              # Your API app
