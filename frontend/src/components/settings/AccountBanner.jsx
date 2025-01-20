@@ -47,7 +47,7 @@ function AccountBanner() {
         </Link>
       </div>
       <EditProfilePic
-        profileImageUrl={userData?.profile_image_url || 'https://library-app-data.s3.ca-west-1.amazonaws.com/misc/defaultProfilePic.jpg'}
+        profileImageUrl={userData?.profile_image_url}
       />
     </div>
   );

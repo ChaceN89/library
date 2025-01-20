@@ -17,6 +17,8 @@ function UserAdminView({ user }) {
             alt={`${user.username}'s profile picture`}
             className="w-12 h-12 rounded-full object-cover"  // Styling for a small, rounded image
             loading="lazy"  // Lazy loading for the image
+            width={100}
+            height={100}
             />
           <p>{user.username}</p>
         </div>

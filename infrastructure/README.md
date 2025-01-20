@@ -54,6 +54,7 @@ terraform apply -var-file="prod.tfvars"
 
 
 4. after pushing changes
+terraform destroy -var-file="dev.tfvars"
 terraform destroy -var-file="prod.tfvars"
 
 
@@ -99,11 +100,16 @@ set up the backend in AWS using EC2 instance
 
 https://www.youtube.com/watch?v=uiPSnrE6uWE
 
+to create a super user 
+https://library-backend-thsg.onrender.com/admin
+
+
+
+##Frontend - Vercel 
+
+regular deployment using the correct env varibales
 
 
 
 
-
-
-
-##frontend 
+simple in vercel - jsut add .env variable after getting the backend URL

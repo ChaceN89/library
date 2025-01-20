@@ -1,26 +1,22 @@
-# Specify Terraform configuration and required providers
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws" # Use the AWS provider from HashiCorp
-      version = "~> 5.0"        # Ensure compatibility with AWS provider version 5.x
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
 }
 
-# Use the workspace name for environment
 locals {
   environment = terraform.workspace
 }
 
-# Configure the AWS provider with the region and credentials
 provider "aws" {
-  region     = var.AWS_S3_REGION_NAME   # Set the AWS region (e.g., "ca-west-1")
-  access_key = var.AWS_ACCESS_KEY_ID   # Access key for AWS authentication
-  secret_key = var.AWS_SECRET_ACCESS_KEY # Secret key for AWS authentication
+  region     = var.AWS_S3_REGION_NAME
+  access_key = var.AWS_ACCESS_KEY_ID
+  secret_key = var.AWS_SECRET_ACCESS_KEY
 }
 
-# Define the S3 bucket for the library application
 resource "aws_s3_bucket" "library_app_s3_bucket" {
   bucket = var.AWS_STORAGE_BUCKET_NAME
 
@@ -29,14 +25,36 @@ resource "aws_s3_bucket" "library_app_s3_bucket" {
   }
 }
 
-# Create folders in the S3 bucket (folders are just "keys" with a trailing "/")
+resource "aws_s3_bucket_policy" "public_access_policy" {
+  bucket = aws_s3_bucket.library_app_s3_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = "*"
+        Action = "s3:GetObject"
+        Resource = "arn:aws:s3:::${aws_s3_bucket.library_app_s3_bucket.id}/*"
+      }
+    ]
+  })
+}
+
+resource "aws_s3_bucket_public_access_block" "public_access" {
+  bucket                  = aws_s3_bucket.library_app_s3_bucket.id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 resource "aws_s3_object" "folders" {
   for_each = toset(["bookArt/", "books/", "frontendAssets/", "misc/", "profilePictures/"])
   bucket   = aws_s3_bucket.library_app_s3_bucket.id
   key      = each.value
 }
 
-# Upload files from the local frontendAssets folder to the S3 bucket
 resource "aws_s3_object" "frontend_assets" {
   for_each = fileset("${path.module}/s3/frontendAssets", "*")
   bucket   = aws_s3_bucket.library_app_s3_bucket.id
@@ -44,7 +62,6 @@ resource "aws_s3_object" "frontend_assets" {
   source   = "${path.module}/s3/frontendAssets/${each.value}"
 }
 
-# Upload files from the local misc folder to the S3 bucket
 resource "aws_s3_object" "misc_files" {
   for_each = fileset("${path.module}/s3/misc", "*")
   bucket   = aws_s3_bucket.library_app_s3_bucket.id
@@ -52,8 +69,7 @@ resource "aws_s3_object" "misc_files" {
   source   = "${path.module}/s3/misc/${each.value}"
 }
 
-
-# in the future I could set up a system to use terraform for the following instead of manaul setup
+# in the future I could set up a system to use terraform for the following instead of manual setup
 # Set up the database in postgresQL 
 # Set up the Frontend Nextjs project
 # Set UP the Django project

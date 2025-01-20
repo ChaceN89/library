@@ -62,6 +62,8 @@ const ImageComponent = ({ src, alt, className, blurHash = 'H2SigQ%M_3xu%Mt7xu?b%
                 className={`${className} w-full h-full object-cover opacity-60`}
                 src={lowResSrc}
                 alt={alt}
+                width={100}
+                height={100}
               />
             )
           ) : (
