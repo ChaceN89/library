@@ -78,11 +78,14 @@ POSTGRES_PASSWORD
 POSTGRES_HOST
 
 
+through django checkl out the database
+python manage.py dbshell
+
+
 install psql client to access it from the the local version
 run 'psql -h {POSTGRES_HOST} -U {POSTGRES_USER} -d {POSTGRES_DB}' to access database and make sure its active
-psql -h librarydb.cjie8aiq8g61.us-east-1.rds.amazonaws.com -U dbLibraryUser -d librarydb 
+psql -h librarydbinstance.cjie8aiq8g61.us-east-1.rds.amazonaws.com -U dbLibraryUser -d librarydb 
 
-librarydb.cjie8aiq8g61.us-east-1.rds.amazonaws.com
 
 check connection
 telnet librarydb.cjie8aiq8g61.us-east-1.rds.amazonaws.com 5432
@@ -91,18 +94,12 @@ telnet librarydb.cjie8aiq8g61.us-east-1.rds.amazonaws.com 5432
 need to add a postgres Rule for you IPv4 adrress
 
 
-
+set the .env to the AWS RDS settings and run the migrations and create super user as normal to create them in the proper database
 
 
 ##Backend 
 
-set up the backend in AWS using EC2 instance 
-
-https://www.youtube.com/watch?v=uiPSnrE6uWE
-
-to create a super user 
-https://library-backend-thsg.onrender.com/admin
-
+use render 
 
 
 ##Frontend - Vercel 
