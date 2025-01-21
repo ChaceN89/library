@@ -24,3 +24,8 @@ variable "AWS_S3_REGION_NAME" {
   description = "AWS region for S3 resources"
   type        = string
 }
+
+variable "FRONTEND_URL" {
+  description = "URL for the frontend application"
+  type        = string
+}

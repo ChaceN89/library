@@ -25,6 +25,18 @@ resource "aws_s3_bucket" "library_app_s3_bucket" {
   }
 }
 
+resource "aws_s3_bucket_cors_configuration" "cors_config" {
+  bucket = aws_s3_bucket.library_app_s3_bucket.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET"]
+    allowed_origins = [var.FRONTEND_URL]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+}
+
 resource "aws_s3_bucket_policy" "public_access_policy" {
   bucket = aws_s3_bucket.library_app_s3_bucket.id
 
