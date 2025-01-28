@@ -37,7 +37,7 @@ function AccountBanner() {
 
   return (
     <div className=" border dark:border-gray-600 p-4 flex md:flex-row items-center gap-6 rounded-lg bg-gray-100 dark:bg-gray-700">
-      <div className=' md:border-r-4 pl-4 border-black dark:border-white'>
+      <div className=' md:border-r-4 pr-4 border-black dark:border-white'>
         <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Username: {userData?.username || ''}</h3>
         <p className="text-gray-600 dark:text-gray-300">First Name: {userData?.first_name || ''}</p>
         <p className="text-gray-600 dark:text-gray-300">Last Name: {userData?.last_name || ''}</p>

@@ -100,7 +100,7 @@ function MakeComment({ parentCommentId = null, large=false }) {
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}
             placeholder="Write your reply..."
-            className="w-full border rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full border rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-blue-500 text-secondary dark-text-primary"
             rows="1"
           />
           <button
