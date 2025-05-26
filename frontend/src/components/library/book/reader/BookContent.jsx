@@ -65,7 +65,7 @@ function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShow
       case "application/msword":
         return <span className="text-blue-500">The &quot;{fileTypeDisplay.fileName}&quot; is not supported for inline display.</span>;
       
-        case "text/html":
+      case "text/html":
         const fixLinks = (html) => {
           return html.replace(
             /<a\s+(?![^>]*target=)/gi,
@@ -75,7 +75,7 @@ function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShow
 
         return(
           <div>
-            <span className="text-blue-500">You may wish to download this HTML file and open on its own for better reading.</span>
+            <span className="text-blue-500">You may wish to download this HTML file for viewing, as some links and images might not work properly on this page.</span>
             <iframe
               srcDoc={fixLinks(content)}
               sandbox="allow-same-origin"
