@@ -10,7 +10,7 @@
  */
 
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { fetchBookDetails } from '@/API/editBookAPI';
 import EditBookFields from './EditBookFields';
@@ -30,18 +30,19 @@ function MyBookEdits() {
   const [error, setError] = useState(false);
 
   // Fetch book details
-  const fetchBook = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchBookDetails(id);
-      setBook(data);
-      setError(false);
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+const fetchBook = useCallback(async () => {
+  setLoading(true);
+  try {
+    const data = await fetchBookDetails(id);
+    setBook(data);
+    setError(false);
+  } catch {
+    setError(true);
+  } finally {
+    setLoading(false);
+  }
+}, [id]);
 
   // Redirect to homepage if not logged in
   useEffect(() => {
