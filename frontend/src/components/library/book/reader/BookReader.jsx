@@ -147,13 +147,13 @@ function BookReader() {
           // Render book content
           <>
             <BookContent
-              content={pages[currentPage] || "No content available for this page."}
+              content={fileType === "text/html" ? pages.join("\n") : pages[currentPage] || "No content available for this page."}
               fileType={fileType}
               isFullScreen={isFullScreen}
               fileTypeDisplay={fileTypeDisplay}
               setShowPagination={setShowPagination}
             />
-            {showPagination &&
+            {showPagination && fileType !== "text/html" && (
               <BookReadPagination
                 prevPage={prevPage}
                 nextPage={nextPage}
@@ -163,7 +163,7 @@ function BookReader() {
                 handleLinesPerPageChange={handleLinesPerPageChange}
                 bookReaderData={bookReaderData}
               />
-          }
+            )}
           </>
         )}
       </div>

@@ -64,8 +64,29 @@ function BookContent({ content, isFullScreen, fileType, fileTypeDisplay, setShow
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       case "application/msword":
         return <span className="text-blue-500">The &quot;{fileTypeDisplay.fileName}&quot; is not supported for inline display.</span>;
+      
+        case "text/html":
+        const fixLinks = (html) => {
+          return html.replace(
+            /<a\s+(?![^>]*target=)/gi,
+            '<a target="_blank" rel="noopener noreferrer" '
+          );
+        };
+
+        return(
+          <div>
+            <span className="text-blue-500">You may wish to download this HTML file and open on its own for better reading.</span>
+            <iframe
+              srcDoc={fixLinks(content)}
+              sandbox="allow-same-origin"
+              className="w-full h-full border-none"
+              style={{ minHeight: isFullScreen ?"84vh": "58vh" }}
+
+            />
+          </div>
+        )
+
       case "text/plain":
-      case "text/html":
       case "application/rtf":
       case "application/json":
         return <pre className="whitespace-pre-wrap">{content}</pre>;
