@@ -1,12 +1,12 @@
 # Infrastructure for Deployment
 
 ## Table of Contents
-1. [Set Up Your Credentials](#set-up-your-credentials)
-2. [Terraform Setup and S3 Bucket Deployment](#terraform-setup-and-s3-bucket-deployment)
-3. [AWS RDS: Database Setup](#aws-rds-database-setup)
-4. [Backend Deployment with Render](#backend-deployment-with-render)
-5. [Frontend Deployment with Vercel](#frontend-deployment-with-vercel)
-6. [Configuring CORS for Google Cloud Console](#configuring-cors-for-google-cloud-console)
+1. [Set Up Your Credentials](#1-set-up-your-credentials)
+2. [Terraform Setup and S3 Bucket Deployment](#2-terraform-setup-and-s3-bucket-deployment)
+3. [AWS RDS: Database Setup](#3-aws-rds-database-setup)
+4. [Backend Deployment with Render](#4-backend-deployment-with-render)
+5. [Frontend Deployment with Vercel](#5-frontend-deployment-with-vercel)
+6. [Configuring CORS for Google Cloud Console](#6-configuring-cors-for-google-cloud-console)
 
 ---
 
