@@ -60,7 +60,7 @@ useEffect(() => {
         aria-label="Loading"
       ></div>
       {showMessage && (
-        <div className="mt-4 text-center text-gray-600 dark:text-gray-300 w-full text-xs">
+        <div className="mt-4 px-2 text-center text-gray-600 dark:text-gray-300 w-full text-xs">
           The server is starting up. This may take up to a minute. Thanks for your patience.
         </div>
       )}
