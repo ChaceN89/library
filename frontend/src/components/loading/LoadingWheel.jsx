@@ -47,7 +47,7 @@ useEffect(() => {
   // Set a timer to display the message after 10 seconds
   const timer = setTimeout(() => {
     setShowMessage(true);
-  }, 12000);
+  }, 6000);
 
   return () => clearTimeout(timer); // Cleanup the timer on component unmount
 }, []);

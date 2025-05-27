@@ -92,27 +92,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database configuration
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # Database configuration
-# if config('ENV', default='production') == 'production':
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': config('POSTGRES_DB'),
-#             'USER': config('POSTGRES_USER'),
-#             'PASSWORD': config('POSTGRES_PASSWORD'),
-#             'HOST': config('POSTGRES_HOST'),
-#             'PORT': config('POSTGRES_PORT', default='5432'),
-#         }
-#     }
-# else:
-
-
-# ONly use the SQLite database for development and testing and for poduction (since RDS in AWS is too expensive for a app of this size)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if config('ENV', default='production') == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('POSTGRES_DB'),
+            'USER': config('POSTGRES_USER'),
+            'PASSWORD': config('POSTGRES_PASSWORD'),
+            'HOST': config('POSTGRES_HOST'),
+            'PORT': config('POSTGRES_PORT', default='5432'),
+        }
     }
-}
+else:
+
+
+    # ONly use the SQLite database for development and testing
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Authentication backends
 AUTHENTICATION_BACKENDS = [
